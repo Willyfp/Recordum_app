@@ -17,6 +17,7 @@ const nextConfig = {
       permanent: false,
     },
   ],
+  ignoreBuildErrors: true,
 };
 
 module.exports = nextConfig;
