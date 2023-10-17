@@ -41,7 +41,6 @@ const FormFields = () => {
             type="email"
             placeholder="Digite seu e-mail"
             {...register("username")}
-            className={errors.username ? "input-error" : ""}
             errorMessage={errors.username?.message}
           />
 
@@ -50,7 +49,6 @@ const FormFields = () => {
             type="password"
             placeholder="Digite sua senha"
             {...register("password")}
-            className={errors.password ? "input-error" : ""}
             errorMessage={errors.password?.message}
           />
         </div>

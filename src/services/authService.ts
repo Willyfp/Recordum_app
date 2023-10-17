@@ -13,6 +13,8 @@ export const loginRequest = async ({
   try {
     const { data } = await api.post("/login/auth", { username, password });
 
+    console.log(data);
+
     window.location.href = "/inicio";
 
     return data;
