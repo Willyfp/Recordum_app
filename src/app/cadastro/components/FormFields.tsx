@@ -38,8 +38,8 @@ const FormFields = () => {
   };
 
   return (
-    <div className="flex h-[70%] w-full gap-[16px] flex-col">
-      <div className="flex flex-1 flex-col gap-[16px]">
+    <div className="flex h-[70%] w-full gap-[32px] flex-col pb-[64px]">
+      <div className="flex flex-1 flex-col">
         <TextField
           {...register("email")}
           className={"input-bordered border-color-background"}
@@ -81,15 +81,13 @@ const FormFields = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-[16px]">
-        <div className="flex-1">
-          <ButtonComponent
-            className="w-full btn-primary"
-            onClick={handleSubmit(onSubmit)}
-          >
-            Cadastrar
-          </ButtonComponent>
-        </div>
+      <div className="flex-1">
+        <ButtonComponent
+          className="w-full btn-primary"
+          onClick={handleSubmit(onSubmit)}
+        >
+          Cadastrar
+        </ButtonComponent>
       </div>
     </div>
   );

@@ -33,9 +33,9 @@ const Select = React.forwardRef<
       )}
 
       <select
-        className={`select select-bordered border-color-background ${
+        className={`select text-black select-bordered border-color-background ${
           className || "bg-white"
-        } ${errorMessage && "select-error"}`}
+        } ${errorMessage && "select-error border-error-color"}`}
         ref={ref}
         {...props}
       >
@@ -48,11 +48,9 @@ const Select = React.forwardRef<
           </option>
         ))}
       </select>
-      {errorMessage && (
-        <label className="label">
-          <span className="label-text-alt text-error">{errorMessage}</span>
-        </label>
-      )}
+      <label className="label">
+        <span className="label-text-alt text-error">{errorMessage}</span>
+      </label>
     </div>
   );
 });

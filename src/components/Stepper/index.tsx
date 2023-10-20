@@ -6,7 +6,7 @@ const Stepper = ({
   actualStep: number;
 }) => {
   return (
-    <ul className="steps w-full py-[24px]">
+    <ul className="steps w-full py-[2rem]">
       {[...Array(numberOfSteps)].map((_, index) => (
         <li
           key={index}

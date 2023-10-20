@@ -25,17 +25,15 @@ const TextField = React.forwardRef<
       )}
 
       <input
-        className={`input ${className || "input-ghost w-full bg-white"} ${
-          !!errorMessage && "input-error"
-        }}`}
+        className={`input text-black ${
+          className || "input-ghost w-full bg-white"
+        } ${!!errorMessage && "input-error border-error-color"}`}
         ref={ref}
         {...props}
       />
-      {errorMessage && (
-        <label className="label">
-          <span className="label-text-alt text-error">{errorMessage}</span>
-        </label>
-      )}
+      <label className="label">
+        <span className="label-text-alt text-error">{errorMessage}</span>
+      </label>
     </div>
   );
 });

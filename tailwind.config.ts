@@ -22,6 +22,7 @@ const config: Config = {
       "color-background": "#242424",
       "color-primary": "#93F009",
       "pagination-disabled": "#434343",
+      "error-color": "#FF0000",
       white: "#fff",
       disabled: "#979797",
     },
