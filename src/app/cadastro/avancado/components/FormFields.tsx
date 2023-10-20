@@ -38,9 +38,9 @@ const FormFields = ({
   });
 
   useEffect(() => {
-    // if (!basicInfo) {
-    //   router.push("/cadastro");
-    // }
+    if (!basicInfo) {
+      router.push("/cadastro");
+    }
 
     if (basicInfo) {
       Object.entries(basicInfo).forEach(([key, value]) => {

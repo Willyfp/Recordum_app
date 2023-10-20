@@ -4,7 +4,11 @@ import TextField from "@/components/TextField";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { store } from "@/store/store";
-import { selectMeasures, setMeasures } from "@/store/slices/registerSlice";
+import {
+  selectBasicInfo,
+  selectMeasures,
+  setMeasures,
+} from "@/store/slices/registerSlice";
 
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -16,6 +20,7 @@ const FormFieldSubcutaneous = ({
 }) => {
   const router = useRouter();
 
+  const basicInfo = useSelector(selectBasicInfo);
   const measures = useSelector(selectMeasures);
   const {
     register,
@@ -26,9 +31,9 @@ const FormFieldSubcutaneous = ({
   } = useForm();
 
   useEffect(() => {
-    // if (!basicInfo) {
-    //   router.push("/cadastro");
-    // }
+    if (!basicInfo) {
+      router.push("/cadastro");
+    }
 
     if (measures) {
       Object.entries(measures).forEach(([key, value]) => {
