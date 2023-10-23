@@ -37,6 +37,11 @@ const config: Config = {
       initial_title: "1.375rem",
       button_ghost: "0.875rem",
       button_primary: "1rem",
+      description: "1.125rem",
+      title: "1.5rem",
+    },
+    fontWeight: {
+      title_bottom_sheet: "500",
     },
     textColor: {
       white: "#fff",

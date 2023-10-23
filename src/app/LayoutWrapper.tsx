@@ -3,6 +3,7 @@
 import { store } from "@/store/store";
 import { Provider } from "react-redux";
 import ErrorComponent from "./components/ErrorComponent";
+import SuccessBottomSheet from "./components/SuccessBottomSheet";
 
 const LayoutWrapper = ({ children }) => {
   return (
@@ -10,6 +11,7 @@ const LayoutWrapper = ({ children }) => {
       <Provider store={store}>
         {children}
         <ErrorComponent />
+        <SuccessBottomSheet />
       </Provider>
     </>
   );

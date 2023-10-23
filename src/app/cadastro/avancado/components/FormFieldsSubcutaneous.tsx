@@ -7,11 +7,19 @@ import { store } from "@/store/store";
 import {
   selectBasicInfo,
   selectMeasures,
+  selectWeightGoal,
   setMeasures,
 } from "@/store/slices/registerSlice";
 
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import {
+  registerMeasuresRequest,
+  registerRequest,
+  registerWeightGoalRequest,
+} from "@/services/RegisterService";
+import { loginRequest } from "@/services/authService";
+import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 
 const FormFieldSubcutaneous = ({
   setStep,
@@ -21,6 +29,7 @@ const FormFieldSubcutaneous = ({
   const router = useRouter();
 
   const basicInfo = useSelector(selectBasicInfo);
+  const weightGoal = useSelector(selectWeightGoal);
   const measures = useSelector(selectMeasures);
   const {
     register,
@@ -42,8 +51,37 @@ const FormFieldSubcutaneous = ({
     }
   }, []);
 
-  const onSubmit = (data) => {
-    store.dispatch(setMeasures(measures ? { ...measures, ...data } : data));
+  const onSubmit = async (data) => {
+    try {
+      await store.dispatch(
+        setMeasures(measures ? { ...measures, ...data } : data)
+      );
+      await registerRequest({
+        user: basicInfo,
+      });
+      await loginRequest({
+        username: basicInfo.email,
+        password: basicInfo.password,
+      });
+      if (weightGoal) {
+        await registerWeightGoalRequest({ ...weightGoal });
+      }
+      if (measures) {
+        await registerMeasuresRequest({ measures });
+      }
+
+      store.dispatch(
+        setSuccessBottomSheet({
+          open: true,
+          title: "Cadastro concluído",
+          description:
+            "Seus dados estão salvos, você pode atualizar ou acrescentar novos dados a qualquer momento no App",
+          buttonText: "Iniciar sessão",
+          buttonAction: () => router.push("/login"),
+          closeAction: () => router.push("/login"),
+        })
+      );
+    } catch (error) {}
   };
 
   return (

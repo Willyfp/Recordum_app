@@ -1,45 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { AppStore } from "../store";
+import { Measures, User, WeightGoal } from "@/types";
 
 export interface RegisterState {
-  basicInfo?: {
-    nome: string;
-    email: string;
-    senha: string;
-    usuarioTipo: string;
-    sexo: "MASCULINO" | "FEMININO" | "OUTRO";
-    idade: number;
-    altura: number;
-  };
-  weightGoal?: {
-    pesoAtual: number;
-    pesoMeta: number;
-  };
-  measures?: {
-    torax: number;
-    abdomen: number;
-    bicepsE: number;
-    bicepsD: number;
-    antebracoE: number;
-    antebracoD: number;
-    quadril: number;
-    coxaE: number;
-    coxaD: number;
-    panturrilhaE: number;
-    panturrilhaD: number;
-
-    subescapular: number;
-    bicepsBI: number;
-    tricepsTR: number;
-    axilarMedia: number;
-    toraxica: number;
-    suprailiaca: number;
-    supraespinal: number;
-    coxa: number;
-    panturrilhaMedial: number;
-    metaGordura: number;
-  };
+  basicInfo?: User;
+  weightGoal?: WeightGoal;
+  measures?: Measures;
 }
 
 const initialState: RegisterState = {};
