@@ -7,11 +7,7 @@ export default function ButtonComponent({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { loading?: boolean }) {
   return (
-    <button
-      className={`btn ${className} capitalize rounded-3xl`}
-      disabled={true}
-      {...props}
-    >
+    <button className={`btn ${className} capitalize rounded-3xl`} {...props}>
       {children}
     </button>
   );
