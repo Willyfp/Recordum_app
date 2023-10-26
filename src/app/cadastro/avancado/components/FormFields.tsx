@@ -15,12 +15,16 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Select from "@/components/Select";
 import { schemaValidationAdvanced } from "../schemaValidationAdvanced";
+import DatePicker from "tailwind-datepicker-react";
+import DatePickerComponent from "@/components/DatePicker";
 
 const FormFields = ({
   setStep,
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) => {
+  const [loading, setLoading] = React.useState(false);
+
   const basicInfo = useSelector(selectBasicInfo);
 
   const weightGoal = useSelector(selectWeightGoal);
@@ -33,6 +37,7 @@ const FormFields = ({
     handleSubmit,
     watch,
     setValue,
+    clearErrors,
   } = useForm({
     resolver: yupResolver(schemaValidationAdvanced),
   });
@@ -44,6 +49,11 @@ const FormFields = ({
 
     if (basicInfo) {
       Object.entries(basicInfo).forEach(([key, value]) => {
+        if (key === "dataNascimento") {
+          setValue(key, new Date(value));
+          return;
+        }
+
         setValue(key, value);
       });
     }
@@ -55,19 +65,21 @@ const FormFields = ({
     }
   }, []);
 
-  const onSubmit = (data) => {
-    store.dispatch(
+  const onSubmit = async (data) => {
+    setLoading(true);
+
+    await store.dispatch(
       setBasicInfo({
         ...basicInfo,
         nome: data.nome,
         sexo: data.sexo,
-        idade: data.idade,
+        dataNascimento: new Date(data.dataNascimento).toISOString(),
         altura: data.altura,
       })
     );
 
     if (data.pesoAtual && data.pesoMeta) {
-      store.dispatch(
+      await store.dispatch(
         setWeightGoal({
           pesoAtual: data.pesoAtual,
           pesoMeta: data.pesoMeta,
@@ -76,6 +88,7 @@ const FormFields = ({
     }
 
     setStep(1);
+    setLoading(false);
   };
 
   return (
@@ -101,14 +114,15 @@ const FormFields = ({
           ]}
         />
 
-        <TextField
-          {...register("idade")}
-          className={"input-bordered border-color-background"}
+        <DatePickerComponent
+          value={watch("dataNascimento")}
+          onChange={(value) => {
+            setValue("dataNascimento", value);
+            clearErrors();
+          }}
+          errorMessage={errors?.dataNascimento?.message}
+          label="Data de nascimento"
           labelStyle="text-black"
-          label="Idade *"
-          placeholder="Digite aqui sua idade"
-          errorMessage={errors?.idade?.message}
-          type="number"
         />
 
         <TextField
@@ -144,6 +158,7 @@ const FormFields = ({
 
       <div className="flex flex-col">
         <ButtonComponent
+          loading={loading}
           className="w-full btn-primary"
           onClick={handleSubmit(onSubmit)}
         >

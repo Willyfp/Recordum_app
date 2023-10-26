@@ -18,5 +18,6 @@ export const loginRequest = async ({
     return data;
   } catch (error) {
     store.dispatch(setApiError?.(error.response.data.userMessage));
+    throw error;
   }
 };

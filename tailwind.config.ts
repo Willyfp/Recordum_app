@@ -5,6 +5,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/tailwind-datepicker-react/dist/**/*.js", // <--- Add this line
   ],
   daisyui: {
     themes: [
@@ -48,6 +49,7 @@ const config: Config = {
       black: "#242424",
       secondary: "#93F009",
       error: "#FF0000",
+      icon_calendar: "#909090",
     },
     extend: {
       backgroundImage: {

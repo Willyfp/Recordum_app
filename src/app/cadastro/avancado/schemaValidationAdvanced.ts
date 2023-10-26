@@ -3,10 +3,7 @@ import * as yup from "yup";
 export const schemaValidationAdvanced = yup.object().shape({
   nome: yup.string().required("Campo obrigatório"),
   sexo: yup.string().required("Campo obrigatório"),
-  idade: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .required("Campo obrigatório"),
+  dataNascimento: yup.string().required("Campo obrigatório"),
   pesoAtual: yup
     .number()
     .notRequired()

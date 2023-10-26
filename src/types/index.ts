@@ -6,7 +6,7 @@ export type User = {
   senha: string;
   usuarioTipo: string;
   sexo: "MASCULINO" | "FEMININO" | "OUTRO";
-  idade: number;
+  dataNascimento: string;
   altura: number;
   id?: number;
 };

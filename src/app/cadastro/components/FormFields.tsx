@@ -15,6 +15,8 @@ const FormFields = () => {
 
   const route = useRouter();
 
+  const [loading, setLoading] = React.useState(false);
+
   const {
     register,
     setValue,
@@ -32,9 +34,12 @@ const FormFields = () => {
     }
   }, []);
 
-  const onSubmit = (data) => {
-    store.dispatch(setBasicInfo({ ...data, usuarioTipo: "ALUNO" }));
-    route.push("/cadastro/avancado");
+  const onSubmit = async (data) => {
+    setLoading(true);
+    await store.dispatch(setBasicInfo({ ...data, usuarioTipo: "ALUNO" }));
+    await route.push("/cadastro/avancado");
+
+    setLoading(false);
   };
 
   return (
@@ -85,6 +90,7 @@ const FormFields = () => {
         <ButtonComponent
           className="w-full btn-primary"
           onClick={handleSubmit(onSubmit)}
+          loading={loading}
         >
           Cadastrar
         </ButtonComponent>

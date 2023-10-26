@@ -22,6 +22,8 @@ const FormFieldsMeasures = ({
   const measures = useSelector(selectMeasures);
   const basicInfo = useSelector(selectBasicInfo);
 
+  const [loading, setLoading] = React.useState(false);
+
   const {
     register,
     setValue,
@@ -42,10 +44,13 @@ const FormFieldsMeasures = ({
     }
   }, []);
 
-  const onSubmit = (data) => {
-    store.dispatch(setMeasures(data));
+  const onSubmit = async (data) => {
+    setLoading(true);
+    await store.dispatch(setMeasures(data));
 
     setStep(2);
+
+    setLoading(false);
   };
 
   return (
@@ -167,6 +172,7 @@ const FormFieldsMeasures = ({
         <ButtonComponent
           className="w-full btn-primary"
           onClick={handleSubmit(onSubmit)}
+          loading={loading}
         >
           Próximo
         </ButtonComponent>

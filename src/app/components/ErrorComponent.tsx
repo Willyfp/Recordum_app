@@ -17,7 +17,7 @@ const ErrorComponent = () => {
   return (
     <>
       {apiError && (
-        <div className="absolute top-0 w-full p-2 ">
+        <div className="fixed z-10 top-0 w-full p-2 ">
           <div className="alert alert-error flex-row justify-center items-center">
             <span>Erro! {apiError}</span>
           </div>

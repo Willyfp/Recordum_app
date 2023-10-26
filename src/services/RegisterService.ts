@@ -11,6 +11,8 @@ export const registerRequest = async ({ user }: { user: User }) => {
     return data;
   } catch (error) {
     store.dispatch(setApiError?.(error.response.data.userMessage));
+
+    throw error;
   }
 };
 
@@ -27,6 +29,7 @@ export const registerWeightGoalRequest = async ({
     return data;
   } catch (error) {
     store.dispatch(setApiError?.(error.response.data.userMessage));
+    throw error;
   }
 };
 
@@ -41,5 +44,6 @@ export const registerMeasuresRequest = async ({
     return data;
   } catch (error) {
     store.dispatch(setApiError?.(error.response.data.userMessage));
+    throw error;
   }
 };

@@ -28,6 +28,8 @@ const FormFieldSubcutaneous = ({
 }) => {
   const router = useRouter();
 
+  const [loading, setLoading] = React.useState(false);
+
   const basicInfo = useSelector(selectBasicInfo);
   const weightGoal = useSelector(selectWeightGoal);
   const measures = useSelector(selectMeasures);
@@ -53,20 +55,24 @@ const FormFieldSubcutaneous = ({
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true);
       await store.dispatch(
         setMeasures(measures ? { ...measures, ...data } : data)
       );
       await registerRequest({
-        user: basicInfo,
+        user: {
+          ...basicInfo,
+          confirmarSenha: undefined,
+          confirmarEmail: undefined,
+        },
       });
-      await loginRequest({
-        username: basicInfo.email,
-        password: basicInfo.password,
-      });
-      if (weightGoal) {
+      if (
+        weightGoal &&
+        !Object.values(weightGoal).every((value) => value === "")
+      ) {
         await registerWeightGoalRequest({ ...weightGoal });
       }
-      if (measures) {
+      if (measures && !Object.values(measures).every((value) => value === "")) {
         await registerMeasuresRequest({ measures });
       }
 
@@ -81,7 +87,10 @@ const FormFieldSubcutaneous = ({
           closeAction: () => router.push("/login"),
         })
       );
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -188,6 +197,7 @@ const FormFieldSubcutaneous = ({
         <ButtonComponent
           className="w-full btn-primary"
           onClick={handleSubmit(onSubmit)}
+          loading={loading}
         >
           Finalizar
         </ButtonComponent>
