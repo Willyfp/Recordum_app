@@ -2,21 +2,29 @@
 import { store } from "@/store/store";
 import api from "./api";
 import { setApiError } from "@/store/slices/globalSlice";
+import { Cookies } from "next-client-cookies";
+import { setUser } from "@/store/slices/authSlice";
 
 export const loginRequest = async ({
   username,
   password,
+  cookies,
 }: {
   username: string;
   password: string;
+  cookies: Cookies;
 }) => {
   try {
     const { data } = await api.post("/login/auth", { username, password });
 
-    window.location.href = "/inicio";
+    cookies.set("token", data.token);
+
+    store.dispatch(setUser?.(data));
 
     return data;
   } catch (error) {
+    console.error(error);
+
     store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }

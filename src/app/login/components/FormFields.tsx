@@ -8,8 +8,11 @@ import { useForm } from "react-hook-form";
 import { loginRequest } from "@/services/authService";
 import { schemaValidation } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useCookies } from "next-client-cookies";
 
 const FormFields = () => {
+  const [loading, setLoading] = React.useState(false);
+
   const {
     register,
     handleSubmit,
@@ -19,8 +22,18 @@ const FormFields = () => {
     password: string;
   }>({ resolver: yupResolver(schemaValidation) });
 
+  const cookies = useCookies();
+
   const onSubmit = async (data: { username: string; password: string }) => {
-    loginRequest(data);
+    try {
+      setLoading(true);
+
+      await loginRequest({ ...data, cookies });
+      window.location.href = "/inicio";
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,13 +70,17 @@ const FormFields = () => {
           <div className="flex-1">
             <ButtonComponent
               className="btn-primary w-full"
+              loading={loading}
               onClick={handleSubmit(onSubmit)}
             >
               Acessar conta
             </ButtonComponent>
           </div>
 
-          <ButtonComponent className="btn-ghost text-secondary w-full">
+          <ButtonComponent
+            className="btn-ghost text-secondary w-full"
+            loading={loading}
+          >
             Esqueceu a senha?
           </ButtonComponent>
         </div>

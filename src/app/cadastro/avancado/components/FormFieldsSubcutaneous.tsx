@@ -20,6 +20,8 @@ import {
 } from "@/services/RegisterService";
 import { loginRequest } from "@/services/authService";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
+import { useCookies } from "next-client-cookies";
+import { selectUser } from "@/store/slices/authSlice";
 
 const FormFieldSubcutaneous = ({
   setStep,
@@ -40,6 +42,8 @@ const FormFieldSubcutaneous = ({
     watch,
     setValue,
   } = useForm();
+
+  const cookies = useCookies();
 
   useEffect(() => {
     if (!basicInfo) {
@@ -66,14 +70,21 @@ const FormFieldSubcutaneous = ({
           confirmarEmail: undefined,
         },
       });
+
+      const user = await loginRequest({
+        username: basicInfo.email,
+        password: basicInfo.senha,
+        cookies,
+      });
+
       if (
         weightGoal &&
         !Object.values(weightGoal).every((value) => value === "")
       ) {
-        await registerWeightGoalRequest({ ...weightGoal });
+        await registerWeightGoalRequest({ ...weightGoal, idUsuario: user.id });
       }
       if (measures && !Object.values(measures).every((value) => value === "")) {
-        await registerMeasuresRequest({ measures });
+        await registerMeasuresRequest({ measures, idUsuario: user.id });
       }
 
       store.dispatch(
@@ -83,8 +94,8 @@ const FormFieldSubcutaneous = ({
           description:
             "Seus dados estão salvos, você pode atualizar ou acrescentar novos dados a qualquer momento no App",
           buttonText: "Iniciar sessão",
-          buttonAction: () => router.push("/login"),
-          closeAction: () => router.push("/login"),
+          buttonAction: () => router.push("/inicio"),
+          closeAction: () => router.push("/inicio"),
         })
       );
     } catch (error) {

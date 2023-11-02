@@ -19,12 +19,18 @@ export const registerRequest = async ({ user }: { user: User }) => {
 export const registerWeightGoalRequest = async ({
   pesoAtual,
   pesoMeta,
+  idUsuario,
 }: {
   pesoAtual: number;
   pesoMeta: number;
+  idUsuario: number;
 }) => {
   try {
-    const { data } = await api.post("/metasPeso", { pesoAtual, pesoMeta });
+    const { data } = await api.post("/metasPeso", {
+      pesoAtual,
+      pesoMeta,
+      usuario: { id: idUsuario },
+    });
 
     return data;
   } catch (error) {
@@ -35,11 +41,18 @@ export const registerWeightGoalRequest = async ({
 
 export const registerMeasuresRequest = async ({
   measures,
+  idUsuario,
 }: {
   measures: Measures;
+  idUsuario: number;
 }) => {
   try {
-    const { data } = await api.post("/usuarioMedidas", measures);
+    const { data } = await api.post("/usuarioMedidas", {
+      ...Object.fromEntries(
+        Object.entries(measures).filter(([_, v]) => v != "")
+      ),
+      usuario: { id: idUsuario },
+    });
 
     return data;
   } catch (error) {
