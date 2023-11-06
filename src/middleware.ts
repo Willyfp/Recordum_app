@@ -8,6 +8,7 @@ export function middleware(request: NextRequest) {
     "/login",
     "/cadastro",
     "/home",
+    "/recuperar",
     "/",
   ];
 

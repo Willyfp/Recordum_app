@@ -9,9 +9,12 @@ import { loginRequest } from "@/services/authService";
 import { schemaValidation } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useCookies } from "next-client-cookies";
+import { useRouter } from "next/navigation";
 
 const FormFields = () => {
   const [loading, setLoading] = React.useState(false);
+
+  const router = useRouter();
 
   const {
     register,
@@ -80,6 +83,7 @@ const FormFields = () => {
           <ButtonComponent
             className="btn-ghost text-secondary w-full"
             loading={loading}
+            onClick={() => router.push("/recuperar")}
           >
             Esqueceu a senha?
           </ButtonComponent>

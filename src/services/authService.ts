@@ -23,8 +23,19 @@ export const loginRequest = async ({
 
     return data;
   } catch (error) {
-    console.error(error);
+    store.dispatch(setApiError?.(error.response.data.userMessage));
+    throw error;
+  }
+};
 
+export const recoverPasswordRequest = async ({ email }: { email: string }) => {
+  try {
+    console.log("oiii");
+
+    const { data } = await api.post(`/usuarios/forgot?email=${email}`);
+
+    return data;
+  } catch (error) {
     store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }

@@ -40,9 +40,12 @@ const config: Config = {
       button_primary: "1rem",
       description: "1.125rem",
       title: "1.5rem",
+      bottom_navigation: "0.6875rem",
     },
     fontWeight: {
       title_bottom_sheet: "500",
+      semibold: "600",
+      description: "300",
     },
     textColor: {
       white: "#fff",
@@ -50,8 +53,12 @@ const config: Config = {
       secondary: "#93F009",
       error: "#FF0000",
       icon_calendar: "#909090",
+      icon_bottom: "#666666",
     },
     extend: {
+      boxShadow: {
+        bottom_navigation: "0px 0px 4px 0px rgba(0, 0, 0, 0.15)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
