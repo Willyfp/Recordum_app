@@ -41,6 +41,7 @@ const config: Config = {
       description: "1.125rem",
       title: "1.5rem",
       bottom_navigation: "0.6875rem",
+      name: "1.75rem",
     },
     fontWeight: {
       title_bottom_sheet: "500",
@@ -54,6 +55,7 @@ const config: Config = {
       error: "#FF0000",
       icon_calendar: "#909090",
       icon_bottom: "#666666",
+      color_name: "#979797",
     },
     extend: {
       boxShadow: {

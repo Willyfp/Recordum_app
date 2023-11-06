@@ -52,7 +52,7 @@ const BottomNavigation = () => {
           </svg>
         </div>
       ),
-      name: <span className="text-bottom_navigation">Treinar</span>,
+      name: <span className="text-bottom_navigation text-black">Treinar</span>,
     },
     {
       route: "/criar",

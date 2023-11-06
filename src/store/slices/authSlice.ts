@@ -20,5 +20,5 @@ export const authSlice = createSlice({
 });
 
 export const { setUser } = authSlice.actions;
-export const selectUser = (state: AppStore) => state.auth.user;
+export const selectUser = (state: AppStore) => state.auth.user as User;
 export default authSlice.reducer;

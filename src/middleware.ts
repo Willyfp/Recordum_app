@@ -14,15 +14,17 @@ export function middleware(request: NextRequest) {
 
   const token = cookies().get("token");
 
+  const userId = cookies().get("user_id");
+
   if (nonAuthRoutes.includes(request.nextUrl.pathname)) {
-    if (token) {
+    if (token && userId) {
       const absoluteURL = new URL("/inicio", request.nextUrl.origin);
 
       return NextResponse.redirect(absoluteURL.toString());
     }
 
     return;
-  } else if (!token) {
+  } else if (!token || !userId) {
     const absoluteURL = new URL("/login", request.nextUrl.origin);
 
     return NextResponse.redirect(absoluteURL.toString());

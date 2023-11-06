@@ -41,6 +41,7 @@ api.interceptors.request.use(
       if (isServer) {
         const { cookies } = await import("next/headers");
         cookies().delete("token");
+        cookies().delete("user_id");
 
         redirect("/login");
       } else {
@@ -49,6 +50,8 @@ api.interceptors.request.use(
         };
 
         deleteCookie("token");
+
+        deleteCookie("user_id");
 
         window.location.href = "/login";
       }
