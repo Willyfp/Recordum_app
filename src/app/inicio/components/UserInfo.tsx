@@ -12,8 +12,9 @@ const UserInfo = () => {
     <div className="flex w-full p-[1.5rem] gap-[1rem] bg-white">
       <Avatar src={user?.urlFoto} />
 
-      <div className="flex flex-col gap-[0.19rem]">
-        <span className="text-name text-color_name">{user?.nome}</span>
+      <div className="flex flex-col gap-[0.19rem] line-clamp-1 ">
+        <p className="text-name text-color_name truncate ...">{user?.nome}</p>
+        <p className="text-id truncate ...">Cod: {user?.id}</p>
       </div>
     </div>
   );
