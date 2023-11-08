@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={sans.className}>
+      <body className={sans.className + "w-[100vw] h-[100vh]"}>
         <ClientCookiesProvider value={cookies().getAll()}>
           <LayoutWrapper>{children}</LayoutWrapper>
         </ClientCookiesProvider>

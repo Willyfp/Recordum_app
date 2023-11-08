@@ -26,7 +26,7 @@ const TextField = React.forwardRef<
 
       <input
         className={`input text-black ${
-          className || "input-ghost w-full bg-white"
+          className || "input-ghost w-full bg-primary_bg"
         } ${!!errorMessage && "input-error border-error-color"}`}
         ref={ref}
         {...props}

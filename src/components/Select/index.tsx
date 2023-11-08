@@ -34,7 +34,7 @@ const Select = React.forwardRef<
 
       <select
         className={`select text-black select-bordered border-color-background ${
-          className || "bg-white"
+          className || "bg-primary_bg"
         } ${errorMessage && "select-error border-error-color"}`}
         ref={ref}
         {...props}

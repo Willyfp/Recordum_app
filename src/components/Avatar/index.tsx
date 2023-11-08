@@ -1,15 +1,22 @@
 import Image from "next/image";
 import { AiOutlineUser } from "react-icons/ai";
 
-const Avatar = ({ src }: { src?: string }) => {
+const Avatar = ({ src, size }: { src?: string; size?: number }) => {
+  const sizeIcon = size ? size / 1.46 + "rem" : "3rem";
+
+  const newSize = size + "rem";
+
   return (
     <div className="avatar">
-      <div className="w-[4.375rem] h-[4.375rem] rounded-full">
+      <div className="rounded-full" style={{ height: newSize, width: newSize }}>
         {src ? (
           <Image src={src} alt="Avatar" />
         ) : (
-          <div className="w-[4.375rem] h-[4.375rem] bg-disabled flex items-center justify-center">
-            <AiOutlineUser className="w-[3rem] h-[3rem]" />
+          <div
+            style={{ height: newSize, width: newSize }}
+            className={` bg-disabled flex items-center justify-center rounded-full`}
+          >
+            <AiOutlineUser style={{ height: sizeIcon, width: sizeIcon }} />
           </div>
         )}
       </div>

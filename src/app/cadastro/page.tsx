@@ -5,7 +5,7 @@ import FormFields from "./components/FormFields";
 
 export default function Cadastro() {
   return (
-    <div className="flex min-h-screen p-[1.5rem] bg-white">
+    <div className="flex min-h-screen p-[1.5rem] bg-primary_bg">
       <div className="flex-1 flex flex-col justify-center items-center">
         <div className="flex flex-1 justify-center items-center">
           <Image

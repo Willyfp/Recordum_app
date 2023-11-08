@@ -14,30 +14,32 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(
-  async (config) => {
-    if (isServer) {
-      const { cookies } = await import("next/headers"),
-        token = cookies().get("token")?.value;
+api.interceptors.request.use(async (config) => {
+  if (isServer) {
+    const { cookies } = await import("next/headers"),
+      token = cookies().get("token")?.value;
 
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
-    } else {
-      const token = document.cookie.replace(
-        /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-        "$1"
-      );
-
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
+  } else {
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
 
-    return config;
-  },
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
+
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response,
   async (error: AxiosError) => {
-    if (error.code === "401") {
+    if (error.message === "Request failed with status code 401") {
       if (isServer) {
         const { cookies } = await import("next/headers");
         cookies().delete("token");
@@ -46,7 +48,7 @@ api.interceptors.request.use(
         redirect("/login");
       } else {
         const deleteCookie = function (name) {
-          document.cookie = "name" + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
         };
 
         deleteCookie("token");

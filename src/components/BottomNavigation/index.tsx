@@ -1,17 +1,37 @@
+"use client";
+import { usePathname, useRouter } from "next/navigation";
 import { MdBarChart } from "react-icons/md";
 
 const BottomNavigation = () => {
+  const nextRoute = useRouter();
+
+  const pathname = usePathname();
+
+  console.log(pathname);
+
   const routesList = [
     {
       route: "/amigos",
-      icon: <MdBarChart className="h-[1.25rem] w-[1.25rem] text-icon_bottom" />,
+      icon: (
+        <MdBarChart
+          className={`h-[1.25rem] w-[1.25rem] ${
+            pathname === "/amigos" ? "text-secondary" : "text-icon_bottom"
+          }`}
+        />
+      ),
       name: (
         <span className="text-icon_bottom text-bottom_navigation">Amigos</span>
       ),
     },
     {
       route: "/historico",
-      icon: <MdBarChart className="h-[1.25rem] w-[1.25rem] text-icon_bottom" />,
+      icon: (
+        <MdBarChart
+          className={`h-[1.25rem] w-[1.25rem] ${
+            pathname === "/historico" ? "text-secondary" : "text-icon_bottom"
+          }`}
+        />
+      ),
       name: (
         <span className="text-icon_bottom text-bottom_navigation">
           Histórico
@@ -19,7 +39,7 @@ const BottomNavigation = () => {
       ),
     },
     {
-      route: "/treinar",
+      route: "/inicio",
       icon: (
         <div className="w-[2.5625rem] h-[2.5625rem] rounded-full bg-color-primary flex items-center justify-center">
           <svg
@@ -56,14 +76,26 @@ const BottomNavigation = () => {
     },
     {
       route: "/criar",
-      icon: <MdBarChart className="h-[1.25rem] w-[1.25rem] text-icon_bottom" />,
+      icon: (
+        <MdBarChart
+          className={`h-[1.25rem] w-[1.25rem] ${
+            pathname === "/criar" ? "text-secondary" : "text-icon_bottom"
+          }`}
+        />
+      ),
       name: (
         <span className="text-icon_bottom text-bottom_navigation">Criar</span>
       ),
     },
     {
       route: "/conta",
-      icon: <MdBarChart className="h-[1.25rem] w-[1.25rem] text-icon_bottom" />,
+      icon: (
+        <MdBarChart
+          className={`h-[1.25rem] w-[1.25rem] ${
+            pathname === "/conta" ? "text-secondary" : "text-icon_bottom"
+          }`}
+        />
+      ),
       name: (
         <span className="text-icon_bottom text-bottom_navigation">Conta</span>
       ),
@@ -71,11 +103,15 @@ const BottomNavigation = () => {
   ];
 
   return (
-    <div className="h-[4.6875rem] w-full shadow-bottom_navigation fixed bottom-0 flex flex-row justify-around items-center">
+    <div className="h-[4.6875rem] w-full shadow-bottom_navigation fixed bottom-0 flex flex-row justify-around items-center bg-white">
       {routesList.map((route, index) => (
         <div
           key={route.route}
-          className="flex flex-col items-center justify-center"
+          className={`flex flex-col items-center justify-center cursor-pointer h-full w-[4.3125rem] ${
+            pathname === route.route &&
+            "border-t-[0.1875rem] border-t-color-primary"
+          }`}
+          onClick={() => nextRoute.push(route.route)}
         >
           {route.icon}
           {route.name}

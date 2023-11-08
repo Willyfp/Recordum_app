@@ -33,6 +33,7 @@ const config: Config = {
       "pagination-disabled": "#434343",
       white: "#fff",
       disabled: "#979797",
+      primary_bg: "#FCFCFC",
     },
     fontSize: {
       initial_title: "1.375rem",
@@ -62,6 +63,7 @@ const config: Config = {
     extend: {
       boxShadow: {
         bottom_navigation: "0px 0px 4px 0px rgba(0, 0, 0, 0.15)",
+        avatar_card: "0px 0px 10px 0px rgba(35, 35, 35, 0.25);",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

@@ -9,8 +9,8 @@ const UserInfo = () => {
   const user = useSelector(selectUser);
 
   return (
-    <div className="flex w-full p-[1.5rem] gap-[1rem] bg-white">
-      <Avatar src={user?.urlFoto} />
+    <div className="flex w-full p-[1.5rem] gap-[1rem] bg-primary_bg">
+      <Avatar src={user?.urlFoto} size={4.375} />
 
       <div className="flex flex-col gap-[0.19rem] line-clamp-1 ">
         <p className="text-name text-color_name truncate ...">{user?.nome}</p>

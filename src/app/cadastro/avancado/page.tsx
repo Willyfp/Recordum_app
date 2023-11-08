@@ -37,7 +37,7 @@ export default function Cadastro() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-primary_bg">
       <Header
         title="Dados básicos"
         backButtonAction={
