@@ -1,6 +1,7 @@
 "use client";
 import CardAvatar from "@/components/CardAvatar";
 import { selectUser } from "@/store/slices/authSlice";
+import { decryptStrData } from "@/utils";
 import { useSelector } from "react-redux";
 
 const CardUser = () => {
@@ -8,7 +9,7 @@ const CardUser = () => {
 
   return (
     <CardAvatar
-      title={user?.nome}
+      title={decryptStrData(user?.nome)}
       description={`Cod: ${user?.id}`}
       src={user?.urlFoto}
     />

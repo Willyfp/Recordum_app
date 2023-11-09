@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { AiOutlineUser } from "react-icons/ai";
 import Image from "next/image";
 import Avatar from "@/components/Avatar";
+import { decryptStrData } from "@/utils";
 
 const UserInfo = () => {
   const user = useSelector(selectUser);
@@ -13,7 +14,9 @@ const UserInfo = () => {
       <Avatar src={user?.urlFoto} size={4.375} />
 
       <div className="flex flex-col gap-[0.19rem] line-clamp-1 ">
-        <p className="text-name text-color_name truncate ...">{user?.nome}</p>
+        <p className="text-name text-color_name truncate ...">
+          {decryptStrData(user?.nome)}
+        </p>
         <p className="text-id truncate ...">Cod: {user?.id}</p>
       </div>
     </div>
