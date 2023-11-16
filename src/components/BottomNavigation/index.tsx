@@ -15,7 +15,7 @@ const BottomNavigation = () => {
       icon: (
         <MdBarChart
           className={`h-[1.25rem] w-[1.25rem] ${
-            pathname === "/amigos" ? "text-secondary" : "text-icon_bottom"
+            pathname.includes("/amigos") ? "text-secondary" : "text-icon_bottom"
           }`}
         />
       ),
@@ -28,7 +28,9 @@ const BottomNavigation = () => {
       icon: (
         <MdBarChart
           className={`h-[1.25rem] w-[1.25rem] ${
-            pathname === "/historico" ? "text-secondary" : "text-icon_bottom"
+            pathname.includes("/historico")
+              ? "text-secondary"
+              : "text-icon_bottom"
           }`}
         />
       ),
@@ -79,7 +81,7 @@ const BottomNavigation = () => {
       icon: (
         <MdBarChart
           className={`h-[1.25rem] w-[1.25rem] ${
-            pathname === "/criar" ? "text-secondary" : "text-icon_bottom"
+            pathname.includes("/criar") ? "text-secondary" : "text-icon_bottom"
           }`}
         />
       ),
@@ -92,7 +94,7 @@ const BottomNavigation = () => {
       icon: (
         <MdBarChart
           className={`h-[1.25rem] w-[1.25rem] ${
-            pathname === "/conta" ? "text-secondary" : "text-icon_bottom"
+            pathname.includes("/conta") ? "text-secondary" : "text-icon_bottom"
           }`}
         />
       ),
@@ -108,7 +110,7 @@ const BottomNavigation = () => {
         <div
           key={route.route}
           className={`flex flex-col items-center justify-center cursor-pointer h-full w-[4.3125rem] ${
-            pathname === route.route &&
+            pathname.includes(route.route) &&
             "border-t-[0.1875rem] border-t-color-primary"
           }`}
           onClick={() => nextRoute.push(route.route)}

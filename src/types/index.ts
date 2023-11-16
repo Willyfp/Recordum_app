@@ -10,6 +10,7 @@ export type User = {
   altura: number;
   id?: number;
   urlFoto?: string;
+  peso?: number;
 };
 
 export type WeightGoal = {

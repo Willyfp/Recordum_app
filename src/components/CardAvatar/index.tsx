@@ -4,14 +4,19 @@ import Avatar from "../Avatar";
 const CardAvatar = ({
   src,
   title,
+  onClick,
   description,
 }: {
   src?: string;
   title: string;
   description: string;
+  onClick?: () => void;
 }) => {
   return (
-    <div className="w-full bg-white shadow-avatar_card py-[1.5rem] px-[1rem] flex flex-row justify-between overflow-hidden items-center rounded-[0.63rem]">
+    <div
+      className="w-full bg-white shadow-avatar_card py-[1.5rem] px-[1rem] flex flex-row justify-between overflow-hidden items-center rounded-[0.63rem] cursor-pointer"
+      onClick={onClick}
+    >
       <div className="gap-[1rem] flex flex-row overflow-hidden items-center">
         <Avatar src={src} size={2.5} />
 
