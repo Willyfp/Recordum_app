@@ -16,41 +16,44 @@ export const loginRequest = async ({
   cookies: Cookies;
 }) => {
   try {
-    const { data } = await api.post("/login/auth", { username, password });
+    const response = await api.post("/login/auth", { username, password });
 
-    cookies.set("token", data.token);
+    cookies.set("token", response?.data.token);
 
-    cookies.set("user_id", data.id);
+    cookies.set("user_id", response?.data.id);
 
-    store.dispatch(setUser?.(data));
+    store.dispatch(setUser?.(response?.data));
 
-    return data;
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
-    store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }
 };
 
 export const recoverPasswordRequest = async ({ email }: { email: string }) => {
   try {
-    const { data } = await api.post(`/usuarios/forgot?email=${email}`);
+    const response = await api.post(`/usuarios/forgot?email=${email}`);
 
-    return data;
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
-    store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }
 };
 
 export const getUserRequest = async ({ id }: { id: string }) => {
   try {
-    const { data }: { data: User } = await api.get(`/usuarios/${id}`);
+    const response: { data: User } = await api.get(`/usuarios/${id}`);
 
-    store.dispatch(setUser?.(data));
+    store.dispatch(setUser?.(response?.data));
 
-    return data;
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
-    store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }
 };

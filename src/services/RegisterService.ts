@@ -6,12 +6,12 @@ import { Measures, User } from "@/types";
 
 export const registerRequest = async ({ user }: { user: User }) => {
   try {
-    const { data } = await api.post("/usuarios/novo", user);
+    const response = await api.post("/usuarios/novo", user);
 
-    return data;
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
-    store.dispatch(setApiError?.(error.response.data.userMessage));
-
     throw error;
   }
 };
@@ -26,15 +26,16 @@ export const registerWeightGoalRequest = async ({
   idUsuario: number;
 }) => {
   try {
-    const { data } = await api.post("/metasPeso", {
+    const response = await api.post("/metasPeso", {
       pesoAtual,
       pesoMeta,
       usuario: { id: idUsuario },
     });
 
-    return data;
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
-    store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }
 };
@@ -47,16 +48,17 @@ export const registerMeasuresRequest = async ({
   idUsuario: number;
 }) => {
   try {
-    const { data } = await api.post("/usuarioMedidas", {
+    const response = await api.post("/usuarioMedidas", {
       ...Object.fromEntries(
         Object.entries(measures).filter(([_, v]) => v != "")
       ),
       usuario: { id: idUsuario },
     });
 
-    return data;
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
-    store.dispatch(setApiError?.(error.response.data.userMessage));
     throw error;
   }
 };

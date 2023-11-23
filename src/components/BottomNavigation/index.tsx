@@ -7,8 +7,6 @@ const BottomNavigation = () => {
 
   const pathname = usePathname();
 
-  console.log(pathname);
-
   const routesList = [
     {
       route: "/amigos",
@@ -105,7 +103,7 @@ const BottomNavigation = () => {
   ];
 
   return (
-    <div className="h-[4.6875rem] w-full shadow-bottom_navigation fixed bottom-0 flex flex-row justify-around items-center bg-white">
+    <div className="h-[4.6875rem] w-full shadow-bottom_navigation fixed bottom-0 flex flex-row justify-around items-center bg-white z-10">
       {routesList.map((route, index) => (
         <div
           key={route.route}

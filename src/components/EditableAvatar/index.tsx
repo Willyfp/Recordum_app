@@ -5,11 +5,13 @@ import { MdEdit } from "react-icons/md";
 const EditableAvatar = ({
   height,
   src,
+  onClick,
   width,
 }: {
   height?: string;
   width?: string;
   src?: string;
+  onClick?: () => void;
 }) => {
   return (
     <div
@@ -20,12 +22,14 @@ const EditableAvatar = ({
         maxHeight: height || "6.25rem",
         maxWidth: width || "5rem",
       }}
+      onClick={onClick}
     >
       {src ? (
         <Image src={src} alt="Avatar" />
       ) : (
         <div
-          className={` bg-disabled flex items-center justify-center w-full h-full`}
+          className={`bg-disabled flex items-center justify-center w-full h-full`}
+          style={{ height, width }}
         >
           <AiOutlineUser style={{ height: "2.5rem", width: "2.5rem" }} />
         </div>

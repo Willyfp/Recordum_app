@@ -8,7 +8,7 @@ const OptionsList = () => {
   const options = [
     {
       label: "Academias vinculadas",
-      action: () => router.push("/conta/academias-vinculadas"),
+      action: () => router.push("/conta/academias"),
     },
     { label: "Avalie nosso app" },
     { label: "Política de privacidade" },

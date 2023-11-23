@@ -27,7 +27,7 @@ const FileInput = React.forwardRef<
       <input
         type="file"
         className={`file-input text-black ${
-          className || "file-input-ghost w-full bg-primary_bg"
+          className || "file-input-bordered w-full bg-primary_bg"
         } ${!!errorMessage && "file-input-error border-error-color"}`}
         ref={ref}
         {...props}

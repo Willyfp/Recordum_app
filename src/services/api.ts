@@ -57,6 +57,13 @@ api.interceptors.response.use(
 
         window.location.href = "/login";
       }
+    } else {
+      store.dispatch(
+        setApiError?.(
+          error?.response?.data?.userMessage ||
+            "Erro desconhecido. tente novamente mais tarde."
+        )
+      );
     }
   }
 );

@@ -26,6 +26,7 @@ const config: Config = {
       "error-color": "#FF0000",
       white: "#fff",
       disabled: "#979797",
+      qrCode: "#D9D9D9",
     },
     colors: {
       "color-background": "#242424",

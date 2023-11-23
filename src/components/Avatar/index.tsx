@@ -10,7 +10,7 @@ const Avatar = ({ src, size }: { src?: string; size?: number }) => {
     <div className="avatar">
       <div className="rounded-full" style={{ height: newSize, width: newSize }}>
         {src ? (
-          <Image src={src} alt="Avatar" />
+          <img src={src} alt="Avatar" />
         ) : (
           <div
             style={{ height: newSize, width: newSize }}
