@@ -42,3 +42,7 @@ export const getBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export function removeEmpty(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
+}

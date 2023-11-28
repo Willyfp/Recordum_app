@@ -18,13 +18,13 @@ export const loginRequest = async ({
   try {
     const response = await api.post("/login/auth", { username, password });
 
+    if (!response) throw "erro";
+
     cookies.set("token", response?.data.token);
 
     cookies.set("user_id", response?.data.id);
 
     store.dispatch(setUser?.(response?.data));
-
-    if (!response) throw "erro";
 
     return response?.data;
   } catch (error) {

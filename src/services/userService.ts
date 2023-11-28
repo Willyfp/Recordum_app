@@ -3,6 +3,7 @@ import { store } from "@/store/store";
 import api from "./api";
 import { getUserRequest } from "./authService";
 import { User } from "@/types";
+import { removeEmpty } from "@/utils";
 
 export const changePhotoRequest = async ({
   file,
@@ -34,7 +35,14 @@ export const changePhotoRequest = async ({
 
 export const editUserRequest = async ({ user }: { user: User }) => {
   try {
-    const response = await api.put(`/usuarios/${user.id}`, user);
+    delete user.dataAlteracao;
+    delete user.dataCadastro;
+    delete user.usuarioTipo;
+
+    const response = await api.put(
+      `/usuarios/${user.id}`,
+      removeEmpty({ ...user, id: null })
+    );
 
     await getUserRequest({ id: String(user.id) });
 

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import React, { useEffect } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdEdit } from "react-icons/md";
 
@@ -13,6 +14,12 @@ const EditableAvatar = ({
   src?: string;
   onClick?: () => void;
 }) => {
+  const [errored, setErrored] = React.useState(false);
+
+  useEffect(() => {
+    setErrored(false);
+  }, [src]);
+
   return (
     <div
       className="rounded-[0.63rem] relative overflow-hidden cursor-pointer"
@@ -24,8 +31,8 @@ const EditableAvatar = ({
       }}
       onClick={onClick}
     >
-      {src ? (
-        <Image src={src} alt="Avatar" />
+      {src && !errored ? (
+        <img src={src} alt="Avatar" onError={() => setErrored(true)} />
       ) : (
         <div
           className={`bg-disabled flex items-center justify-center w-full h-full`}

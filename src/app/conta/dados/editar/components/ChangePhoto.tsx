@@ -15,7 +15,7 @@ const ChangePhoto = () => {
   const user = useSelector(selectUser);
   const [visible, setVisible] = useState(false);
 
-  const { register, watch, handleSubmit } = useForm();
+  const { register, watch, handleSubmit, reset } = useForm();
 
   const [base64, setBase64] = useState("");
 
@@ -32,10 +32,12 @@ const ChangePhoto = () => {
   }, [watch("foto")]);
 
   const onSubmit = async (data) => {
-    changePhotoRequest({
+    await changePhotoRequest({
       file: { arquivo: data.foto[0], descricao: data.foto[0].name },
       id: user?.id,
     });
+
+    reset();
   };
 
   return (
