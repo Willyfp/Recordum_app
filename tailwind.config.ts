@@ -54,6 +54,7 @@ const config: Config = {
     textColor: {
       white: "#fff",
       black: "#242424",
+      calendar: "#242424",
       secondary: "#93F009",
       error: "#FF0000",
       icon_calendar: "#909090",

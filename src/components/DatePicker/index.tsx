@@ -42,10 +42,12 @@ const DatePickerComponent = React.forwardRef<
             background: "",
             todayBtn: "",
             clearBtn: "",
-            icons: "text-stone-950",
-            text: "text-stone-950",
+            icons: "text-calendar",
+            text: "text-calendar",
             disabledText: "text-color_name",
-            input: errorMessage ? "border-error-color" : "",
+            input: errorMessage
+              ? "border-error-color"
+              : "border-color-background",
             inputIcon: "text-icon_calendar",
             selected: "text-primary bg-primary",
           },
