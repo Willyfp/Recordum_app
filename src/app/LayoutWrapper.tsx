@@ -6,6 +6,8 @@ import ErrorComponent from "./components/ErrorComponent";
 import SuccessBottomSheet from "./components/SuccessBottomSheet";
 import UserController from "./components/UserController";
 
+localStorage.theme = "light";
+
 const LayoutWrapper = ({ children }) => {
   return (
     <>
