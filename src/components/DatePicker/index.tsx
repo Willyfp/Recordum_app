@@ -47,9 +47,9 @@ const DatePickerComponent = React.forwardRef<
             disabledText: "text-color_name",
             input: errorMessage
               ? "border-error-color"
-              : "border-color-background",
+              : "border-color-background text-calendar",
             inputIcon: "text-icon_calendar",
-            selected: "text-primary bg-primary",
+            selected: "text-white bg-primary",
           },
           inputPlaceholderProp: "Selecione uma data",
           inputDateFormatProp: {
