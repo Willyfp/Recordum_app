@@ -1,7 +1,11 @@
+"use client";
 import Card from "@/components/Card";
+import { useRouter } from "next/navigation";
 import { MdBarChart } from "react-icons/md";
 
 const Equipments = () => {
+  const router = useRouter();
+
   return (
     <div className="flex flex-1 flex-col p-[1.5rem] gap-[1rem] bg-primary_bg">
       <div className="flex flex-col gap-[0.25rem]">
@@ -20,6 +24,7 @@ const Equipments = () => {
         <Card
           icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
           title="Aparelhos sem conexão"
+          onClick={() => router.push("/sem-conexao")}
         />
       </div>
     </div>

@@ -2,6 +2,7 @@ import DefaultContainer from "@/components/DefaultContainer";
 import UserInfo from "../inicio/components/UserInfo";
 import Card from "@/components/Card";
 import { MdBarChart } from "react-icons/md";
+import { Clicable } from "./components/Clicable";
 
 const Criar = () => {
   return (
@@ -18,10 +19,7 @@ const Criar = () => {
           </p>
         </div>
 
-        <Card
-          icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
-          title="Personalizar treino"
-        />
+        <Clicable />
       </div>
     </DefaultContainer>
   );

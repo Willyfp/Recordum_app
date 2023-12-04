@@ -42,3 +42,8 @@ export type Measures = {
   panturrilhaMedial?: number;
   metaGordura?: number;
 };
+
+export type MuscleGroup = {
+  id: number;
+  descricao: string;
+};

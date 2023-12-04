@@ -3,12 +3,14 @@ import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import globalSlice from "./slices/globalSlice";
 import registerSlice from "./slices/registerSlice";
 import authSlice from "./slices/authSlice";
+import trainingSlice from "./slices/TrainingSlice";
 
 export const store = configureStore({
   reducer: {
     global: globalSlice,
     register: registerSlice,
     auth: authSlice,
+    training: trainingSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -14,7 +14,9 @@ export function decryptStrData(encodedStr: string | undefined): string {
     padding: CryptoJS.pad.Pkcs7,
   });
 
-  return plainText.toString(CryptoJS.enc.Utf8);
+  return plainText
+    .toString(CryptoJS.enc.Utf8)
+    .replace("/var/www/html", "http://85.31.231.232");
 }
 
 export function encryptStrData(encodedStr: string | undefined): string {

@@ -6,7 +6,7 @@ import EditableAvatar from "@/components/EditableAvatar";
 import FileInput from "@/components/FileInput";
 import { changePhotoRequest } from "@/services/userService";
 import { selectUser } from "@/store/slices/authSlice";
-import { getBase64 } from "@/utils";
+import { decryptStrData, getBase64 } from "@/utils";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -45,7 +45,7 @@ const ChangePhoto = () => {
       <EditableAvatar
         width="8rem"
         height="9rem"
-        src={user?.urlFoto}
+        src={decryptStrData(user?.urlFoto)}
         onClick={() => {
           setVisible(true);
         }}
@@ -57,7 +57,7 @@ const ChangePhoto = () => {
         title={"Alterar foto"}
       >
         <div className="flex flex-col gap-[1rem] w-full p-[1.5rem] items-center">
-          <Avatar size={8} src={base64 || user?.urlFoto} />
+          <Avatar size={8} src={base64 || decryptStrData(user?.urlFoto)} />
 
           <FileInput {...register("foto")} maxLength={1} accept=".jpg,.png" />
 

@@ -6,7 +6,7 @@ import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 type Option = {
   label: string;
-  value: string;
+  value: any;
 };
 
 const Select = React.forwardRef<

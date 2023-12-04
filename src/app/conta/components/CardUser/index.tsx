@@ -15,7 +15,7 @@ const CardUser = () => {
       onClick={() => router.push("/conta/dados")}
       title={decryptStrData(user?.nome)}
       description={`Cod: ${user?.id}`}
-      src={user?.urlFoto}
+      src={decryptStrData(user?.urlFoto)}
     />
   );
 };

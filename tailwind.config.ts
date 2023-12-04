@@ -66,6 +66,8 @@ const config: Config = {
       boxShadow: {
         bottom_navigation: "0px 0px 4px 0px rgba(0, 0, 0, 0.15)",
         avatar_card: "0px 0px 10px 0px rgba(35, 35, 35, 0.25);",
+        card_muscle: "0px 4px 10px 0px rgba(147, 147, 147, 0.25);",
+        header: "0px 2px 8px 0px rgba(147, 147, 147, 0.2);",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

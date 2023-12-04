@@ -12,7 +12,7 @@ const Header = ({
   const route = useRouter();
 
   return (
-    <header className="w-full h-[4rem] items-center justify-between flex-row flex px-[1rem]">
+    <header className="w-full h-[4rem] shadow-header bg-white items-center justify-between flex-row flex px-[1rem]">
       <MdChevronLeft
         className="cursor-pointer text-secondary"
         size="2rem"

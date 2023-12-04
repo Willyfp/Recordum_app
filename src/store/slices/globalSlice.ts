@@ -34,7 +34,8 @@ export const globalSlice = createSlice({
 });
 
 export const { setApiError, setSuccessBottomSheet } = globalSlice.actions;
-export const selectApiError = (state: AppStore) => state.global.apiError;
+export const selectApiError = (state: AppStore) =>
+  state.global.apiError as string;
 export const selectSuccessBottomSheet = (state: AppStore) =>
-  state.global.successBottomSheet;
+  state.global.successBottomSheet as GlobalState["successBottomSheet"];
 export default globalSlice.reducer;

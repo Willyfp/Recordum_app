@@ -32,7 +32,17 @@ const EditableAvatar = ({
       onClick={onClick}
     >
       {src && !errored ? (
-        <img src={src} alt="Avatar" onError={() => setErrored(true)} />
+        <img
+          src={src}
+          alt="Avatar"
+          onError={() => setErrored(true)}
+          style={{
+            minHeight: height || "6.25rem",
+            minWidth: width || "5rem",
+            maxHeight: height || "6.25rem",
+            maxWidth: width || "5rem",
+          }}
+        />
       ) : (
         <div
           className={`bg-disabled flex items-center justify-center w-full h-full`}

@@ -30,8 +30,11 @@ export const registerSlice = createSlice({
 export const { setBasicInfo, setWeightGoal, setMeasures } =
   registerSlice.actions;
 
-export const selectBasicInfo = (state: AppStore) => state.register.basicInfo;
-export const selectMeasures = (state: AppStore) => state.register.measures;
-export const selectWeightGoal = (state: AppStore) => state.register.weightGoal;
+export const selectBasicInfo = (state: AppStore) =>
+  state.register.basicInfo as User;
+export const selectMeasures = (state: AppStore) =>
+  state.register.measures as Measures;
+export const selectWeightGoal = (state: AppStore) =>
+  state.register.weightGoal as WeightGoal;
 
 export default registerSlice.reducer;

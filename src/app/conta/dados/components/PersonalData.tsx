@@ -13,7 +13,7 @@ const PersonalData = () => {
   return (
     <div className="px-[1.5rem] py-[1rem] flex-row flex gap-[1rem] w-full">
       <EditableAvatar
-        src={user?.urlFoto}
+        src={decryptStrData(user?.urlFoto)}
         onClick={() => router.push("/conta/dados/editar")}
       />
 
