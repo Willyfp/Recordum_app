@@ -1,7 +1,9 @@
 import DefaultContainer from "@/components/DefaultContainer";
 import UserInfo from "../inicio/components/UserInfo";
 import Card from "@/components/Card";
-import { MdBarChart } from "react-icons/md";
+import { GrDocumentPerformance } from "react-icons/gr";
+import { MdOutlineMonitorWeight } from "react-icons/md";
+
 
 const Historico = () => {
   return (
@@ -20,12 +22,12 @@ const Historico = () => {
 
         <div className="flex  gap-[0.5rem]">
           <Card
-            icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
+            icon={<MdOutlineMonitorWeight className="text-black h-[1.25rem] w-[1.25rem]" />}
             title="Pesos e medidas"
           />
 
           <Card
-            icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
+            icon={<GrDocumentPerformance className="text-black h-[1.25rem] w-[1.25rem]" />}
             title="Desempenho geral"
           />
         </div>

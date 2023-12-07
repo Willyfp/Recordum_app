@@ -1,7 +1,7 @@
 "use client";
 import Card from "@/components/Card";
 import { useRouter } from "next/navigation";
-import { MdBarChart } from "react-icons/md";
+import { MdWifi, MdWifiOff } from "react-icons/md";
 
 const Equipments = () => {
   const router = useRouter();
@@ -17,12 +17,12 @@ const Equipments = () => {
 
       <div className="flex  gap-[0.5rem]">
         <Card
-          icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
+          icon={<MdWifi className="text-black h-[1.25rem] w-[1.25rem]" />}
           title="Aparelhos com conexão"
         />
 
         <Card
-          icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
+          icon={<MdWifiOff className="text-black h-[1.25rem] w-[1.25rem]" />}
           title="Aparelhos sem conexão"
           onClick={() => router.push("/sem-conexao")}
         />

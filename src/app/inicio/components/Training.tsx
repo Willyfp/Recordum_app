@@ -1,5 +1,5 @@
 import Card from "@/components/Card";
-import { MdBarChart } from "react-icons/md";
+import { IoFitness } from "react-icons/io5";
 
 const Training = () => {
   return (
@@ -12,7 +12,7 @@ const Training = () => {
       </div>
 
       <Card
-        icon={<MdBarChart className="text-black h-[1.25rem] w-[1.25rem]" />}
+        icon={<IoFitness className="text-black h-[1.25rem] w-[1.25rem]" />}
         title="Treinos personalizados"
       />
     </div>

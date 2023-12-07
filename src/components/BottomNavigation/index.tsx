@@ -1,6 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import { MdBarChart } from "react-icons/md";
+import { MdAddChart, MdBarChart, MdHistory, MdPeople, MdPerson } from "react-icons/md";
 
 const BottomNavigation = () => {
   const nextRoute = useRouter();
@@ -11,7 +11,7 @@ const BottomNavigation = () => {
     {
       route: "/amigos",
       icon: (
-        <MdBarChart
+        <MdPeople
           className={`h-[1.25rem] w-[1.25rem] ${
             pathname.includes("/amigos") ? "text-secondary" : "text-icon_bottom"
           }`}
@@ -24,8 +24,8 @@ const BottomNavigation = () => {
     {
       route: "/historico",
       icon: (
-        <MdBarChart
-          className={`h-[1.25rem] w-[1.25rem] ${
+        <MdHistory
+          className={`h-[1.5rem] w-[1.5rem] ${
             pathname.includes("/historico")
               ? "text-secondary"
               : "text-icon_bottom"
@@ -77,7 +77,7 @@ const BottomNavigation = () => {
     {
       route: "/criar",
       icon: (
-        <MdBarChart
+        <MdAddChart
           className={`h-[1.25rem] w-[1.25rem] ${
             pathname.includes("/criar") ? "text-secondary" : "text-icon_bottom"
           }`}
@@ -90,7 +90,7 @@ const BottomNavigation = () => {
     {
       route: "/conta",
       icon: (
-        <MdBarChart
+        <MdPerson
           className={`h-[1.25rem] w-[1.25rem] ${
             pathname.includes("/conta") ? "text-secondary" : "text-icon_bottom"
           }`}
