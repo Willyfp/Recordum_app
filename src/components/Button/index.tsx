@@ -5,12 +5,15 @@ export default function ButtonComponent({
   className,
   loading,
   onClick,
+  disabled,
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & { loading?: boolean }) {
   return (
     <button
       className={`btn ${className} capitalize rounded-3xl`}
       onClick={(e) => !loading && onClick && onClick(e)}
+      disabled={disabled}
+      style={disabled ? { background: "#979797", color: "#242424" } : {}}
       {...props}
     >
       {loading ? (

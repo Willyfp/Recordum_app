@@ -47,3 +47,10 @@ export type MuscleGroup = {
   id: number;
   descricao: string;
 };
+
+export type Exercise = {
+  id: number;
+  descricao: string;
+  foto?: string;
+  grupoMuscular: MuscleGroup;
+};

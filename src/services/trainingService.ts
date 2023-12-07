@@ -14,3 +14,15 @@ export const getMuscleGroups = async (): Promise<MuscleGroup[]> => {
     throw error;
   }
 };
+
+export const getExercisesByMuscle = async (muscleId: number) => {
+  try {
+    const response = await api.get(`/exercicios/grupoMuscular/${muscleId}`);
+
+    if (!response) throw "erro";
+
+    return response?.data?._embedded?.exercicioModelList;
+  } catch (error) {
+    throw error;
+  }
+};

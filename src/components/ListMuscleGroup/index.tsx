@@ -21,15 +21,17 @@ const ListMuscleGroup = () => {
   }, []);
 
   return (
-    <div className="flex justify-center pb-4">
+    <div className="flex justify-center pb-4 w-full">
       <div className="flex flex-row gap-2 flex-wrap">
         {muscleGroups.map((muscle) => (
           <CardSelectable
             description={muscle.descricao}
             key={muscle.id}
-            selected={selectedMuscleGroups.includes(muscle.id)}
+            selected={
+              !!selectedMuscleGroups.find((item) => item.id === muscle.id)
+            }
             onClick={() => {
-              dispatch(toggleMuscle(muscle.id));
+              dispatch(toggleMuscle(muscle));
             }}
           />
         ))}

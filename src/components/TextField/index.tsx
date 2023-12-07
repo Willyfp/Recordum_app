@@ -7,35 +7,55 @@ const TextField = React.forwardRef<
   InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     labelStyle?: string;
+    showErrorMessage?: boolean;
+    disableFullWidth?: boolean;
     errorMessage?:
       | string
       | FieldError
       | Merge<FieldError, FieldErrorsImpl<any>>
       | undefined;
   }
->(({ labelStyle, className, label, errorMessage, ...props }, ref) => {
-  return (
-    <div className="form-control w-full">
-      {label && (
-        <label className="label">
-          <span className={`label-text ${labelStyle || "text-white"}`}>
-            {label}
-          </span>
-        </label>
-      )}
+>(
+  (
+    {
+      labelStyle,
+      className,
+      label,
+      errorMessage,
+      disableFullWidth,
+      showErrorMessage = true,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <div
+        className={disableFullWidth ? "form-control" : "form-control w-full"}
+      >
+        {label && (
+          <label className="label">
+            <span className={`label-text ${labelStyle || "text-white"}`}>
+              {label}
+            </span>
+          </label>
+        )}
 
-      <input
-        className={`input text-black ${
-          className || "input-ghost w-full bg-primary_bg"
-        } ${!!errorMessage && "input-error border-error-color"}`}
-        ref={ref}
-        {...props}
-      />
-      <label className="label">
-        <span className="label-text-alt text-error">{errorMessage}</span>
-      </label>
-    </div>
-  );
-});
+        <input
+          className={`input text-black ${
+            className || "input-ghost w-full bg-primary_bg"
+          } ${!!errorMessage && "input-error border-error-color"}`}
+          ref={ref}
+          {...props}
+        />
+
+        {showErrorMessage && (
+          <label className="label">
+            <span className="label-text-alt text-error">{errorMessage}</span>
+          </label>
+        )}
+      </div>
+    );
+  }
+);
 
 export default TextField;

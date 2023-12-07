@@ -35,6 +35,8 @@ const config: Config = {
       white: "#fff",
       disabled: "#979797",
       primary_bg: "#FCFCFC",
+      button_number: "#666666",
+      input_number: "#E7E7E7",
     },
     fontSize: {
       initial_title: "1.375rem",
