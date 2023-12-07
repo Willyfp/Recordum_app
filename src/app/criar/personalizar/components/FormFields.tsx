@@ -45,7 +45,7 @@ export const FormFields = () => {
         "exercicios",
         watch("exercicios")?.filter(
           (e: Exercise) =>
-            !selectedMuscleGroups.find((item) => item.id === e.grupoMuscular.id)
+            selectedMuscleGroups.find((item) => item.id === e.grupoMuscular.id)
         )
       );
     }

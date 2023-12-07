@@ -22,13 +22,13 @@ export const SerieForm = ({
 
       <div className="flex w-full items-center justify-center">
         <div
-          className={`flex p-1 flex-row items-center gap-2 bg-input_number rounded-[0.5rem] ${
+          className={`flex p-1 flex-row items-center gap-2 bg-input_number ${
             arr.length - 1 === index && "rounded-r-full"
           } ${index > 0 && arr.length - 1 === index && "rounded-l-full"}`}
           style={
             index === 0
               ? {
-                  borderRadius: 8,
+                  borderRadius: 80,
                   borderTopRightRadius: 20000,
                   borderBottomRightRadius: 20000,
                   marginLeft: "2rem",

@@ -35,9 +35,7 @@ export const Exercises = () => {
     });
   }, [selectedMuscleGroups]);
 
-  const { setValue, watch } = useFormContext();
-
-  console.log(watch("exercicios"));
+  const { watch } = useFormContext();
 
   return (
     <div className="pt-4 gap-6 flex w-full flex-col">
@@ -59,27 +57,33 @@ export const Exercises = () => {
               <div key={exercise.id} className="flex flex-col w-full">
                 <ExerciseCard exercise={exercise} />
 
-                <div className="flex flex-row items-center gap-9">
-                  <h2 className="text-xl mb-4 min-w-[4.2rem]">Série</h2>
-
-                  <div className="flex flex-row items-center gap-2">
-                    <h2 className="text-xl mb-4 min-w-[5.5rem]">Repetição</h2>
-                    <h2 className="text-xl mb-4 min-w-[5.5rem]">Carga</h2>
-                  </div>
-                </div>
                 {watch("exercicios")
                   ?.find((e) => e.id === exercise.id)
-                  ?.seriesTreino?.map((serie, index, arr) => (
-                    <SerieForm
-                      key={index}
-                      serie={serie}
-                      index={index}
-                      arr={arr}
-                    />
-                  ))}
+                  ?.seriesTreino?.length > 0 && (
+                <>
+                  <div className="flex flex-row items-center gap-9">
+                    <h2 className="text-xl mb-4 min-w-[4.2rem] text-black">Série</h2>
 
-                {i < exercisesByMuscle.length - 1 && (
-                  <div className="divider m-0" />
+                    <div className="flex flex-row items-center gap-2">
+                      <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">Repetição</h2>
+                      <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">Carga</h2>
+                    </div>
+                  </div>
+                  {watch("exercicios")
+                    ?.find((e) => e.id === exercise.id)
+                    ?.seriesTreino?.map((serie, index, arr) => (
+                      <SerieForm
+                        key={index}
+                        serie={serie}
+                        index={index}
+                        arr={arr}
+                      />
+                    ))}
+
+                  {i < exercisesByMuscle.length - 1 && (
+                    <div className="divider m-0" />
+                  )}
+                </>
                 )}
               </div>
             ))}
