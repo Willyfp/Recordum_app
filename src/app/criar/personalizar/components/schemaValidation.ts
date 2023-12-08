@@ -6,7 +6,6 @@ export const schemaValidation = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        series: yup.number().required("Campo obrigatório"),
         exercicio: yup.object().shape({
           id: yup.number().required("Campo obrigatório"),
         }),
@@ -14,9 +13,9 @@ export const schemaValidation = yup.object().shape({
           yup.object().shape({
             repeticao: yup.number().required("Campo obrigatório"),
             carga: yup.number().required("Campo obrigatório"),
-          }),
+          })
         ),
       })
     )
-    .min(1, "Selecione pelo menos um exercício"), 
+    .min(1, "Selecione pelo menos um exercício"),
 });

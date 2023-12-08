@@ -57,38 +57,46 @@ export const Exercises = () => {
               <div key={exercise.id} className="flex flex-col w-full">
                 <ExerciseCard exercise={exercise} />
 
-                {watch("exercicios")
-                  ?.find((e) => e.id === exercise.id)
+                {watch("exercicios")?.find((e) => e?.id === exercise?.id)
                   ?.seriesTreino?.length > 0 && (
-                <>
-                  <div className="flex flex-row items-center gap-9">
-                    <h2 className="text-xl mb-4 min-w-[4.5rem] text-black">Série</h2>
+                  <>
+                    <div className="flex flex-row items-center gap-9">
+                      <h2 className="text-xl mb-4 min-w-[4.5rem] text-black">
+                        Série
+                      </h2>
 
-                    <div className="flex flex-row items-center gap-2">
-                      <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">Repetição</h2>
-                      <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">Carga</h2>
+                      <div className="flex flex-row items-center gap-2">
+                        <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">
+                          Repetição
+                        </h2>
+                        <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">
+                          Carga
+                        </h2>
+                      </div>
                     </div>
-                  </div>
 
+                    <div
+                      key={exercise?.id}
+                      className="flex flex-col gap-2 w-full"
+                    >
+                      {watch("exercicios")
+                        ?.find((e) => e?.id === exercise?.id)
+                        ?.seriesTreino?.map((serie, index, arr) => (
+                          <SerieForm
+                            key={index}
+                            serie={serie}
+                            indexExercise={i}
+                            index={index}
+                            exercise={exercise}
+                            arr={arr}
+                          />
+                        ))}
 
-                  <div key={exercise.id} className="flex flex-col gap-2 w-full">
-                    {watch("exercicios")
-                      ?.find((e) => e.id === exercise.id)
-                      ?.seriesTreino?.map((serie, index, arr) => (
-                        <SerieForm
-                          key={index}
-                          serie={serie}
-                          index={index}
-                          exercise={exercise}
-                          arr={arr}
-                        />
-                      ))}
-
-                    {i < exercisesByMuscle.length - 1 && (
-                      <div className="divider m-0" />
-                    )}
-                  </div>
-                </>
+                      {i < exercisesByMuscle.length - 1 && (
+                        <div className="divider m-0" />
+                      )}
+                    </div>
+                  </>
                 )}
               </div>
             ))}

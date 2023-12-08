@@ -9,8 +9,10 @@ export const SerieForm = ({
   serie,
   exercise,
   arr,
+  indexExercise,
 }: {
   index: number;
+  indexExercise: number;
   serie: {
     carga: number;
     repeticao: number;
@@ -18,8 +20,11 @@ export const SerieForm = ({
   exercise: Exercise;
   arr: any[];
 }) => {
-
-  const { watch, setValue } = useFormContext();
+  const {
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div className="flex flex-row items-center">
@@ -47,14 +52,19 @@ export const SerieForm = ({
               index === 0 && "hidden"
             } ${index !== arr.length - 1 && "hidden"}`}
             onClick={() => {
-              setValue("exercicios", watch("exercicios")?.map((e, i) => {
-                if(e.id === exercise.id){
-                  return {
-                    ...e,
-                    seriesTreino: e.seriesTreino.filter((_, index) => index !== i)
+              setValue(
+                "exercicios",
+                watch("exercicios")?.map((e, i) => {
+                  if (e.id === exercise.id) {
+                    return {
+                      ...e,
+                      seriesTreino: e.seriesTreino.filter(
+                        (_, index) => index !== i
+                      ),
+                    };
                   }
-                }
-              }));
+                })
+              );
             }}
           >
             <FaMinus size={18} color={"#fff"} />
@@ -66,6 +76,36 @@ export const SerieForm = ({
             }
             labelStyle="text-black"
             placeholder="Nº"
+            onChange={(e) => {
+              setValue(
+                "exercicios",
+                watch("exercicios")?.map((exerciseInternal, i) => {
+                  if (exerciseInternal.id === exercise.id) {
+                    return {
+                      ...exerciseInternal,
+                      seriesTreino: exerciseInternal.seriesTreino.map(
+                        (serieInternal, indexInternal) => {
+                          if (index === indexInternal) {
+                            return {
+                              ...serieInternal,
+                              repeticao: e.target.value,
+                            };
+                          }
+
+                          return serieInternal;
+                        }
+                      ),
+                    };
+                  }
+
+                  return exerciseInternal;
+                })
+              );
+            }}
+            errorMessage={
+              errors?.exercicios?.[indexExercise]?.seriesTreino?.[index]
+                ?.repeticao?.message
+            }
             type="number"
             showErrorMessage={false}
             disableFullWidth
@@ -73,6 +113,36 @@ export const SerieForm = ({
 
           <TextField
             className={`input-bordered border-color-background max-w-[5.5rem] h-[2rem]`}
+            onChange={(e) => {
+              setValue(
+                "exercicios",
+                watch("exercicios")?.map((exerciseInternal, i) => {
+                  if (exerciseInternal.id === exercise.id) {
+                    return {
+                      ...exerciseInternal,
+                      seriesTreino: exerciseInternal.seriesTreino.map(
+                        (serieInternal, indexInternal) => {
+                          if (indexInternal === index) {
+                            return {
+                              ...serieInternal,
+                              carga: e.target.value,
+                            };
+                          }
+
+                          return serieInternal;
+                        }
+                      ),
+                    };
+                  }
+
+                  return exerciseInternal;
+                })
+              );
+            }}
+            errorMessage={
+              errors?.exercicios?.[indexExercise]?.seriesTreino?.[index]?.carga
+                ?.message
+            }
             labelStyle="text-black"
             placeholder="Nº"
             type="number"
@@ -80,16 +150,29 @@ export const SerieForm = ({
             disableFullWidth
           />
 
-          <div className={`flex w-8 h-8 rounded-full justify-center items-center bg-button_number cursor-pointer ${index !== arr.length - 1 && "hidden"}`} onClick={() => {
-            setValue("exercicios", watch("exercicios")?.map((e, i) => {
-              if(e.id === exercise.id){
-                return {
-                  ...e,
-                  seriesTreino: [...e.seriesTreino, { carga: 0, repeticao: 0 }]
-                }
-              }
-            }));
-          }}>
+          <div
+            className={`flex w-8 h-8 rounded-full justify-center items-center bg-button_number cursor-pointer ${
+              index !== arr.length - 1 && "hidden"
+            }`}
+            onClick={() => {
+              setValue(
+                "exercicios",
+                watch("exercicios")?.map((e, i) => {
+                  if (e.id === exercise.id) {
+                    return {
+                      ...e,
+                      seriesTreino: [
+                        ...e.seriesTreino,
+                        { carga: undefined, repeticao: undefined },
+                      ],
+                    };
+                  }
+
+                  return e;
+                })
+              );
+            }}
+          >
             <FaPlus size={18} color={"#fff"} />
           </div>
         </div>

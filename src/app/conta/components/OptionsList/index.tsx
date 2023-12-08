@@ -1,9 +1,12 @@
 "use client";
 import OptionCard from "@/components/OptionCard";
+import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 
 const OptionsList = () => {
   const router = useRouter();
+
+  const cookies = useCookies();
 
   const options = [
     {
@@ -13,6 +16,13 @@ const OptionsList = () => {
     { label: "Avalie nosso app" },
     { label: "Política de privacidade" },
     { label: "Termos de utilização" },
+    {
+      label: "Sair",
+      action: () => {
+        cookies.remove("token");
+        router.push("/login");
+      },
+    },
   ];
 
   return (

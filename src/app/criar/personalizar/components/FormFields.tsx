@@ -8,6 +8,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { schemaValidation } from "./schemaValidation";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectFormState,
   selectMusclesSelected,
   setTrainingInfo,
 } from "@/store/slices/TrainingSlice";
@@ -16,10 +17,16 @@ import ListMuscleGroup from "@/components/ListMuscleGroup";
 import { useEffect, useState } from "react";
 import { Exercises } from "./Exercises";
 import { Exercise } from "@/types";
+import { getTrainingById, registerTraining } from "@/services/trainingService";
+import { selectUser } from "@/store/slices/authSlice";
 
 export const FormFields = () => {
   const selectedMuscleGroups = useSelector(selectMusclesSelected);
   const form = useForm({ resolver: yupResolver(schemaValidation) });
+  const formState = useSelector(selectFormState);
+
+  const [loading, setLoading] = useState(false);
+  const user = useSelector(selectUser);
 
   const {
     register,
@@ -33,19 +40,49 @@ export const FormFields = () => {
 
   const router = useRouter();
 
-  const onSubmit = (data) => {
-    dispatch(setTrainingInfo(data));
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
 
-    // router.push("/criar/personalizar/exercicios");
+      dispatch(
+        setTrainingInfo({
+          usuario: {
+            id: user.id,
+          },
+          descricao: data.descricao,
+          gruposMusculares: selectedMuscleGroups.map((item) => ({
+            id: item.id,
+            descricao: item.descricao,
+          })),
+          exercicios: data.exercicios.map((item) => ({
+            exercicio: { ...item.exercicio, descricao: item.descricao },
+            series: item.seriesTreino?.length,
+            seriesTreino: item.seriesTreino,
+          })),
+        })
+      );
+
+      router.push("/criar/confirmar");
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (formState) {
+      Object.entries(formState).forEach(([key, value]) => {
+        setValue(key, value);
+      });
+    }
+  }, [formState]);
 
   useEffect(() => {
     if (selectedMuscleGroups.length > 0 && watch("exercicios")?.length > 0) {
       setValue(
         "exercicios",
-        watch("exercicios")?.filter(
-          (e: Exercise) =>
-            selectedMuscleGroups.find((item) => item.id === e.grupoMuscular.id)
+        watch("exercicios")?.filter((e: Exercise) =>
+          selectedMuscleGroups.find((item) => item.id === e.grupoMuscular.id)
         )
       );
     }

@@ -4,9 +4,21 @@ import { AppStore } from "../store";
 import { Exercise, MuscleGroup } from "@/types";
 
 export interface TrainingState {
+  formState?: any;
   trainingInfo?: {
+    usuario: {
+      id: number;
+    };
     descricao: string;
-    periodicidade: number;
+    gruposMusculares: { id: number }[];
+    exercicios: {
+      exercicio: { id: number };
+      series: number;
+      seriesTreino: {
+        repeticao: number;
+        carga: number;
+      }[];
+    };
   };
   exercisesByMuscle?: {
     id: number;
@@ -41,17 +53,41 @@ export const trainingSlice = createSlice({
         state.musclesSelected.push(action.payload);
       }
     },
+    setFormState: (state, action) => {
+      state.formState = action.payload;
+    },
   },
 });
 
-export const { setTrainingInfo, toggleMuscle, setExercisesByMuscle } =
-  trainingSlice.actions;
+export const {
+  setTrainingInfo,
+  toggleMuscle,
+  setExercisesByMuscle,
+  setFormState,
+} = trainingSlice.actions;
 
 export const selectTrainingInfo = (state: AppStore) =>
-  state.training.trainingInfo as Pick<TrainingState, "trainingInfo">;
+  state.training.trainingInfo as {
+    usuario: {
+      id: number;
+    };
+    descricao: string;
+    gruposMusculares: { id: number }[];
+    exercicios: {
+      exercicio: { id: number };
+      series: number;
+      seriesTreino: {
+        repeticao: number;
+        carga: number;
+      }[];
+    };
+  };
 
 export const selectMusclesSelected = (state: AppStore) =>
   state.training.musclesSelected as MuscleGroup[];
+
+export const selectFormState = (state: AppStore) =>
+  state.training.formState as any;
 
 export const selectExercisesByMuscle = (state: AppStore) =>
   state.training.exercisesByMuscle as {

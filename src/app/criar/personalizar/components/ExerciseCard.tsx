@@ -22,7 +22,7 @@ export const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
 
       <input
         type="checkbox"
-        checked={!!watch("exercicios")?.find((e) => e.id === exercise.id)}
+        checked={!!watch("exercicios")?.find((e) => e?.id === exercise?.id)}
         onChange={() => {
           if (watch("exercicios")?.find((e) => e.id === exercise.id)) {
             setValue(
@@ -35,7 +35,10 @@ export const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
                 {
                   ...exercise,
                   series: 1,
-                  seriesTreino: [{ carga: 0, repeticao: 0 }],
+                  exercicio: {
+                    id: exercise.id,
+                  },
+                  seriesTreino: [{ carga: undefined, repeticao: undefined }],
                 },
               ]);
             } else {
@@ -44,7 +47,10 @@ export const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
                 {
                   ...exercise,
                   series: 1,
-                  seriesTreino: [{ carga: 0, repeticao: 0 }],
+                  exercicio: {
+                    id: exercise.id,
+                  },
+                  seriesTreino: [{ carga: undefined, repeticao: undefined }],
                 },
               ]);
             }
