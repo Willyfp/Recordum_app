@@ -48,3 +48,22 @@ export const getBase64 = (file: File): Promise<string | ArrayBuffer | null> => {
 export function removeEmpty(obj) {
   return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
 }
+
+export function htmlToFormat(htmlText) {
+  const codes = { B: "*", I: "_", STRIKE: "~" };
+  const { body } = new DOMParser().parseFromString(htmlText, "text/html");
+  const dfs = ({ childNodes }) =>
+    Array.from(childNodes, (node) => {
+      if (node.nodeType == 1) {
+        const s = dfs(node);
+        const code = codes[node.tagName];
+        return code
+          ? s.replace(/^(\s*)(?=\S)|(?<=\S)(\s*)$/g, `$1${code}$2`)
+          : s;
+      } else {
+        return node.textContent;
+      }
+    }).join("");
+
+  return dfs(body);
+}

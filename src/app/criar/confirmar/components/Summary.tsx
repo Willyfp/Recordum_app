@@ -2,15 +2,18 @@
 import ButtonComponent from "@/components/Button";
 import { registerTraining } from "@/services/trainingService";
 import { selectTrainingInfo } from "@/store/slices/TrainingSlice";
+import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import { FaShareAlt } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Summary = () => {
   const trainingInfo = useSelector(selectTrainingInfo);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!trainingInfo) {
@@ -33,8 +36,17 @@ export const Summary = () => {
           seriesTreino: item.seriesTreino,
         })),
       });
-
-      router.push("/inicio");
+      
+      dispatch(
+        setSuccessBottomSheet({
+          title: "Treino salvo",
+          open: true,
+          description:
+            "Para acessar treino, entre em treinos no menu e procure por Treinos personalizados",
+          buttonText: "Ok",
+          buttonAction: () => router.push("/inicio"),
+        })
+      );
 
       setLoading(false);
     } catch (error) {

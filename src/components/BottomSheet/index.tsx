@@ -16,9 +16,10 @@ type Props = {
   title?: string;
   children?: React.ReactNode;
   closeAction: () => void;
+  icon?: React.ReactNode;
 };
 
-const BottomSheet = ({ open, title, children, closeAction }: Props) => {
+const BottomSheet = ({ open, title, children, closeAction, icon }: Props) => {
   return (
     <Sheet isOpen={!!open} onClose={() => {}} detent="content-height">
       <Sheet.Container style={{ borderRadius: "1.88rem 1.88rem 0rem 0rem" }}>
@@ -32,6 +33,8 @@ const BottomSheet = ({ open, title, children, closeAction }: Props) => {
                   onClick={closeAction}
                 />
               </div>
+
+              {icon}
 
               <span className="text-title font-title_bottom_sheet text-center">
                 {title}

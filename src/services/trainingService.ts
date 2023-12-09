@@ -1,5 +1,5 @@
 "use client";
-import { MuscleGroup } from "@/types";
+import { Exercise, MuscleGroup, Training, User } from "@/types";
 import api from "./api";
 import { store } from "@/store/store";
 
@@ -62,13 +62,25 @@ export const registerTraining = async (training: {
   }
 };
 
-export const getTrainingById = async () => {
+export const getTrainingById = async (id: number) => {
   try {
-    const response = await api.get("/treinos/1");
+    const response = await api.get(`/treinos/${id}`);
 
     if (!response) throw "erro";
 
-    return response?.data;
+    return response?.data as Training;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTrainingsByUser = async (userId: number) => {
+  try {
+    const response = await api.get(`/treinos/usuario/${userId}`);
+
+    if (!response) throw "erro";
+
+    return response?.data?._embedded?.treinoModelList as Training[];
   } catch (error) {
     throw error;
   }

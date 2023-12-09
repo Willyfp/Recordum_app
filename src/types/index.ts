@@ -53,4 +53,13 @@ export type Exercise = {
   descricao: string;
   foto?: string;
   grupoMuscular: MuscleGroup;
+  exercicio: Exercise;
+};
+
+export type Training = {
+  id: number;
+  descricao: string;
+  dataCadastro: string;
+  usuarioCadastro: User;
+  exerciciosTreino: Exercise[];
 };
