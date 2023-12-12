@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 "use client";
-import Carousel from "@/components/Carousel";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Pagination from "./Pagination";

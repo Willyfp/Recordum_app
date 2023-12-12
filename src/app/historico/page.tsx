@@ -3,7 +3,8 @@ import UserInfo from "../inicio/components/UserInfo";
 import Card from "@/components/Card";
 import { GrDocumentPerformance } from "react-icons/gr";
 import { MdOutlineMonitorWeight } from "react-icons/md";
-
+import { useRouter } from "next/navigation";
+import { Cards } from "./components/cards";
 
 const Historico = () => {
   return (
@@ -20,17 +21,7 @@ const Historico = () => {
           </p>
         </div>
 
-        <div className="flex  gap-[0.5rem]">
-          <Card
-            icon={<MdOutlineMonitorWeight className="text-black h-[1.25rem] w-[1.25rem]" />}
-            title="Pesos e medidas"
-          />
-
-          <Card
-            icon={<GrDocumentPerformance className="text-black h-[1.25rem] w-[1.25rem]" />}
-            title="Desempenho geral"
-          />
-        </div>
+        <Cards />
       </div>
     </DefaultContainer>
   );

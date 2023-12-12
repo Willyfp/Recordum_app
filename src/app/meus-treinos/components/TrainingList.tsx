@@ -7,9 +7,10 @@ import { useSelector } from "react-redux";
 import { TrainingCard } from "./TrainingCard";
 import ButtonComponent from "@/components/Button";
 import { useRouter } from "next/navigation";
+import { Training } from "@/types";
 
 export const TrainingList = () => {
-  const [trainingList, setTrainingList] = useState([]);
+  const [trainingList, setTrainingList] = useState<Training[]>([]);
 
   const user = useSelector(selectUser);
 
@@ -26,7 +27,7 @@ export const TrainingList = () => {
     <>
       <div className="flex flex-col flex-1 overflow-auto gap-4">
         {trainingList.map((item) => (
-          <TrainingCard training={item} />
+          <TrainingCard key={item.id} training={item} />
         ))}
       </div>
 

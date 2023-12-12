@@ -5,6 +5,7 @@ import { MdEdit } from "react-icons/md";
 
 const EditableAvatar = ({
   height,
+  editable = true,
   src,
   onClick,
   width,
@@ -12,6 +13,7 @@ const EditableAvatar = ({
   height?: string;
   width?: string;
   src?: string;
+  editable?: boolean;
   onClick?: () => void;
 }) => {
   const [errored, setErrored] = React.useState(false);
@@ -51,10 +53,11 @@ const EditableAvatar = ({
           <AiOutlineUser style={{ height: "2.5rem", width: "2.5rem" }} />
         </div>
       )}
-
-      <div className="flex absolute bottom-[0.5rem] right-[0.5rem] h-[1.5rem] w-[1.5rem] rounded-[0.31rem] bg-white opacity-50 justify-center items-center">
-        <MdEdit className="text-black text-button_primary" />
-      </div>
+      {editable && (
+        <div className="flex absolute bottom-[0.5rem] right-[0.5rem] h-[1.5rem] w-[1.5rem] rounded-[0.31rem] bg-white opacity-50 justify-center items-center">
+          <MdEdit className="text-black text-button_primary" />
+        </div>
+      )}
     </div>
   );
 };

@@ -85,3 +85,15 @@ export const getTrainingsByUser = async (userId: number) => {
     throw error;
   }
 };
+
+export const getExerciseById = async (id: number) => {
+  try {
+    const response = await api.get(`/exercicios/${id}`);
+
+    if (!response) throw "erro";
+
+    return response?.data as Exercise;
+  } catch (error) {
+    throw error;
+  }
+};

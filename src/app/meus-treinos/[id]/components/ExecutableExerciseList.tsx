@@ -1,16 +1,17 @@
 import BottomSheet from "@/components/BottomSheet";
 import ButtonComponent from "@/components/Button";
 import { Training } from "@/types";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaExclamation, FaPlay } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
-
 export const ExecutableExerciseList = ({
   training,
 }: {
   training?: Training;
 }) => {
   const [visible, setVisible] = useState(false);
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col flex-1 p-[1.5rem] gap-4">
@@ -59,7 +60,11 @@ export const ExecutableExerciseList = ({
 
                 <ButtonComponent
                   className="btn-outline w-full border-color-background text-black"
-                  // onClick={() => router.back()}
+                  onClick={() =>
+                    router.push(
+                      `/meus-treinos/${training.id}/exercicio/${item.exercicio.id}`
+                    )
+                  }
                 >
                   Utilizar sem conexão
                 </ButtonComponent>
