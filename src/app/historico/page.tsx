@@ -1,10 +1,6 @@
 import DefaultContainer from "@/components/DefaultContainer";
 import UserInfo from "../inicio/components/UserInfo";
-import Card from "@/components/Card";
-import { GrDocumentPerformance } from "react-icons/gr";
-import { MdOutlineMonitorWeight } from "react-icons/md";
-import { useRouter } from "next/navigation";
-import { Cards } from "./components/cards";
+import { Cards } from "./components/Cards";
 
 const Historico = () => {
   return (
