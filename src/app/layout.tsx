@@ -7,44 +7,13 @@ import LayoutWrapper from "./LayoutWrapper";
 
 const sans = Open_Sans({ subsets: ["latin"] });
 
-const APP_NAME = "Recordumm app";
 const APP_DEFAULT_TITLE = "Recordumm app";
-const APP_TITLE_TEMPLATE = "%s - Recordumm app";
 const APP_DESCRIPTION = "Gerencie seus treinos!";
 
 export const metadata: Metadata = {
-  applicationName: APP_NAME,
-  title: {
-    default: APP_DEFAULT_TITLE,
-    template: APP_TITLE_TEMPLATE,
-  },
+  title: APP_DEFAULT_TITLE,
   description: APP_DESCRIPTION,
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: APP_DEFAULT_TITLE,
-    // startUpImage: [],
-  },
-  formatDetection: {
-    telephone: false,
-  },
-  openGraph: {
-    type: "website",
-    siteName: APP_NAME,
-    title: {
-      default: APP_DEFAULT_TITLE,
-      template: APP_TITLE_TEMPLATE,
-    },
-    description: APP_DESCRIPTION,
-  },
-  twitter: {
-    card: "summary",
-    title: {
-      default: APP_DEFAULT_TITLE,
-      template: APP_TITLE_TEMPLATE,
-    },
-    description: APP_DESCRIPTION,
-  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

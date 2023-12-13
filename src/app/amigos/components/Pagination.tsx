@@ -1,6 +1,6 @@
 import { useSwiperSlide } from "swiper/react";
 
-const Pagination = ({ index, list }: { index: number; list: any[] }) => {
+const Pagination = ({ index, list }: { index: number; list?: any[] }) => {
   const swiperSlide = useSwiperSlide();
 
   return (

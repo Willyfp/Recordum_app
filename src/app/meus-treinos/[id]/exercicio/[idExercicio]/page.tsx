@@ -6,7 +6,7 @@ import { Exercise, Training } from "@/types";
 import { useEffect, useState } from "react";
 import { FormFields } from "./components/FormFields";
 
-const Treinar = ({ params }: { id: number; idExercicio: number }) => {
+const Treinar = ({ params }: { params: {id: number; idExercicio: number} }) => {
   const [exercise, setExercise] = useState<Exercise>();
 
   useEffect(() => {

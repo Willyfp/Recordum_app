@@ -11,6 +11,7 @@
   "background_color": "#93f009",
   "display": "standalone",
   "name": "Recordumm",
+  "scope": "/",
   "orientation": "portrait",
   "short_name": "Recordumm",
   "start_url": "/",
@@ -474,7 +475,7 @@
     }
   ],
   "shortcuts": [],
-  "id": "recordumm-app",
+  "id": "3",
   "description": "Conecte-se com sua academia e amigos!",
   "dir": "auto",
   "lang": "pt"
