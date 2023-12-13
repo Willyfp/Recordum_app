@@ -4,7 +4,7 @@ const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
 });
 
-const nextConfig = withPWA({
+const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_DECODE_KEY: process.env.NEXT_PUBLIC_DECODE_KEY,
@@ -30,6 +30,6 @@ const nextConfig = withPWA({
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-});
+};
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
