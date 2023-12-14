@@ -12,6 +12,18 @@ export function middleware(request: NextRequest) {
     "/",
   ];
 
+  // const pwaRoutes = [
+  //   "/sw.js",
+  //   "/manifest.json",
+  //   "/favicon.ico",
+  //   "sw.js.map",
+  //   "swe-worker-development.js",
+  //   "workbox-1b1de004.js",
+  //   "workbox-1b1de004.js.map",
+  // ];
+
+  if (request.nextUrl.pathname.includes(".")) return NextResponse.next();
+
   const token = cookies().get("token");
 
   const userId = cookies().get("user_id");
