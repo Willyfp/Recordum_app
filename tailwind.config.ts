@@ -62,6 +62,7 @@ const config: Config = {
       icon_calendar: "#909090",
       icon_bottom: "#666666",
       color_name: "#979797",
+      icon_info: "#C4C4C4",
       id: "#C4C4C4",
     },
     extend: {
@@ -70,6 +71,7 @@ const config: Config = {
         avatar_card: "0px 0px 10px 0px rgba(35, 35, 35, 0.25);",
         card_muscle: "0px 4px 10px 0px rgba(147, 147, 147, 0.25);",
         header: "0px 2px 8px 0px rgba(147, 147, 147, 0.2);",
+        card_goal: "0px 0px 10px 0px rgba(35, 35, 35, 0.25);",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

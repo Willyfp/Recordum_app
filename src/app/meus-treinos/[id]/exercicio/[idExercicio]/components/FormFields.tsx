@@ -32,12 +32,12 @@ export const FormFields = ({ exercise }: { exercise?: Exercise }) => {
       />
 
       <DatePickerComponent
-        value={watch("dataNascimento")}
+        value={watch("data")}
         onChange={(value) => {
-          setValue("dataNascimento", value);
+          setValue("data", value);
           clearErrors();
         }}
-        errorMessage={errors?.dataNascimento?.message}
+        errorMessage={errors?.data?.message}
         label="Data de nascimento"
         labelStyle="text-black"
       />
