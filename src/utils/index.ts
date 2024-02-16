@@ -78,15 +78,15 @@ export function formatDataTraining(data) {
     dataFim: data.data,
     conectado: false,
     series: data.series.map((serie, index) => ({
-      carga: serie.cargaInformada,
+      cargaInformada: Number(serie.cargaInformada),
       numero: index + 1,
       dataInicio: data.data,
       dataFim: data.data,
       repeticoes: Array.from({ length: Number(serie.repeticao) }).map(
         (_, index) => ({
           ordem: index,
-          cargaSubida: serie.cargaInformada,
-          cargaDescida: serie.cargaInformada,
+          cargaSubida: Number(serie.cargaInformada),
+          cargaDescida: Number(serie.cargaInformada),
           tempoSubida: 0,
           tempoDescida: 0,
         })
