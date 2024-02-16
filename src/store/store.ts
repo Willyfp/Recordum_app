@@ -4,6 +4,7 @@ import globalSlice from "./slices/globalSlice";
 import registerSlice from "./slices/registerSlice";
 import authSlice from "./slices/authSlice";
 import trainingSlice from "./slices/TrainingSlice";
+import gymSlice from "./slices/gymSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     register: registerSlice,
     auth: authSlice,
     training: trainingSlice,
+    gymSlice: gymSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

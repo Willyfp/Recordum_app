@@ -45,6 +45,8 @@ api.interceptors.response.use(
         cookies().delete("token");
         cookies().delete("user_id");
 
+        cookies().delete("GYM_ID");
+
         redirect("/login");
       } else {
         const deleteCookie = function (name) {
@@ -54,6 +56,8 @@ api.interceptors.response.use(
         deleteCookie("token");
 
         deleteCookie("user_id");
+
+        deleteCookie("GYM_ID");
 
         window.location.href = "/login";
       }

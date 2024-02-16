@@ -22,17 +22,16 @@ import { loginRequest } from "@/services/authService";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { useCookies } from "next-client-cookies";
 import { selectUser } from "@/store/slices/authSlice";
+import DatePickerComponent from "@/components/DatePicker";
+import dayjs from "dayjs";
+import { schemaValidation } from "./schemaValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-const FormFieldSubcutaneous = ({
-  setStep,
-}: {
-  setStep: Dispatch<SetStateAction<number>>;
-}) => {
+const Form = () => {
   const router = useRouter();
 
   const [loading, setLoading] = React.useState(false);
 
-  const basicInfo = useSelector(selectBasicInfo);
   const weightGoal = useSelector(selectWeightGoal);
   const measures = useSelector(selectMeasures);
   const {
@@ -40,42 +39,16 @@ const FormFieldSubcutaneous = ({
     formState: { errors },
     handleSubmit,
     watch,
+    clearErrors,
     setValue,
-  } = useForm();
-
-  const cookies = useCookies();
-
-  useEffect(() => {
-    if (!basicInfo) {
-      router.push("/cadastro");
-    }
-
-    if (measures) {
-      Object.entries(measures).forEach(([key, value]) => {
-        setValue(key, value);
-      });
-    }
-  }, []);
+  } = useForm({
+    resolver: yupResolver(schemaValidation),
+    defaultValues: { data: dayjs() },
+  });
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      await store.dispatch(
-        setMeasures(measures ? { ...measures, ...data } : data)
-      );
-      await registerRequest({
-        user: {
-          ...basicInfo,
-          confirmarSenha: undefined,
-          confirmarEmail: undefined,
-        },
-      });
-
-      const user = await loginRequest({
-        username: basicInfo.email,
-        password: basicInfo.senha,
-        cookies,
-      });
 
       if (
         weightGoal &&
@@ -90,12 +63,11 @@ const FormFieldSubcutaneous = ({
       store.dispatch(
         setSuccessBottomSheet({
           open: true,
-          title: "Cadastro concluído",
-          description:
-            "Seus dados estão salvos, você pode atualizar ou acrescentar novos dados a qualquer momento no App",
-          buttonText: "Iniciar sessão",
-          buttonAction: () => router.push("/inicio"),
-          closeAction: () => router.push("/inicio"),
+          title: "Dados salvos",
+          description: "Realize a atualização dos dados quando quiser!",
+          buttonText: "OK",
+          buttonAction: () => router.push("/historico/medidas"),
+          closeAction: () => router.push("/historico/medidas"),
         })
       );
     } catch (error) {
@@ -133,6 +105,7 @@ const FormFieldSubcutaneous = ({
             label="Tríceps (TR)"
             placeholder="Digite aqui"
             type="number"
+            errorMessage={errors?.pesoMeta?.message}
           />
         </div>
 
@@ -171,7 +144,6 @@ const FormFieldSubcutaneous = ({
             label="Supra-espinal (SE)"
             placeholder="Digite aqui"
             type="number"
-            errorMessage={errors?.pesoMeta?.message}
           />
         </div>
 
@@ -201,6 +173,17 @@ const FormFieldSubcutaneous = ({
           placeholder="Digite aqui"
           type="number"
         />
+
+        <DatePickerComponent
+          value={watch("data")}
+          onChange={(value) => {
+            setValue("data", value);
+            clearErrors("data");
+          }}
+          errorMessage={errors?.data?.message}
+          label="Data"
+          labelStyle="text-black"
+        />
       </div>
 
       <div className="flex flex-col">
@@ -216,4 +199,4 @@ const FormFieldSubcutaneous = ({
   );
 };
 
-export default FormFieldSubcutaneous;
+export default Form;

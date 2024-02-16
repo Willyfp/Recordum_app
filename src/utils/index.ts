@@ -67,3 +67,30 @@ export function htmlToFormat(htmlText) {
 
   return dfs(body);
 }
+
+export function formatDataTraining(data) {
+  return {
+    usuario: { id: Number(data.usuario) },
+    equipamento: { id: Number(data.equipamento) },
+    exercicioTreino: { id: data.exercicioTreino },
+    treino: { id: Number(data.treino) },
+    dataInicio: data.data,
+    dataFim: data.data,
+    conectado: false,
+    series: data.series.map((serie, index) => ({
+      carga: serie.cargaInformada,
+      numero: index + 1,
+      dataInicio: data.data,
+      dataFim: data.data,
+      repeticoes: Array.from({ length: Number(serie.repeticao) }).map(
+        (_, index) => ({
+          ordem: index,
+          cargaSubida: serie.cargaInformada,
+          cargaDescida: serie.cargaInformada,
+          tempoSubida: 0,
+          tempoDescida: 0,
+        })
+      ),
+    })),
+  };
+}

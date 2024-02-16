@@ -63,3 +63,32 @@ export type Training = {
   usuarioCadastro: User;
   exerciciosTreino: Exercise[];
 };
+
+export type UF = {
+  id: number;
+  nome: string;
+  sigla: string;
+};
+
+export type City = {
+  id: number;
+  nome: string;
+  ibge: number;
+  latitude: number;
+  longitude: number;
+  codTom: number;
+  uf: UF;
+};
+
+export type GymType = {
+  id: number;
+  fantasia: string;
+  razao: string;
+  cnpj: string;
+  endereco: string;
+  numero: string;
+  telefone: string;
+  email: string;
+  status: "ATIVO" | "INATIVO";
+  cidade: City;
+};

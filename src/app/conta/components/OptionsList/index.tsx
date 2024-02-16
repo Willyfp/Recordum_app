@@ -20,6 +20,8 @@ const OptionsList = () => {
       label: "Sair",
       action: () => {
         cookies.remove("token");
+        cookies.remove("user_id");
+        cookies.remove("GYM_ID");
         router.push("/login");
       },
     },

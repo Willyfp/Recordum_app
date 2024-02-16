@@ -4,6 +4,8 @@ import api from "./api";
 import { getUserRequest } from "./authService";
 import { User } from "@/types";
 import { removeEmpty } from "@/utils";
+import { Cookies } from "next-client-cookies";
+import { setGymList } from "@/store/slices/gymSlice";
 
 export const changePhotoRequest = async ({
   file,
@@ -81,10 +83,130 @@ export const changePasswordRequest = async ({
   }
 };
 
+export const getGymList = async ({
+  id,
+  cookies,
+}: {
+  id: number;
+  cookies: Cookies;
+}) => {
+  try {
+    const response = await api
+      .get(`/academias/usuario/${id}`)
+      .catch((error) => {
+        throw error;
+      });
+
+    if (!response) throw "erro";
+
+    if (response.data === 1) {
+      cookies.set("GYM_ID", response?.data[0].id);
+    } else if (response.data.length > 1) {
+      store.dispatch(setGymList(response?.data));
+    }
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const listVinculatedGyms = async ({ id }: { id: number }) => {
   try {
     const response = await api
       .get(`/academias/usuario/${id}`)
+      .catch((error) => {
+        throw error;
+      });
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getWeightGoal = async () => {
+  try {
+    const response = await api
+      .get(`/metasPeso`, { params: { sort: "id" } })
+      .catch((error) => {
+        throw error;
+      });
+
+    if (!response) throw "erro";
+
+    return response?.data._embedded.pesoLogModelList[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserMeasures = async () => {
+  try {
+    const response = await api
+      .get(`/usuarioMedidas`, { params: { sort: "id,desc" } })
+      .catch((error) => {
+        throw error;
+      });
+
+    if (!response) throw "erro";
+
+    return response?.data._embedded.usuarioMedidaModelList[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editWeightGoal = async ({
+  idUsuario,
+  pesoMeta,
+  pesoAtual,
+  data,
+}: {
+  idUsuario: number;
+  pesoMeta: number;
+  pesoAtual: number;
+  data: string;
+}) => {
+  try {
+    const response = await api
+      .post(`/metasPeso`, {
+        pesoMeta,
+        pesoAtual,
+        data,
+        usuario: {
+          id: idUsuario,
+        },
+      })
+      .catch((error) => {
+        throw error;
+      });
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editMeasures = async ({
+  idUsuario,
+  data,
+}: {
+  idUsuario: number;
+  data: any;
+}) => {
+  try {
+    const response = await api
+      .post(`/usuarioMedidas`, {
+        ...data,
+        usuario: {
+          id: idUsuario,
+        },
+      })
       .catch((error) => {
         throw error;
       });

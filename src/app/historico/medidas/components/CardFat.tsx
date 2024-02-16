@@ -1,7 +1,10 @@
 import ButtonComponent from "@/components/Button";
+import { useRouter } from "next/navigation";
 import { BiSolidInfoCircle } from "react-icons/bi";
 
 export const CardFat = () => {
+  const route = useRouter();
+
   return (
     <div className="flex flex-col w-full rounded-[1.25rem] shadow-card_goal overflow-hidden">
       <div className="flex flex-col w-full pb-4 px-6 pt-6">
@@ -33,7 +36,9 @@ export const CardFat = () => {
         <ButtonComponent
           // loading={loading}
           className="w-full btn-primary"
-          // onClick={handleSubmit(onSubmit)}
+          onClick={() => {
+            route.push("/historico/medidas/gordura");
+          }}
         >
           Atualizar dados
         </ButtonComponent>

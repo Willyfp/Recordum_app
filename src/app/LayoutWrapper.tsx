@@ -6,12 +6,13 @@ import ErrorComponent from "./components/ErrorComponent";
 import SuccessBottomSheet from "./components/SuccessBottomSheet";
 import UserController from "./components/UserController";
 import { ReactNode } from "react";
+import GymBottomSheet from "@/components/GymBottomSheet";
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   localStorage.theme = "light";
-};
+}
 
-const LayoutWrapper = ({ children }: {children: ReactNode}) => {
+const LayoutWrapper = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Provider store={store}>
@@ -19,6 +20,8 @@ const LayoutWrapper = ({ children }: {children: ReactNode}) => {
         <UserController />
         <ErrorComponent />
         <SuccessBottomSheet />
+
+        <GymBottomSheet />
       </Provider>
     </>
   );

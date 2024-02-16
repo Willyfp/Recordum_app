@@ -1,7 +1,19 @@
 import ButtonComponent from "@/components/Button";
+import { getWeightGoal } from "@/services/userService";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { BiSolidInfoCircle } from "react-icons/bi";
 
 export const GoalCard = () => {
+  const route = useRouter();
+  const [weightGoal, setWeightGoal] = useState<any>(null);
+
+  useEffect(() => {
+    getWeightGoal().then((res) => {
+      setWeightGoal(res);
+    });
+  }, []);
+
   return (
     <div className="flex flex-col w-full rounded-[1.25rem] shadow-card_goal overflow-hidden">
       <div className="flex flex-col w-full pb-4 px-6 pt-6">
@@ -13,7 +25,7 @@ export const GoalCard = () => {
         </div>
 
         <span className="text-[#516E25] text-[2.5rem] font-title_bottom_sheet">
-          75,5 Kg
+          {weightGoal?.pesoMeta ? weightGoal?.pesoMeta + " Kg" : "--"}
         </span>
 
         <span className="text-black text-button_ghost">Sua meta de peso</span>
@@ -33,7 +45,7 @@ export const GoalCard = () => {
         <ButtonComponent
           // loading={loading}
           className="w-full btn-primary"
-          // onClick={handleSubmit(onSubmit)}
+          onClick={() => route.push("/historico/medidas/peso")}
         >
           Atualizar dados
         </ButtonComponent>

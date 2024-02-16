@@ -97,3 +97,31 @@ export const getExerciseById = async (id: number) => {
     throw error;
   }
 };
+
+export const getEquipmentsByGym = async (gymId: number) => {
+  try {
+    const response = await api.get(`/equipamentos/academia/${gymId}`, {
+      params: {
+        size: 999,
+      },
+    });
+
+    if (!response) throw "erro";
+
+    return response?.data?._embedded?.equipamentoModelList;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createTrainingLog = async (data) => {
+  try {
+    const response = await api.post("/treinoLogs", data);
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
