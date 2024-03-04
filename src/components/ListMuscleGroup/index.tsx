@@ -9,7 +9,11 @@ import { MuscleGroup } from "@/types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const ListMuscleGroup = () => {
+const ListMuscleGroup = ({
+  onClick,
+}: {
+  onClick?: (muscleGroup: MuscleGroup) => void;
+}) => {
   const [muscleGroups, setMuscleGroups] = useState<MuscleGroup[]>([]);
 
   const dispatch = useDispatch();
@@ -31,7 +35,7 @@ const ListMuscleGroup = () => {
               !!selectedMuscleGroups.find((item) => item.id === muscle.id)
             }
             onClick={() => {
-              dispatch(toggleMuscle(muscle));
+              onClick ? onClick(muscle) : dispatch(toggleMuscle(muscle));
             }}
           />
         ))}

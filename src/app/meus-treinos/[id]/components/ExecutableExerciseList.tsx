@@ -1,9 +1,15 @@
 import BottomSheet from "@/components/BottomSheet";
 import ButtonComponent from "@/components/Button";
+import { connectToEquipment } from "@/services/trainingService";
+import { setApiError, setSuccessBottomSheet } from "@/store/slices/globalSlice";
+import { store } from "@/store/store";
 import { Training } from "@/types";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaExclamation, FaPlay } from "react-icons/fa";
+import QrReader from "react-qr-scanner";
+
 export const ExecutableExerciseList = ({
   training,
 }: {
@@ -12,6 +18,10 @@ export const ExecutableExerciseList = ({
   const [visible, setVisible] = useState(false);
 
   const router = useRouter();
+
+  const [isConnection, setIsConnection] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="flex flex-col flex-1 p-[1.5rem] gap-4">
@@ -35,7 +45,10 @@ export const ExecutableExerciseList = ({
 
           <BottomSheet
             open={visible}
-            closeAction={() => setVisible(false)}
+            closeAction={() => {
+              setVisible(false);
+              setIsConnection(false);
+            }}
             icon={
               <div className="flex w-16 h-16 justify-center items-center rounded-[1.5rem] bg-[#f9c459]">
                 <FaExclamation className="w-8 h-8 text-white" />
@@ -43,33 +56,81 @@ export const ExecutableExerciseList = ({
             }
             title={item.exercicio.descricao}
           >
-            <div className="flex flex-col gap-4 w-full items-center py-5">
-              <span className="text-black text-description text-center">
-                Aproxime-se do equipamento e escaneie o código para se conectar
-                ao aparelho
-              </span>
+            {isConnection ? (
+              <div className="flex flex-1 justify-center items-center flex-col gap-8 pt-4">
+                <span className="text-[18px] text-center">
+                  Aproxime-se do equipamento e escaneie o código para se
+                  conectar ao aparelho
+                </span>
 
-              <div className="flex flex-col w-full pt-4 gap-4">
-                <ButtonComponent
-                  // loading={loading}
-                  className="w-full btn-primary"
-                  // onClick={onSubmit}
-                >
-                  Iniciar
-                </ButtonComponent>
+                <QrReader
+                  className="border rounded-lg items-center justify-center flex w-[250px] max-h-[250px] max-w-[250px]"
+                  delay={200}
+                  onError={(e) => {
+                    store.dispatch(setApiError("QR code inválido!"));
+                  }}
+                  onScan={async (result) => {
+                    if (result) {
+                      try {
+                        if (!loading) {
+                          setLoading(true);
 
-                <ButtonComponent
-                  className="btn-outline w-full border-color-background text-black"
-                  onClick={() =>
-                    router.push(
-                      `/meus-treinos/${training.id}/exercicio/${item.exercicio.id}`
-                    )
-                  }
-                >
-                  Utilizar sem conexão
-                </ButtonComponent>
+                          await connectToEquipment(result.text);
+
+                          setIsConnection(false);
+                          setVisible(false);
+
+                          store.dispatch(
+                            setSuccessBottomSheet({
+                              open: true,
+                              title: "Conectado",
+                              description:
+                                "Conectado com sucesso! Clique para iniciar os exercícios",
+                              buttonText: "OK",
+                              buttonAction: () => {},
+                              closeAction: () => {},
+                            })
+                          );
+                          setLoading(false);
+                        }
+                      } catch (error) {
+                        store.dispatch(setApiError("QR code inválido!"));
+                        setLoading(false);
+                      }
+                    }
+                  }}
+                  style={{ padding: 0, margin: 0, lineHeight: 0 }}
+                />
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-4 w-full items-center py-5">
+                <span className="text-black text-description text-center">
+                  Aproxime-se do equipamento e escaneie o código para se
+                  conectar ao aparelho
+                </span>
+
+                <div className="flex flex-col w-full pt-4 gap-4">
+                  <ButtonComponent
+                    // loading={loading}
+                    className="w-full btn-primary"
+                    onClick={() => setIsConnection(true)}
+                  >
+                    Iniciar
+                  </ButtonComponent>
+
+                  <ButtonComponent
+                    className="btn-outline w-full border-color-background text-black"
+                    onClick={() =>
+                      router.push(
+                        `/meus-treinos/${training.id}/exercicio/${item.exercicio.id}`
+                      )
+                    }
+                  >
+                    Utilizar sem conexão
+                  </ButtonComponent>
+                </div>
+              </div>
+            )}
           </BottomSheet>
         </>
       ))}

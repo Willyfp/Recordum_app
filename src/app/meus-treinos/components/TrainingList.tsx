@@ -9,7 +9,7 @@ import ButtonComponent from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { Training } from "@/types";
 
-export const TrainingList = () => {
+export const TrainingList = ({ userID }: { userID?: string | number }) => {
   const [trainingList, setTrainingList] = useState<Training[]>([]);
 
   const user = useSelector(selectUser);
@@ -17,26 +17,28 @@ export const TrainingList = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (user)
-      getTrainingsByUser(user?.id).then((response) => {
+    if (user || userID)
+      getTrainingsByUser(userID ?? user?.id).then((response) => {
         setTrainingList(response);
       });
-  }, [user]);
+  }, [user, userID]);
 
   return (
     <>
       <div className="flex flex-col flex-1 overflow-auto gap-4">
-        {trainingList.map((item) => (
+        {trainingList?.map((item) => (
           <TrainingCard key={item.id} training={item} />
         ))}
       </div>
 
-      <ButtonComponent
-        className="btn-primary w-full"
-        onClick={() => router.push("/criar/personalizar")}
-      >
-        Montar novo treino
-      </ButtonComponent>
+      {!userID && (
+        <ButtonComponent
+          className="btn-primary w-full"
+          onClick={() => router.push("/criar/personalizar")}
+        >
+          Montar novo treino
+        </ButtonComponent>
+      )}
     </>
   );
 };

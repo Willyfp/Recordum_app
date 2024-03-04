@@ -1,7 +1,7 @@
 import { SerieForm } from "@/app/criar/personalizar/components/SerieForm";
 import DatePickerComponent from "@/components/DatePicker";
 import TextField from "@/components/TextField";
-import { Exercise } from "@/types";
+import { Exercise, MuscleGroup } from "@/types";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormSeries } from "./FormSeries";
 import { useEffect, useState } from "react";
@@ -21,9 +21,13 @@ import { useRouter } from "next/navigation";
 export const FormFields = ({
   exercise,
   trainingId,
+  disableExercise,
+  submitPath,
 }: {
   exercise?: Exercise;
-  trainingId: number;
+  trainingId?: number;
+  disableExercise?: boolean;
+  submitPath?: string;
 }) => {
   const [equipmentsList, setEquipmentsList] = useState([]);
 
@@ -70,7 +74,9 @@ export const FormFields = ({
         formatDataTraining({
           ...data,
           usuario: userID,
-          exercicioTreino: exercise?.id,
+          exercicioTreino: ["number", "string"].includes(typeof exercise)
+            ? exercise
+            : exercise?.id,
           treino: trainingId,
           data: dayjs(data.data).toISOString(),
         })
@@ -81,10 +87,12 @@ export const FormFields = ({
           open: true,
           title: "Execução salva",
           buttonText: "Ok",
-          buttonAction: () => router.push(`/meus-treinos/${trainingId}`),
+          buttonAction: () =>
+            router.push(submitPath ?? `/meus-treinos/${trainingId}`),
         })
       );
     } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -93,24 +101,30 @@ export const FormFields = ({
   return (
     <FormProvider {...form}>
       <div className="flex flex-col gap-1">
-        <TextField
-          value={exercise?.grupoMuscular.descricao}
-          className={"input-bordered border-color-background"}
-          labelStyle="text-black"
-          label="Grupo muscular"
-          placeholder="Grupo muscular"
-          disabled
-        />
-        <TextField
-          value={exercise?.descricao}
-          className={"input-bordered border-color-background"}
-          labelStyle="text-black"
-          label="Nome do exercício"
-          placeholder="Nome do exercício"
-          disabled
-        />
+        {!disableExercise && (
+          <>
+            <TextField
+              value={exercise?.grupoMuscular.descricao}
+              className={"input-bordered border-color-background"}
+              labelStyle="text-black"
+              label="Grupo muscular"
+              placeholder="Grupo muscular"
+              disabled
+            />
+
+            <TextField
+              value={exercise?.descricao}
+              className={"input-bordered border-color-background"}
+              labelStyle="text-black"
+              label="Nome do exercício"
+              placeholder="Nome do exercício"
+              disabled
+            />
+          </>
+        )}
+
         <Select
-          options={equipmentsList.map((equip) => ({
+          options={equipmentsList?.map((equip) => ({
             label: equip.descricao,
             value: equip.id,
           }))}
@@ -118,6 +132,7 @@ export const FormFields = ({
           label="Equipamento"
           errorMessage={errors?.equipamento?.message}
         />
+
         <DatePickerComponent
           value={watch("data")}
           onChange={(value) => {

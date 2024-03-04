@@ -12,16 +12,17 @@ const Header = ({
   const route = useRouter();
 
   return (
-    <header className="w-full h-[4rem] shadow-header bg-white items-center justify-between flex-row flex px-[1rem]">
+    <header className="w-full h-[4rem] shadow-header bg-white items-center justify-between overflow-hidden flex-row flex px-[1rem]">
       <MdChevronLeft
         className="cursor-pointer text-secondary"
         size="2rem"
         onClick={backButtonAction || (() => route.back())}
       />
-
-      <h1 className="font-semibold textarea-lg text-left mr-[2rem] text-black">
-        {title}
-      </h1>
+      <div className="max-w-[75%] overflow-hidden">
+        <h1 className="font-semibold textarea-lg truncate text-left mr-[2rem] text-black ">
+          {title}
+        </h1>
+      </div>
 
       <div></div>
     </header>

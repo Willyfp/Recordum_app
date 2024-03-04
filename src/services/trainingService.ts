@@ -15,6 +15,30 @@ export const getMuscleGroups = async (): Promise<MuscleGroup[]> => {
   }
 };
 
+export const getMuscleGroupById = async (id: number): Promise<MuscleGroup> => {
+  try {
+    const response = await api.get(`/gruposMusculares/${id}`);
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const connectToEquipment = async (equipmentId: number) => {
+  try {
+    const response = await api.post(`/equipamentos/usar/${equipmentId}`);
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getExercisesByMuscle = async (muscleId: number) => {
   try {
     const response = await api.get(`/exercicios/grupoMuscular/${muscleId}`);
@@ -116,11 +140,21 @@ export const getEquipmentsByGym = async (gymId: number) => {
 
 export const createTrainingLog = async (data) => {
   try {
-    const response = await api.post("/treinoLogs", data);
+    if (data.treino?.id) {
+      const response = await api.post("/treinoLogs", data);
+      if (!response) throw "erro";
 
-    if (!response) throw "erro";
+      return response?.data;
+    } else {
+      const response = await api.post("/exercicioLivreLogs", {
+        ...data,
+        exercicio: { id: data.exercicioTreino.id },
+        exercicioTreino: undefined,
+      });
+      if (!response) throw "erro";
 
-    return response?.data;
+      return response?.data;
+    }
   } catch (error) {
     throw error;
   }

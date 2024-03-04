@@ -73,7 +73,7 @@ export function formatDataTraining(data) {
     usuario: { id: Number(data.usuario) },
     equipamento: { id: Number(data.equipamento) },
     exercicioTreino: { id: data.exercicioTreino },
-    treino: { id: Number(data.treino) },
+    treino: data.treino ? { id: Number(data.treino) } : undefined,
     dataInicio: data.data,
     dataFim: data.data,
     conectado: false,
