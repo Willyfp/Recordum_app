@@ -99,7 +99,9 @@ export const getGymList = async ({
 
     if (!response) throw "erro";
 
-    if (response.data === 1) {
+    if (response.data.length === 0) cookies.set("GYM_ID", "NO_GYM");
+
+    if (response.data.length === 1) {
       cookies.set("GYM_ID", response?.data[0].id);
     } else if (response.data.length > 1) {
       store.dispatch(setGymList(response?.data));

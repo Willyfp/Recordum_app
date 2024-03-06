@@ -52,6 +52,7 @@ export const FormFields = ({
   const userID = cookies.get("user_id");
 
   useEffect(() => {
+    if (gymId === "NO_GYM") return;
     getEquipmentsByGym(gymId).then((equipments) => {
       setEquipmentsList(equipments);
     });
@@ -123,15 +124,17 @@ export const FormFields = ({
           </>
         )}
 
-        <Select
-          options={equipmentsList?.map((equip) => ({
-            label: equip.descricao,
-            value: equip.id,
-          }))}
-          {...register("equipamento")}
-          label="Equipamento"
-          errorMessage={errors?.equipamento?.message}
-        />
+        {gymId !== "NO_GYM" && (
+          <Select
+            options={equipmentsList?.map((equip) => ({
+              label: equip.descricao,
+              value: equip.id,
+            }))}
+            {...register("equipamento")}
+            label="Equipamento"
+            errorMessage={errors?.equipamento?.message}
+          />
+        )}
 
         <DatePickerComponent
           value={watch("data")}

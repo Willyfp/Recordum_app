@@ -71,7 +71,9 @@ export function htmlToFormat(htmlText) {
 export function formatDataTraining(data) {
   return {
     usuario: { id: Number(data.usuario) },
-    equipamento: { id: Number(data.equipamento) },
+    equipamento: data.equipamento
+      ? { id: Number(data.equipamento) }
+      : undefined,
     exercicioTreino: { id: data.exercicioTreino },
     treino: data.treino ? { id: Number(data.treino) } : undefined,
     dataInicio: data.data,
