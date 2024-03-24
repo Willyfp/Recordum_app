@@ -1,9 +1,9 @@
 "use client";
 import ButtonComponent from "@/components/Button";
 import TextField from "@/components/TextField";
-import { recoverPasswordRequest } from "@/services/authService";
+import { recoverPasswordRequest, resetPassword } from "@/services/authService";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 export const Steps = () => {
   const {
@@ -12,8 +12,28 @@ export const Steps = () => {
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data) => {
-    recoverPasswordRequest(data);
+  const [activeStep, setActiveStep] = useState<number>(0);
+
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      if (activeStep === 0) {
+        await recoverPasswordRequest(data);
+
+        setActiveStep(1);
+        return;
+      }
+
+      if (activeStep === 1) {
+        resetPassword(data);
+        return;
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   const stepsObject = {
@@ -35,18 +55,16 @@ export const Steps = () => {
       />
     ),
     1: (
-      <TextField
-        {...register("token")}
-        className={"input-bordered border-color-background"}
-        labelStyle="text-black"
-        label="Código"
-        type="number"
-        placeholder="Digite aqui"
-        errorMessage={errors?.token?.message}
-      />
-    ),
-    2: (
       <>
+        <TextField
+          {...register("token")}
+          className={"input-bordered border-color-background"}
+          labelStyle="text-black"
+          label="Código"
+          type="number"
+          placeholder="Digite o código aqui"
+          errorMessage={errors?.token?.message}
+        />
         <TextField
           {...register("password")}
           className={"input-bordered border-color-background"}
@@ -56,7 +74,6 @@ export const Steps = () => {
           placeholder="Digite aqui sua senha"
           errorMessage={errors?.password?.message}
         />
-
         <TextField
           {...register("confirmPassword")}
           className={"input-bordered border-color-background"}
@@ -70,19 +87,21 @@ export const Steps = () => {
     ),
   };
 
-  const [step, setStep] = useState<keyof typeof stepsObject>(0);
-
   return (
     <div className="flex flex-1 gap=[0.5rem] flex-col">
       <div className="flex flex-1 gap=[0.5rem] flex-col">
         <p className="text-button_primary font-description">
-          {stepsObject[step]}
+          {stepsObject[activeStep]}
         </p>
 
-        {stepsComponents[step]}
+        {stepsComponents[activeStep]}
       </div>
 
-      <ButtonComponent onClick={handleSubmit(onSubmit)}>
+      <ButtonComponent
+        className="btn-primary"
+        onClick={handleSubmit(onSubmit)}
+        loading={loading}
+      >
         Confirmar
       </ButtonComponent>
     </div>

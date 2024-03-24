@@ -44,6 +44,30 @@ export const recoverPasswordRequest = async ({ email }: { email: string }) => {
   }
 };
 
+export const resetPassword = async ({
+  token,
+  password,
+  confirmPassword,
+}: {
+  token: string;
+  password: string;
+  confirmPassword: string;
+}) => {
+  try {
+    const response = await api.post(`/usuarios/reset`, {
+      password,
+      token,
+      confirmPassword,
+    });
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getUserRequest = async ({ id }: { id: string }) => {
   try {
     const response: { data: User } = await api.get(`/usuarios/${id}`);
