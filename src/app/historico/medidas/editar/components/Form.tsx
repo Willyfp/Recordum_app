@@ -2,12 +2,7 @@
 import ButtonComponent from "@/components/Button";
 import DatePickerComponent from "@/components/DatePicker";
 
-import {
-  editMeasures,
-  editWeightGoal,
-  getUserMeasures,
-  getWeightGoal,
-} from "@/services/userService";
+import { editMeasures } from "@/services/userService";
 import { selectUser } from "@/store/slices/authSlice";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
@@ -35,7 +30,7 @@ export const Form = () => {
     clearErrors,
     handleSubmit,
   } = useForm({
-    defaultValues: { data: dayjs() },
+    defaultValues: { data: dayjs().format("DD/MM/YYYY") },
     resolver: yupResolver(schemaValidation),
   });
 
@@ -69,6 +64,7 @@ export const Form = () => {
           label="Tórax/Peito"
           placeholder="Cm"
           type="number"
+          inputMode="numeric"
         />
 
         <TextField
@@ -77,6 +73,7 @@ export const Form = () => {
           labelStyle="text-black"
           label="Abdômen"
           placeholder="Cm"
+          inputMode="numeric"
           type="number"
         />
 
@@ -87,6 +84,7 @@ export const Form = () => {
             labelStyle="text-black"
             label="Bíceps (E)"
             placeholder="Cm"
+            inputMode="numeric"
             type="number"
           />
 
@@ -96,6 +94,7 @@ export const Form = () => {
             labelStyle="text-black"
             label="Bíceps (D)"
             placeholder="Cm"
+            inputMode="numeric"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
           />
@@ -107,6 +106,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Antebraço (E)"
+            inputMode="numeric"
             placeholder="Cm"
             type="number"
           />
@@ -115,6 +115,7 @@ export const Form = () => {
             {...register("antebracoD")}
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
+            inputMode="numeric"
             label="Antebraço (D)"
             placeholder="Cm"
             type="number"
@@ -126,6 +127,7 @@ export const Form = () => {
           {...register("quadril")}
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
+          inputMode="numeric"
           label="Quadril"
           placeholder="Cm"
           type="number"
@@ -137,6 +139,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Coxa (E)"
+            inputMode="numeric"
             placeholder="Cm"
             type="number"
           />
@@ -146,6 +149,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Coxa (D)"
+            inputMode="numeric"
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
@@ -158,6 +162,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Panturrilha (E)"
+            inputMode="numeric"
             placeholder="Cm"
             type="number"
           />
@@ -167,21 +172,26 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Panturrilha (D)"
+            inputMode="numeric"
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
           />
         </div>
 
-        <DatePickerComponent
-          value={watch("data")}
-          onChange={(value) => {
-            setValue("data", value);
+        <TextField
+          className={"input-bordered border-color-background"}
+          label="Data"
+          mask="00/00/0000"
+          placeholder="00/00/0000"
+          onChange={(e) => {
+            setValue("data", e.target.value);
             clearErrors("data");
           }}
-          errorMessage={errors?.data?.message}
-          label="Data"
+          value={watch("data")}
           labelStyle="text-black"
+          inputMode="numeric"
+          errorMessage={errors?.data?.message}
         />
       </div>
 

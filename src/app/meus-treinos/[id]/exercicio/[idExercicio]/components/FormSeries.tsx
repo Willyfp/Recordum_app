@@ -67,6 +67,7 @@ export const FormSeries = ({
             }
             labelStyle="text-black"
             placeholder="Nº"
+            inputMode="numeric"
             onChange={(e) => {
               setValue(
                 "series",
@@ -83,6 +84,7 @@ export const FormSeries = ({
 
           <TextField
             className={`input-bordered border-color-background max-w-[5.5rem] h-[2rem]`}
+            inputMode="numeric"
             onChange={(e) => {
               setValue(
                 "series",

@@ -1,12 +1,16 @@
 "use client";
-import { store } from "@/store/store";
 import api from "./api";
-import { setApiError } from "@/store/slices/globalSlice";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Measures, User } from "@/types";
+import dayjs from "dayjs";
+dayjs.extend(customParseFormat);
 
 export const registerRequest = async ({ user }: { user: User }) => {
   try {
-    const response = await api.post("/usuarios/novo", user);
+    const response = await api.post("/usuarios/novo", {
+      ...user,
+      dataNascimento: dayjs(user.dataNascimento, "DD/MM/YYYY").toISOString(),
+    });
 
     if (!response) throw "erro";
 

@@ -52,6 +52,7 @@ const Exercicios = () => {
 
         <FormFields
           disableExercise
+          musclegroup={musclegroup}
           exercise={watch("exercicio")}
           submitPath="/inicio"
         />

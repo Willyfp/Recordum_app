@@ -17,17 +17,21 @@ import dayjs from "dayjs";
 import { store } from "@/store/store";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { useRouter } from "next/navigation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schemaValidation } from "./schemaValidation";
 
 export const FormFields = ({
   exercise,
   trainingId,
   disableExercise,
   submitPath,
+  musclegroup,
 }: {
   exercise?: Exercise;
   trainingId?: number;
   disableExercise?: boolean;
   submitPath?: string;
+  musclegroup?: MuscleGroup;
 }) => {
   const [equipmentsList, setEquipmentsList] = useState([]);
 
@@ -44,6 +48,7 @@ export const FormFields = ({
         },
       ],
     },
+    resolver: yupResolver(schemaValidation),
   });
 
   const cookies = useCookies();
@@ -136,24 +141,36 @@ export const FormFields = ({
           />
         )}
 
-        <DatePickerComponent
-          value={watch("data")}
-          onChange={(value) => {
-            setValue("data", value);
-            clearErrors();
-          }}
-          errorMessage={errors?.data?.message}
+        <TextField
+          className={"input-bordered border-color-background"}
           label="Data"
+          mask="00/00/0000"
+          placeholder="00/00/0000"
+          onChange={(e) => {
+            setValue("data", e.target.value);
+            clearErrors("data");
+          }}
+          value={watch("data")}
           labelStyle="text-black"
+          inputMode="numeric"
+          errorMessage={errors?.data?.message}
         />
         <div className="flex flex-row items-center gap-9">
           <h2 className="text-xl mb-4 min-w-[4.5rem] text-black">Série</h2>
 
           <div className="flex flex-row items-center gap-2">
             <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">
-              Repetição
+              {exercise?.grupoMuscular?.descricao === "Cardio" ||
+              musclegroup?.descricao === "Cardio"
+                ? "Velocidade"
+                : "Repetições"}
             </h2>
-            <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">Carga</h2>
+            <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">
+              {exercise?.grupoMuscular?.descricao === "Cardio" ||
+              musclegroup?.descricao === "Cardio"
+                ? "Tempo"
+                : "Carga"}
+            </h2>
           </div>
         </div>
         {watch("series")?.map((serie, index) => (

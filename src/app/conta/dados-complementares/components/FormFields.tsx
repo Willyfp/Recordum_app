@@ -9,6 +9,7 @@ import { selectUser } from "@/store/slices/authSlice";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { store } from "@/store/store";
 import { decryptStrData } from "@/utils";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -36,8 +37,8 @@ const FormFields = () => {
         if (["nome", "email"].includes(key)) {
           setValue(key, decryptStrData(value));
         } else if (key === "dataNascimento") {
-          setValue(key, new Date(value));
-        } else { 
+          setValue(key, dayjs(value).format("DD/MM/YYYY"));
+        } else {
           setValue(key, value);
         }
       });
@@ -78,15 +79,19 @@ const FormFields = () => {
         ]}
       />
 
-      <DatePickerComponent
-        value={watch("dataNascimento")}
-        onChange={(value) => {
-          setValue("dataNascimento", value);
-          clearErrors();
-        }}
-        errorMessage={errors?.dataNascimento?.message}
+      <TextField
+        className={"input-bordered border-color-background"}
         label="Data de nascimento"
+        mask="00/00/0000"
+        placeholder="00/00/0000"
+        onChange={(e) => {
+          setValue("dataNascimento", e.target.value);
+          clearErrors("dataNascimento");
+        }}
+        value={watch("dataNascimento")}
         labelStyle="text-black"
+        inputMode="numeric"
+        errorMessage={errors?.dataNascimento?.message}
       />
 
       <TextField
@@ -97,6 +102,7 @@ const FormFields = () => {
         label="Altura"
         placeholder="Cm"
         type="number"
+        inputMode="numeric"
       />
 
       <TextField
@@ -107,6 +113,7 @@ const FormFields = () => {
         label="Peso"
         placeholder="Kg"
         type="number"
+        inputMode="numeric"
       />
 
       <ButtonComponent

@@ -1,6 +1,8 @@
 /* eslint-disable react/display-name */
 import React, { InputHTMLAttributes } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { IMaskInput } from "react-imask";
+import InputMask from "react-input-mask";
 
 const TextField = React.forwardRef<
   HTMLInputElement,
@@ -9,6 +11,7 @@ const TextField = React.forwardRef<
     labelStyle?: string;
     showErrorMessage?: boolean;
     disableFullWidth?: boolean;
+    mask?: string;
     errorMessage?:
       | string
       | FieldError
@@ -22,6 +25,7 @@ const TextField = React.forwardRef<
       className,
       label,
       errorMessage,
+      mask,
       disableFullWidth,
       showErrorMessage = true,
       ...props
@@ -40,13 +44,24 @@ const TextField = React.forwardRef<
           </label>
         )}
 
-        <input
-          className={`input text-black ${
-            className || "input-ghost w-full bg-primary_bg"
-          } ${!!errorMessage && "input-error border-error-color"}`}
-          ref={ref}
-          {...props}
-        />
+        {mask ? (
+          <IMaskInput
+            mask={mask}
+            {...props}
+            className={`input text-black ${
+              className || "input-ghost w-full bg-primary_bg"
+            } ${!!errorMessage && "input-error border-error-color"}`}
+            ref={ref}
+          />
+        ) : (
+          <input
+            className={`input text-black ${
+              className || "input-ghost w-full bg-primary_bg"
+            } ${!!errorMessage && "input-error border-error-color"}`}
+            ref={ref}
+            {...props}
+          />
+        )}
 
         {showErrorMessage && (
           <label className="label">

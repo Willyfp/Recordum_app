@@ -31,7 +31,7 @@ export const Form = () => {
     handleSubmit,
   } = useForm({
     resolver: yupResolver(schemaValidation),
-    defaultValues: { data: dayjs() },
+    defaultValues: { data: dayjs().format("DD/MM/YYYY") },
   });
 
   useEffect(() => {
@@ -67,6 +67,7 @@ export const Form = () => {
       <div className="flex flex-col gap-1 flex-1">
         <TextField
           {...register("pesoAtual")}
+          inputMode="numeric"
           className={"input-bordered border-color-background w-[100%]"}
           labelStyle="text-black"
           label="Peso atual"
@@ -77,6 +78,7 @@ export const Form = () => {
 
         <TextField
           {...register("pesoMeta")}
+          inputMode="numeric"
           className={"input-bordered border-color-background w-[100%]"}
           labelStyle="text-black"
           label="Meta de peso"
@@ -86,15 +88,19 @@ export const Form = () => {
           errorMessage={errors?.pesoMeta?.message}
         />
 
-        <DatePickerComponent
-          value={watch("data")}
-          onChange={(value) => {
-            setValue("data", value);
+        <TextField
+          className={"input-bordered border-color-background"}
+          label="Data"
+          mask="00/00/0000"
+          placeholder="00/00/0000"
+          onChange={(e) => {
+            setValue("data", e.target.value);
             clearErrors("data");
           }}
-          errorMessage={errors?.data?.message}
-          label="Data"
+          value={watch("data")}
           labelStyle="text-black"
+          inputMode="numeric"
+          errorMessage={errors?.data?.message}
         />
       </div>
 

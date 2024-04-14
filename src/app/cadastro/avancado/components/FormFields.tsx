@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { store } from "@/store/store";
+
 import {
   selectBasicInfo,
   selectWeightGoal,
@@ -15,8 +16,6 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Select from "@/components/Select";
 import { schemaValidationAdvanced } from "../schemaValidationAdvanced";
-import DatePicker from "tailwind-datepicker-react";
-import DatePickerComponent from "@/components/DatePicker";
 
 const FormFields = ({
   setStep,
@@ -35,9 +34,9 @@ const FormFields = ({
     register,
     formState: { errors },
     handleSubmit,
-    watch,
-    setValue,
     clearErrors,
+    setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(schemaValidationAdvanced),
   });
@@ -49,11 +48,6 @@ const FormFields = ({
 
     if (basicInfo) {
       Object.entries(basicInfo).forEach(([key, value]) => {
-        if (key === "dataNascimento") {
-          setValue(key, new Date(value));
-          return;
-        }
-
         setValue(key, value);
       });
     }
@@ -73,7 +67,6 @@ const FormFields = ({
         ...basicInfo,
         nome: data.nome,
         sexo: data.sexo,
-        dataNascimento: new Date(data.dataNascimento).toISOString(),
         altura: data.altura,
       })
     );
@@ -90,6 +83,8 @@ const FormFields = ({
     setStep(1);
     setLoading(false);
   };
+
+  console.log(watch("dataNascimento"));
 
   return (
     <div className="flex flex-1 w-full gap-[2rem] flex-col py-[1rem]">
@@ -114,15 +109,19 @@ const FormFields = ({
           ]}
         />
 
-        <DatePickerComponent
-          value={watch("dataNascimento")}
-          onChange={(value) => {
-            setValue("dataNascimento", value);
-            clearErrors();
-          }}
-          errorMessage={errors?.dataNascimento?.message}
+        <TextField
+          className={"input-bordered border-color-background"}
           label="Data de nascimento"
+          mask="00/00/0000"
+          placeholder="00/00/0000"
+          onChange={(e) => {
+            setValue("dataNascimento", e.target.value);
+            clearErrors("dataNascimento");
+          }}
+          value={watch("dataNascimento")}
           labelStyle="text-black"
+          inputMode="numeric"
+          errorMessage={errors?.dataNascimento?.message}
         />
 
         <TextField
@@ -132,6 +131,7 @@ const FormFields = ({
           label="Altura"
           placeholder="Cm"
           type="number"
+          inputMode="numeric"
         />
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
@@ -142,6 +142,7 @@ const FormFields = ({
             label="Peso atual"
             placeholder="Kg"
             type="number"
+            inputMode="numeric"
           />
 
           <TextField
@@ -152,6 +153,7 @@ const FormFields = ({
             placeholder="Kg"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
+            inputMode="numeric"
           />
         </div>
       </div>

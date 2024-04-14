@@ -114,6 +114,7 @@ const FormFieldSubcutaneous = ({
           label="Subescapular"
           placeholder="Digite aqui"
           type="number"
+          inputMode="numeric"
         />
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
@@ -124,6 +125,7 @@ const FormFieldSubcutaneous = ({
             label="Bíceps (BI)"
             placeholder="Digite aqui"
             type="number"
+            inputMode="numeric"
           />
 
           <TextField
@@ -133,6 +135,7 @@ const FormFieldSubcutaneous = ({
             label="Tríceps (TR)"
             placeholder="Digite aqui"
             type="number"
+            inputMode="numeric"
           />
         </div>
 
@@ -143,6 +146,7 @@ const FormFieldSubcutaneous = ({
           label="Axilar média (AM)"
           placeholder="Digite aqui"
           type="number"
+          inputMode="numeric"
         />
 
         <TextField
@@ -152,6 +156,7 @@ const FormFieldSubcutaneous = ({
           label="Torácica ou peitoral (TX)"
           placeholder="Digite aqui"
           type="number"
+          inputMode="numeric"
         />
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
@@ -162,6 +167,7 @@ const FormFieldSubcutaneous = ({
             label="Supra-ilíaca (SI)"
             placeholder="Digite aqui"
             type="number"
+            inputMode="numeric"
           />
 
           <TextField
@@ -172,6 +178,7 @@ const FormFieldSubcutaneous = ({
             placeholder="Digite aqui"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
+            inputMode="numeric"
           />
         </div>
 
@@ -182,6 +189,7 @@ const FormFieldSubcutaneous = ({
           label="Coxa (CX)"
           placeholder="Digite aqui"
           type="number"
+          inputMode="numeric"
         />
 
         <TextField
@@ -191,6 +199,7 @@ const FormFieldSubcutaneous = ({
           label="Panturrilha medial (PM)"
           placeholder="Digite aqui"
           type="number"
+          inputMode="numeric"
         />
 
         <TextField
@@ -200,6 +209,7 @@ const FormFieldSubcutaneous = ({
           label="Meta de % de gordura"
           placeholder="Digite aqui"
           type="number"
+          inputMode="numeric"
         />
       </div>
 

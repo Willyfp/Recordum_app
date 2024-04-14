@@ -67,10 +67,14 @@ export const Exercises = () => {
 
                       <div className="flex flex-row items-center gap-2">
                         <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">
-                          Repetição
+                          {exercise.grupoMuscular.descricao === "Cardio"
+                            ? "Velocidade"
+                            : "Repetições"}
                         </h2>
                         <h2 className="text-xl mb-4 min-w-[5.5rem] text-black">
-                          Carga
+                          {exercise.grupoMuscular.descricao === "Cardio"
+                            ? "Tempo"
+                            : "Carga"}
                         </h2>
                       </div>
                     </div>

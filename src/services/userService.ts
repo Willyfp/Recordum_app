@@ -6,6 +6,9 @@ import { User } from "@/types";
 import { removeEmpty } from "@/utils";
 import { Cookies } from "next-client-cookies";
 import { setGymList } from "@/store/slices/gymSlice";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
 export const changePhotoRequest = async ({
   file,
@@ -43,7 +46,13 @@ export const editUserRequest = async ({ user }: { user: User }) => {
 
     const response = await api.put(
       `/usuarios/${user.id}`,
-      removeEmpty({ ...user, id: null })
+      removeEmpty({
+        ...user,
+        id: null,
+        dataNascimento: user?.dataNascimento
+          ? dayjs(user.dataNascimento, "DD/MM/YYYY").toISOString()
+          : null,
+      })
     );
 
     await getUserRequest({ id: String(user.id) });
