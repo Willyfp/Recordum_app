@@ -11,16 +11,17 @@ import {
   selectFormState,
   selectMusclesSelected,
   setTrainingInfo,
+  toggleMuscle,
 } from "@/store/slices/TrainingSlice";
 import { useRouter } from "next/navigation";
 import ListMuscleGroup from "@/components/ListMuscleGroup";
 import { useEffect, useState } from "react";
 import { Exercises } from "./Exercises";
 import { Exercise } from "@/types";
-import { getTrainingById, registerTraining } from "@/services/trainingService";
 import { selectUser } from "@/store/slices/authSlice";
+import { getTrainingById } from "@/services/trainingService";
 
-export const FormFields = () => {
+export const FormFields = ({ id }: { id?: string | number }) => {
   const selectedMuscleGroups = useSelector(selectMusclesSelected);
   const form = useForm({ resolver: yupResolver(schemaValidation) });
   const formState = useSelector(selectFormState);
@@ -37,6 +38,35 @@ export const FormFields = () => {
   } = form;
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (id) {
+      getTrainingById(id).then((response) => {
+        Object.entries(response).forEach(([key, value]) => {
+          if (key === "gruposMusculares") {
+            value.map((item) => {
+              dispatch(toggleMuscle({ ...item, isAdd: true }));
+            });
+
+            return;
+          }
+
+          if (key === "exerciciosTreino") {
+            setValue(
+              "exercicios",
+              value.map((item) => ({
+                ...item,
+                descricao: item.exercicio.descricao,
+              }))
+            );
+
+            return;
+          }
+
+          setValue(key, value);
+        });
+      });
+    }
+  }, []);
 
   const router = useRouter();
 
@@ -46,6 +76,7 @@ export const FormFields = () => {
 
       dispatch(
         setTrainingInfo({
+          id,
           usuario: {
             id: user.id,
           },
@@ -82,7 +113,7 @@ export const FormFields = () => {
       setValue(
         "exercicios",
         watch("exercicios")?.filter((e: Exercise) =>
-          selectedMuscleGroups.find((item) => item.id === e.grupoMuscular.id)
+          selectedMuscleGroups.find((item) => item?.id === e?.grupoMuscular?.id)
         )
       );
     }

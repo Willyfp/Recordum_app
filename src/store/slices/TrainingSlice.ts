@@ -44,13 +44,21 @@ export const trainingSlice = createSlice({
     },
     toggleMuscle: (state, action) => {
       if (
-        state.musclesSelected?.find((muscle) => muscle.id === action.payload.id)
+        state.musclesSelected?.find(
+          (muscle) => muscle.id === action.payload.id && !action.payload.isAdd
+        )
       ) {
         state.musclesSelected = state.musclesSelected?.filter(
           (muscle) => muscle.id !== action.payload.id
         );
       } else {
-        state.musclesSelected.push(action.payload);
+        delete action.payload.isAdd;
+        if (
+          !state.musclesSelected?.find(
+            (muscle) => muscle.id === action.payload.id
+          )
+        )
+          state.musclesSelected.push(action.payload);
       }
     },
     setFormState: (state, action) => {

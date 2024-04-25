@@ -5,6 +5,7 @@ import { getTrainingById } from "@/services/trainingService";
 import { Training } from "@/types";
 import { useEffect, useState } from "react";
 import { ExecutableExerciseList } from "./components/ExecutableExerciseList";
+import { useRouter } from "next/navigation";
 
 const Treinar = ({ params }) => {
   const [training, setTraining] = useState<Training>();
@@ -16,9 +17,14 @@ const Treinar = ({ params }) => {
       });
   }, [params.id]);
 
+  const router = useRouter();
+
   return (
     <DefaultContainer>
-      <Header title={training?.descricao} />
+      <Header
+        title={training?.descricao ?? ""}
+        editAction={() => router.push(`/criar/personalizar/${params.id}`)}
+      />
 
       <ExecutableExerciseList training={training} />
     </DefaultContainer>

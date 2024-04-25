@@ -27,16 +27,20 @@ export const Summary = () => {
 
       await registerTraining({
         ...trainingInfo,
+
         gruposMusculares: trainingInfo?.gruposMusculares.map((item) => ({
           id: item.id,
         })),
         exercicios: trainingInfo.exercicios.map((item) => ({
           exercicio: { id: item.exercicio.id },
           series: item.seriesTreino?.length,
-          seriesTreino: item.seriesTreino,
+          seriesTreino: item.seriesTreino.map((serie) => ({
+            ...serie,
+            id: undefined,
+          })),
         })),
       });
-      
+
       dispatch(
         setSuccessBottomSheet({
           title: "Treino salvo",
@@ -44,7 +48,10 @@ export const Summary = () => {
           description:
             "Para acessar treino, entre em treinos no menu e procure por Treinos personalizados",
           buttonText: "Ok",
-          buttonAction: () => router.push("/inicio"),
+          buttonAction: () =>
+            trainingInfo.id
+              ? router.push(`/meus-treinos/${trainingInfo.id}`)
+              : router.push("/inicio"),
         })
       );
 

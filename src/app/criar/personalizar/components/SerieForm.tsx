@@ -76,6 +76,11 @@ export const SerieForm = ({
             }
             labelStyle="text-black"
             placeholder="Nº"
+            value={
+              watch("exercicios")
+                .find((e) => e.id === exercise.id)
+                .seriesTreino.find((s, i) => i === index).repeticao
+            }
             onChange={(e) => {
               setValue(
                 "exercicios",
@@ -113,6 +118,11 @@ export const SerieForm = ({
 
           <TextField
             className={`input-bordered border-color-background max-w-[5.5rem] h-[2rem]`}
+            value={
+              watch("exercicios")
+                .find((e) => e.id === exercise.id)
+                .seriesTreino.find((s, i) => i === index).carga
+            }
             onChange={(e) => {
               setValue(
                 "exercicios",

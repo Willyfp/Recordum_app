@@ -1,13 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { MdChevronLeft } from "react-icons/md";
+import { MdChevronLeft, MdEdit } from "react-icons/md";
 
 const Header = ({
   title,
   backButtonAction,
+  editAction,
 }: {
   title: string;
   backButtonAction?: () => void;
+  editAction?: () => void;
 }) => {
   const route = useRouter();
 
@@ -24,7 +26,15 @@ const Header = ({
         </h1>
       </div>
 
-      <div></div>
+      {editAction ? (
+        <MdEdit
+          className="cursor-pointer text-secondary"
+          size="2rem"
+          onClick={editAction}
+        />
+      ) : (
+        <div></div>
+      )}
     </header>
   );
 };

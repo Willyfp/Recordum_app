@@ -15,7 +15,7 @@ const MeusTreinos = () => {
           </p>
         </div>
 
-          <TrainingList />
+        <TrainingList />
       </div>
     </DefaultContainer>
   );

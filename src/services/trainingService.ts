@@ -52,7 +52,8 @@ export const getExercisesByMuscle = async (muscleId: number) => {
 };
 
 export const registerTraining = async (training: {
-  descricao: "string";
+  id?: number | string;
+  descricao: string;
   usuario: {
     id: number;
   };
@@ -76,7 +77,12 @@ export const registerTraining = async (training: {
   }[];
 }) => {
   try {
-    const response = await api.post("/treinos", training);
+    const response = !training.id
+      ? await api.post("/treinos", training)
+      : await api.put(`/treinos/${training.id}`, {
+          ...training,
+          id: undefined,
+        });
 
     if (!response) throw "erro";
 
