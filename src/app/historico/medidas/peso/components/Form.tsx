@@ -12,7 +12,9 @@ import { schemaValidation } from "./schemaValidation";
 import { useRouter } from "next/navigation";
 import dayjs, { Dayjs } from "dayjs";
 import { store } from "@/store/store";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
+dayjs.extend(customParseFormat);
 
 export const Form = () => {
   const [weightGoal, setWeightGoal] = useState<any>(null);
@@ -46,7 +48,7 @@ export const Form = () => {
     await editWeightGoal({
       ...data,
       idUsuario: user.id,
-      data: dayjs(data.data).toISOString(),
+      data: dayjs(data.data, "DD/MM/YYYY").toISOString(),
     }).then((res) => {
       store.dispatch(
         setSuccessBottomSheet({

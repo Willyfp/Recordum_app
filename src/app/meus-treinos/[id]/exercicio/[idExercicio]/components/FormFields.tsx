@@ -9,6 +9,7 @@ import {
   createTrainingLog,
   getEquipmentsByGym,
 } from "@/services/trainingService";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useCookies } from "next-client-cookies";
 import Select from "@/components/Select";
 import ButtonComponent from "@/components/Button";
@@ -20,18 +21,22 @@ import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaValidation } from "./schemaValidation";
 
+dayjs.extend(customParseFormat);
+
 export const FormFields = ({
   exercise,
   trainingId,
   disableExercise,
   submitPath,
   musclegroup,
+  idUser,
 }: {
   exercise?: Exercise;
   trainingId?: number;
   disableExercise?: boolean;
   submitPath?: string;
   musclegroup?: MuscleGroup;
+  idUser?: number;
 }) => {
   const [equipmentsList, setEquipmentsList] = useState([]);
 
@@ -79,12 +84,12 @@ export const FormFields = ({
       await createTrainingLog(
         formatDataTraining({
           ...data,
-          usuario: userID,
+          usuario: idUser ?? userID,
           exercicioTreino: ["number", "string"].includes(typeof exercise)
             ? exercise
             : exercise?.id,
           treino: trainingId,
-          data: dayjs(data.data).toISOString(),
+          data: dayjs(data.data, "DD/MM/YYYY").toISOString(),
         })
       );
 

@@ -49,6 +49,7 @@ export const editUserRequest = async ({ user }: { user: User }) => {
       removeEmpty({
         ...user,
         id: null,
+        urlFoto: null,
         dataNascimento: user?.dataNascimento
           ? dayjs(user.dataNascimento, "DD/MM/YYYY").toISOString()
           : null,
@@ -225,6 +226,48 @@ export const editMeasures = async ({
     if (!response) throw "erro";
 
     return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const linkProfessional = async ({
+  idUsuarioLogado,
+  codigoVinculo,
+  usuarioSolicitanteTipo,
+}: {
+  idUsuarioLogado: number;
+  codigoVinculo: string;
+  usuarioSolicitanteTipo: string;
+}) => {
+  try {
+    const response = await api
+      .post(`/usuarios/vincular`, {
+        codigoVinculo,
+        usuarioSolicitanteTipo,
+        idUsuarioLogado,
+      })
+      .catch((error) => {
+        throw error;
+      });
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const listLinkedProfessionals = async () => {
+  try {
+    const response = await api.get(`/usuarios/buscarVinculo`).catch((error) => {
+      throw error;
+    });
+
+    if (!response) throw "erro";
+
+    return response?.data?._embedded?.alunoProfessorModelList;
   } catch (error) {
     throw error;
   }

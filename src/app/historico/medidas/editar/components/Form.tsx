@@ -11,9 +11,12 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import dayjs, { Dayjs } from "dayjs";
 import { store } from "@/store/store";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import TextField from "@/components/TextField";
 import { schemaValidation } from "./schemaValidation";
+
+dayjs.extend(customParseFormat);
 
 export const Form = () => {
   const [loading, setLoading] = useState(false);
@@ -38,7 +41,7 @@ export const Form = () => {
     setLoading(true);
     await editMeasures({
       idUsuario: user.id,
-      data: { ...data, data: dayjs(data.data).toISOString() },
+      data: { ...data, data: dayjs(data.data, "DD/MM/YYYY").toISOString() },
     }).then((res) => {
       store.dispatch(
         setSuccessBottomSheet({

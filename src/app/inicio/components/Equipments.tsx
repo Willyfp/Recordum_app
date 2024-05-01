@@ -9,9 +9,14 @@ import { MdWifi, MdWifiOff } from "react-icons/md";
 import { store } from "@/store/store";
 import { setApiError, setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { connectToEquipment } from "@/services/trainingService";
+import { useCookies } from "next-client-cookies";
 
 const Equipments = () => {
+  const cookies = useCookies();
+
   const router = useRouter();
+
+  const userId = cookies.get("user_id");
 
   const [isConnection, setIsConnection] = useState(false);
 
@@ -67,7 +72,7 @@ const Equipments = () => {
                 try {
                   if (!loading) {
                     setLoading(true);
-                    await connectToEquipment(result.text);
+                    await connectToEquipment(result.text, userId);
 
                     setIsConnection(false);
 

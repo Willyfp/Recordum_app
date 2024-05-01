@@ -9,7 +9,13 @@ import ButtonComponent from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { Training } from "@/types";
 
-export const TrainingList = ({ userID }: { userID?: string | number }) => {
+export const TrainingList = ({
+  userID,
+  route,
+}: {
+  userID?: string | number;
+  route: (training: Training) => string;
+}) => {
   const [trainingList, setTrainingList] = useState<Training[]>([]);
 
   const user = useSelector(selectUser);
@@ -27,7 +33,7 @@ export const TrainingList = ({ userID }: { userID?: string | number }) => {
     <>
       <div className="flex flex-col flex-1 overflow-auto gap-4">
         {trainingList?.map((item) => (
-          <TrainingCard key={item.id} training={item} />
+          <TrainingCard key={item.id} training={item} route={route} />
         ))}
       </div>
 

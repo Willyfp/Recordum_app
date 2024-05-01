@@ -1,5 +1,5 @@
 import Avatar from "@/components/Avatar";
-import { User } from "@/types";
+import { Training, User } from "@/types";
 import { decryptStrData } from "@/utils";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
@@ -7,6 +7,7 @@ import { MdChevronRight } from "react-icons/md";
 
 export const TrainingCard = ({
   training,
+  route,
 }: {
   training: {
     id: number;
@@ -14,13 +15,16 @@ export const TrainingCard = ({
     dataCadastro: string;
     usuarioCadastro: User;
   };
+  route?: (training: Training) => string;
 }) => {
   const router = useRouter();
 
   return (
     <div
       className="flex flex-row items-center justify-between w-full p-4 shadow-card_muscle bg-white rounded-lg cursor-pointer"
-      onClick={() => router.push(`/meus-treinos/${training.id}`)}
+      onClick={() =>
+        router.push(route ? route(training) : `/meus-treinos/${training.id}`)
+      }
     >
       <div className="flex flex-row gap-4 items-center">
         <Avatar

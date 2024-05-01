@@ -5,6 +5,7 @@ import { setApiError, setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { store } from "@/store/store";
 import { Training } from "@/types";
 import axios from "axios";
+import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaExclamation, FaPlay } from "react-icons/fa";
@@ -12,12 +13,18 @@ import QrReader from "react-qr-scanner";
 
 export const ExecutableExerciseList = ({
   training,
+  idUser,
 }: {
+  idUser?: string;
   training?: Training;
 }) => {
   const [visible, setVisible] = useState(false);
 
+  const cookies = useCookies();
+
   const router = useRouter();
+
+  const userId = cookies.get("user_id");
 
   const [isConnection, setIsConnection] = useState(false);
 
@@ -75,7 +82,10 @@ export const ExecutableExerciseList = ({
                         if (!loading) {
                           setLoading(true);
 
-                          await connectToEquipment(result.text);
+                          await connectToEquipment(
+                            result.text,
+                            idUser || userId
+                          );
 
                           setIsConnection(false);
                           setVisible(false);
@@ -121,9 +131,13 @@ export const ExecutableExerciseList = ({
                   <ButtonComponent
                     className="btn-outline w-full border-color-background text-black"
                     onClick={() =>
-                      router.push(
-                        `/meus-treinos/${training.id}/exercicio/${item.exercicio.id}`
-                      )
+                      idUser
+                        ? router.push(
+                            `/treinos/${idUser}/${training.id}/${item.exercicio.id}`
+                          )
+                        : router.push(
+                            `/meus-treinos/${training.id}/exercicio/${item.exercicio.id}`
+                          )
                     }
                   >
                     Utilizar sem conexão

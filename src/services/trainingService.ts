@@ -27,9 +27,9 @@ export const getMuscleGroupById = async (id: number): Promise<MuscleGroup> => {
   }
 };
 
-export const connectToEquipment = async (equipmentId: number) => {
+export const connectToEquipment = async (equipmentId: number, userId: number) => {
   try {
-    const response = await api.post(`/equipamentos/usar/${equipmentId}`);
+    const response = await api.post(`/equipamentos/usar/${equipmentId}/${userId}`);
 
     if (!response) throw "erro";
 
