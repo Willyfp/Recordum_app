@@ -6,13 +6,13 @@ import { Exercise } from "@/types";
 
 export const FormSeries = ({
   index,
-  serie,
-  exercise,
+  disabled,
   arr,
   indexExercise,
 }: {
   index: number;
   indexExercise: number;
+  disabled?: boolean;
   serie: {
     carga: number;
     repeticao: number;
@@ -35,8 +35,13 @@ export const FormSeries = ({
       <div className="flex w-full items-center justify-center">
         <div
           className={`flex p-1 flex-row items-center gap-2 bg-input_number rounded-lg ${
-            arr.length - 1 === index && "rounded-r-full"
-          } ${index > 0 && arr.length - 1 === index && "rounded-l-full"}`}
+            arr.length - 1 === index && !disabled && "rounded-r-full"
+          } ${
+            index > 0 &&
+            arr.length - 1 === index &&
+            !disabled &&
+            "rounded-l-full"
+          }`}
           style={
             index === 0 && arr.length - 1 === index
               ? {
@@ -47,24 +52,28 @@ export const FormSeries = ({
               : {}
           }
         >
-          <div
-            className={`flex w-8 h-8 rounded-full justify-center items-center bg-button_number cursor-pointer ${
-              index === 0 && "hidden"
-            } ${index !== arr.length - 1 && "hidden"}`}
-            onClick={() => {
-              setValue(
-                "series",
-                arr.filter((_, i) => i !== index)
-              );
-            }}
-          >
-            <FaMinus size={18} color={"#fff"} />
-          </div>
+          {!disabled && (
+            <div
+              className={`flex w-8 h-8 rounded-full justify-center items-center bg-button_number cursor-pointer ${
+                index === 0 && "hidden"
+              } ${index !== arr.length - 1 && "hidden"}`}
+              onClick={() => {
+                setValue(
+                  "series",
+                  arr.filter((_, i) => i !== index)
+                );
+              }}
+            >
+              <FaMinus size={18} color={"#fff"} />
+            </div>
+          )}
 
           <TextField
+            disabled={disabled}
             className={
               "input-bordered border-color-background max-w-[5.5rem] h-[2rem] "
             }
+            value={watch("series")[index]?.repeticao}
             labelStyle="text-black"
             placeholder="Nº"
             inputMode="numeric"
@@ -83,6 +92,7 @@ export const FormSeries = ({
           />
 
           <TextField
+            disabled={disabled}
             className={`input-bordered border-color-background max-w-[5.5rem] h-[2rem]`}
             inputMode="numeric"
             onChange={(e) => {
@@ -93,6 +103,7 @@ export const FormSeries = ({
                 )
               );
             }}
+            value={watch("series")[index]?.cargaInformada}
             errorMessage={errors?.series?.[index]?.cargaInformada?.message}
             labelStyle="text-black"
             placeholder="Nº"
@@ -101,16 +112,18 @@ export const FormSeries = ({
             disableFullWidth
           />
 
-          <div
-            className={`flex w-8 h-8 rounded-full justify-center items-center bg-button_number cursor-pointer ${
-              index !== arr.length - 1 && "hidden"
-            }`}
-            onClick={() => {
-              setValue("series", [...arr, { carga: 0, repeticao: 0 }]);
-            }}
-          >
-            <FaPlus size={18} color={"#fff"} />
-          </div>
+          {!disabled && (
+            <div
+              className={`flex w-8 h-8 rounded-full justify-center items-center bg-button_number cursor-pointer ${
+                index !== arr.length - 1 && "hidden"
+              }`}
+              onClick={() => {
+                setValue("series", [...arr, { carga: 0, repeticao: 0 }]);
+              }}
+            >
+              <FaPlus size={18} color={"#fff"} />
+            </div>
+          )}
         </div>
       </div>
     </div>

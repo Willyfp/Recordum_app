@@ -37,7 +37,7 @@ const Treinar = ({
         <FormFields
           submitPath={`/treinos/${params.idUser}/${params.idTraining}`}
           exercise={exercise}
-          trainingId={params.id}
+          trainingId={params.idTraining}
           idUser={params.idUser}
         />
       </div>
