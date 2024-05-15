@@ -12,7 +12,7 @@ const Complementares = () => {
           <p className='text-description font-semibold text-black'>
             Academias vinculadas
           </p>
-          <p className='text-button_primary font-description'>
+          <p className='text-button_primary font-description text-black'>
             Gerencie seus pontos de acesso
           </p>
         </div>
