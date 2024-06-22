@@ -32,9 +32,17 @@ export const TrainingList = ({
   return (
     <>
       <div className="flex flex-col flex-1 overflow-auto gap-4">
-        {trainingList?.map((item) => (
-          <TrainingCard key={item.id} training={item} route={route} />
-        ))}
+        {trainingList
+          ?.filter((item) => item.status !== "INATIVO")
+          .map((item) => (
+            <TrainingCard
+              setTrainingList={setTrainingList}
+              userID={user?.id ?? userID}
+              key={item.id}
+              training={item}
+              route={route}
+            />
+          ))}
       </div>
 
       {!userID && (

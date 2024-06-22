@@ -7,6 +7,7 @@ import { FormSeries } from "./FormSeries";
 import { useEffect, useState } from "react";
 import {
   createTrainingLog,
+  editTrainingLog,
   getEquipmentsByGym,
   getTrainingById,
 } from "@/services/trainingService";
@@ -31,9 +32,11 @@ export const FormFields = ({
   submitPath,
   musclegroup,
   idUser,
+  executed,
 }: {
   exercise?: Exercise;
   trainingId?: number;
+  executed?: any;
   disableExercise?: boolean;
   submitPath?: string;
   musclegroup?: MuscleGroup;
@@ -57,6 +60,7 @@ export const FormFields = ({
           repeticao: 0,
         },
       ],
+      data: dayjs().format("DD/MM/YYYY"),
     },
     resolver: yupResolver(schemaValidation),
   });
@@ -94,17 +98,18 @@ export const FormFields = ({
     try {
       setLoading(true);
 
-      await createTrainingLog(
-        formatDataTraining({
-          ...data,
-          usuario: idUser ?? userID,
-          exercicioTreino: ["number", "string"].includes(typeof exercise)
-            ? exercise
-            : exercise?.id,
-          treino: trainingId,
-          data: dayjs(data.data, "DD/MM/YYYY").toISOString(),
-        })
-      );
+      const newData = formatDataTraining({
+        ...data,
+        usuario: idUser ?? userID,
+        exercicioTreino: ["number", "string"].includes(typeof exercise)
+          ? exercise
+          : exercise?.id,
+        treino: trainingId,
+        data: dayjs(data.data, "DD/MM/YYYY").toISOString(),
+      });
+
+      if (executed?.id) editTrainingLog(newData, executed?.id);
+      else await createTrainingLog(newData);
 
       store.dispatch(
         setSuccessBottomSheet({
@@ -121,6 +126,14 @@ export const FormFields = ({
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (executed) {
+      setValue("data", dayjs(executed.dataInicio).format("DD/MM/YYYY"));
+      setValue("equipamento", executed.equipamento.id);
+      setValue("series", executed.series);
+    }
+  }, [executed]);
 
   return (
     <FormProvider {...form}>
@@ -151,7 +164,7 @@ export const FormFields = ({
           <Select
             options={equipmentsList?.map((equip) => ({
               label: equip.descricao,
-              value: equip.id,
+              value: equip?.id,
             }))}
             {...register("equipamento")}
             label="Equipamento"
@@ -181,9 +194,9 @@ export const FormFields = ({
             </p>
 
             {training?.exerciciosTreino
-              ?.find((item) => item.exercicio.id === exercise.id)
+              ?.find((item) => item.exercicio?.id === exercise?.id)
               ?.seriesTreino?.map((serie, index) => (
-                <ul className="list-disc pl-4 pb-2" key={index}>
+                <ul className="list-disc pl-4 pb-2 text-black" key={index}>
                   <li>
                     <strong>{index + 1}ª Série</strong>
                   </li>
@@ -209,7 +222,7 @@ export const FormFields = ({
                   setValue(
                     "series",
                     training?.exerciciosTreino
-                      .find((item) => item.exercicio.id === exercise.id)
+                      .find((item) => item.exercicio.id === exercise?.id)
                       ?.seriesTreino.map((serie) => ({
                         cargaInformada: serie.carga,
                         repeticao: serie.repeticao,
@@ -229,7 +242,7 @@ export const FormFields = ({
               }}
             />
             <label
-              className="inline-block pl-[0.15rem] hover:cursor-pointer"
+              className="inline-block pl-[0.15rem] hover:cursor-pointer text-black"
               htmlFor="flexSwitchCheckDefault"
             >
               Definir execução prevista como padrão
@@ -268,7 +281,7 @@ export const FormFields = ({
       </div>
 
       <ButtonComponent
-        className="btn-primary w-full"
+        className="btn-primary w-full mt-4"
         onClick={handleSubmit(onSubmit)}
         loading={loading}
       >

@@ -27,9 +27,14 @@ export const getMuscleGroupById = async (id: number): Promise<MuscleGroup> => {
   }
 };
 
-export const connectToEquipment = async (equipmentId: number, userId: number) => {
+export const connectToEquipment = async (
+  equipmentId: number,
+  userId: number
+) => {
   try {
-    const response = await api.post(`/equipamentos/usar/${equipmentId}/${userId}`);
+    const response = await api.post(
+      `/equipamentos/usar/${equipmentId}/${userId}`
+    );
 
     if (!response) throw "erro";
 
@@ -128,6 +133,30 @@ export const getExerciseById = async (id: number) => {
   }
 };
 
+export const getExecutedExercises = async (id: number | string) => {
+  try {
+    const response = await api.get(`/exercicioLivreLogs/usuario/todos/${id}`);
+
+    if (!response) throw "erro";
+
+    return response?.data?._embedded?.exercicioLivreLogModelList as Exercise[];
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getExecutedById = async (id: number | string) => {
+  try {
+    const response = await api.get(`/exercicioLivreLogs/${id}`);
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getEquipmentsByGym = async (gymId: number) => {
   try {
     const response = await api.get(`/equipamentos/academia/${gymId}`, {
@@ -139,6 +168,21 @@ export const getEquipmentsByGym = async (gymId: number) => {
     if (!response) throw "erro";
 
     return response?.data?._embedded?.equipamentoModelList;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editTrainingLog = async (data, executedId) => {
+  try {
+    const response = await api.put(`/exercicioLivreLogs/${executedId}`, {
+      ...data,
+      exercicio: { id: data.exercicioTreino.id },
+      exercicioTreino: undefined,
+    });
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
     throw error;
   }
@@ -161,6 +205,18 @@ export const createTrainingLog = async (data) => {
 
       return response?.data;
     }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteTrainingRequest = async (id: number) => {
+  try {
+    const response = await api.delete(`/treinos/${id}`);
+
+    if (!response) throw "erro";
+
+    return response?.data;
   } catch (error) {
     throw error;
   }
