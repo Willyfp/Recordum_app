@@ -10,4 +10,5 @@ export const schemaValidation = Yup.object().shape({
     .test("valid-date", "Data inválida", (value) => {
       return dayjs(value, "DD/MM/YYYY").isValid();
     }),
+  treinoTipo: Yup.string().required("Campo obrigatório"),
 });

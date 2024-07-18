@@ -23,6 +23,7 @@ export const Cards = () => {
           icon={
             <GrDocumentPerformance className="text-black h-[1.25rem] w-[1.25rem]" />
           }
+          onClick={() => router.push("/historico/desempenho")}
           title="Desempenho geral"
         />
       </div>

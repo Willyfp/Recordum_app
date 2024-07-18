@@ -221,3 +221,34 @@ export const deleteTrainingRequest = async (id: number) => {
     throw error;
   }
 };
+
+export const getGraphByExercise = async ({
+  idUser,
+  idExercise,
+  path,
+  dataIni,
+  dataEnd,
+}: {
+  idUser: number | string;
+  path: string;
+  idExercise: number | string;
+  dataIni?: string;
+  dataEnd?: string;
+}) => {
+  try {
+    const response = await api.get(`/grafico/${path}`, {
+      params: {
+        usuarioId: idUser,
+        exercicioId: idExercise,
+        dataIni,
+        dataEnd,
+      },
+    });
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};

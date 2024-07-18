@@ -22,6 +22,7 @@ import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaValidation } from "./schemaValidation";
+import { CardSelectable } from "@/components/CardSelectable";
 
 dayjs.extend(customParseFormat);
 
@@ -278,6 +279,33 @@ export const FormFields = ({
             arr={watch("series")}
           />
         ))}
+
+        <span className="text-black font-title_bottom_sheet textarea-md">
+          Detalhe de execução*
+        </span>
+
+        <div className="flex flex-row items-center justify-between gap-6">
+          <CardSelectable
+            description="Unilateral"
+            height="52px"
+            onClick={() => setValue("treinoTipo", "UNILATERAL")}
+            selected={watch("treinoTipo") === "UNILATERAL"}
+          />
+          <CardSelectable
+            description="Bilateral"
+            height="52px"
+            onClick={() => setValue("treinoTipo", "BILATERAL")}
+            selected={watch("treinoTipo") === "BILATERAL"}
+          />
+        </div>
+
+        {errors.treinoTipo?.message && (
+          <label className="label">
+            <span className="label-text-alt text-error">
+              {errors.treinoTipo?.message }
+            </span>
+          </label>
+        )}
       </div>
 
       <ButtonComponent

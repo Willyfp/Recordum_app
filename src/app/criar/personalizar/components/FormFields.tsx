@@ -55,6 +55,7 @@ export const FormFields = ({ id }: { id?: string | number }) => {
               "exercicios",
               value.map((item) => ({
                 ...item,
+                id: item.exercicio.id,
                 descricao: item.exercicio.descricao,
               }))
             );

@@ -79,6 +79,7 @@ export function formatDataTraining(data) {
     dataInicio: data.data,
     dataFim: data.data,
     conectado: false,
+    treinoTipo: data.treinoTipo,
     series: data.series.map((serie, index) => ({
       numeroRepeticoes: Number(serie.repeticao),
       cargaInformada: Number(serie.cargaInformada),
