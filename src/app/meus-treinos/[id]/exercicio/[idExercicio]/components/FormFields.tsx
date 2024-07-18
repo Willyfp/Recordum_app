@@ -288,21 +288,21 @@ export const FormFields = ({
           <CardSelectable
             description="Unilateral"
             height="52px"
-            onClick={() => setValue("treinoTipo", "UNILATERAL")}
-            selected={watch("treinoTipo") === "UNILATERAL"}
+            onClick={() => setValue("tipo", "UNILATERAL")}
+            selected={watch("tipo") === "UNILATERAL"}
           />
           <CardSelectable
             description="Bilateral"
             height="52px"
-            onClick={() => setValue("treinoTipo", "BILATERAL")}
-            selected={watch("treinoTipo") === "BILATERAL"}
+            onClick={() => setValue("tipo", "BILATERAL")}
+            selected={watch("tipo") === "BILATERAL"}
           />
         </div>
 
-        {errors.treinoTipo?.message && (
+        {errors.tipo?.message && (
           <label className="label">
             <span className="label-text-alt text-error">
-              {errors.treinoTipo?.message }
+              {errors.tipo?.message}
             </span>
           </label>
         )}
