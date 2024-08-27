@@ -230,18 +230,19 @@ export const getGraphByExercise = async ({
   dataEnd,
 }: {
   idUser: number | string;
-  path: string;
+  path: { value: string; label: string }[];
   idExercise: number | string;
   dataIni?: string;
   dataEnd?: string;
 }) => {
   try {
-    const response = await api.get(`/grafico/${path}`, {
+    const response = await api.get(`/grafico/geraGrafico`, {
       params: {
         usuarioId: idUser,
         exercicioId: idExercise,
         dataIni,
         dataEnd,
+        tipos: path.map((item) => item.value).join(","),
       },
     });
 
