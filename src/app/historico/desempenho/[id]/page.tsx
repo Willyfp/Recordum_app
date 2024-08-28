@@ -14,14 +14,22 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 import Image from "next/image";
-import { MdShare } from "react-icons/md";
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdShare } from "react-icons/md";
 import Chart from "chart.js/auto";
 import dayjs, { Dayjs } from "dayjs";
+import makeAnimated from "react-select/animated";
+
+const animatedComponents = makeAnimated();
 
 const Grafico = () => {
   const [exercise, setExercise] = React.useState<Exercise>();
 
-  const [type, setType] = React.useState<{ label: string; value: string }[]>();
+  const [type, setType] = React.useState<{ label: string; value: string }[]>([
+    {
+      label: "Carga média",
+      value: "CARGA_MEDIA",
+    },
+  ]);
 
   const [graphData, setGraphData] = useState();
 
@@ -117,13 +125,41 @@ const Grafico = () => {
         </div>
 
         <Select
+          isClearable={false}
+          components={{
+            Option: ({ children, ...props }) => {
+              return (
+                <div
+                  {...props}
+                  onClick={
+                    props.isSelected
+                      ? () =>
+                          setType((old) =>
+                            old.filter(
+                              (item) => item.value !== props.data.value
+                            )
+                          )
+                      : () => setType((old) => [...old, props.data])
+                  }
+                >
+                  <div className="flex flex-row items-center gap-2 p-2">
+                    {props.isSelected ? (
+                      <MdCheckBox size={24} color="#93F009" />
+                    ) : (
+                      <MdCheckBoxOutlineBlank size={24} color="#666666" />
+                    )}
+                    {children}
+                  </div>
+                </div>
+              );
+            },
+          }}
+          value={type}
           placeholder="Selecione o tipo de gráfico"
           className="border border-[#242424] rounded-md text-black"
           closeMenuOnSelect={false}
-          onChange={(newValue) => setType(newValue)}
           noOptionsMessage={() => "Nenhuma opção encontrada"}
-          // components={animatedComponents}
-          // defaultValue={[colourOptions[4], colourOptions[5]]}
+          hideSelectedOptions={false}
           isMulti
           options={[
             { value: "CARGA_MEDIA", label: "Carga média" },
