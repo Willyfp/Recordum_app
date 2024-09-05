@@ -241,6 +241,32 @@ export const editWeightGoal = async ({
   }
 };
 
+function converterParaNumero(dados) {
+  // Verifica se os dados são uma string e tenta parsear como JSON
+  if (typeof dados === "string") {
+    try {
+      dados = JSON.parse(dados);
+    } catch (error) {
+      // Não é um JSON válido, continua como objeto
+    }
+  }
+
+  // Itera sobre o objeto e converte valores para números
+  if (typeof dados === "object") {
+    const novoObjeto = {};
+    for (const chave in dados) {
+      if (dados.hasOwnProperty(chave)) {
+        const valor = dados[chave];
+        novoObjeto[chave] = isNaN(valor) ? valor : Number(valor);
+      }
+    }
+    return novoObjeto;
+  } else {
+    // Dados não são um objeto, retorna como está
+    return dados;
+  }
+}
+
 export const editMeasures = async ({
   idUsuario,
   data,
@@ -249,11 +275,13 @@ export const editMeasures = async ({
   data: any;
 }) => {
   try {
+    console.log(data);
+
     const response = await api
       .post(`/usuarioMedidas`, {
-        ...data,
+        ...converterParaNumero(data),
         usuario: {
-          id: idUsuario,
+          id: Number(idUsuario),
         },
       })
       .catch((error) => {

@@ -27,6 +27,7 @@ export default function Editar() {
       <div className="p-4">
         <FormFields
           executed={executed}
+           
           exercise={executed?.exercicio}
           submitPath="/historico/executados"
         />

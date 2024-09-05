@@ -2,8 +2,73 @@ import ButtonComponent from "@/components/Button";
 import { useRouter } from "next/navigation";
 import { BiSolidInfoCircle } from "react-icons/bi";
 
+import Chart from "chart.js/auto";
+import { useEffect, useState } from "react";
+import { getGraphByExercise } from "@/services/trainingService";
+import { useCookies } from "next-client-cookies";
+import dayjs from "dayjs";
+
 export const CardFat = () => {
   const route = useRouter();
+
+  const [fatGraph, setFatGraph] = useState<any>(null);
+
+  const cookies = useCookies();
+
+  const router = useRouter();
+
+  const userId = cookies.get("user_id");
+
+  useEffect(() => {
+    getGraphByExercise({
+      idUser: userId,
+      path: "evolucaoPeso",
+      dataIni: dayjs().subtract(3, "month").toISOString(),
+      dataEnd: dayjs().toISOString(),
+    }).then((res) => {
+      setFatGraph(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    const canvas = document.getElementById("lineChartFat");
+    const ctx = canvas?.getContext("2d");
+
+    // Check if a chart already exists
+    let chart = Chart.getChart(ctx);
+
+    // Destroy the existing chart if present
+    if (chart) {
+      chart.destroy();
+    }
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: fatGraph?.map((item) =>
+          dayjs(item.dataPercentual).format("DD/MM")
+        ),
+        datasets: [
+          {
+            label: "Média de carga",
+            data: fatGraph?.map((item) => item.percentual),
+          },
+        ],
+      },
+      options: {
+        aspectRatio: 3,
+        animation: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            enabled: false,
+          },
+        },
+      },
+    });
+  }, [fatGraph]);
 
   return (
     <div className="flex flex-col w-full rounded-[1.25rem] shadow-card_goal overflow-hidden">
@@ -29,7 +94,9 @@ export const CardFat = () => {
           Evolução (% de Gordura)
         </span>
 
-        <img src="/images/default_weight.png" className="w-full h-[14rem]" />
+        <div className="flex flex-col p-6 gap-8">
+          <canvas id="lineChartFat" width="100%" height="100px"></canvas>
+        </div>
       </div>
 
       <div className="w-full px-6 pb-6">

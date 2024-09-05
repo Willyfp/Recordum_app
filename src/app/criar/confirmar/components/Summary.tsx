@@ -27,11 +27,11 @@ export const Summary = () => {
 
       await registerTraining({
         ...trainingInfo,
-
+        exercicios: undefined,
         gruposMusculares: trainingInfo?.gruposMusculares.map((item) => ({
           id: item.id,
         })),
-        exercicios: trainingInfo.exercicios.map((item) => ({
+        exerciciosTreino: trainingInfo.exercicios.map((item) => ({
           exercicio: { id: item.exercicio.id },
           series: item.seriesTreino?.length,
           seriesTreino: item.seriesTreino.map((serie) => ({
@@ -50,7 +50,7 @@ export const Summary = () => {
           buttonText: "Ok",
           buttonAction: () =>
             trainingInfo.id
-              ? router.push(`/meus-treinos/${trainingInfo.id}`)
+              ? router.push(`/meus-treinos`)
               : router.push("/inicio"),
         })
       );

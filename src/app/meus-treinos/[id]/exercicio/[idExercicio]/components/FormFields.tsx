@@ -131,7 +131,7 @@ export const FormFields = ({
   useEffect(() => {
     if (executed) {
       setValue("data", dayjs(executed.dataInicio).format("DD/MM/YYYY"));
-      setValue("equipamento", executed.equipamento.id);
+      setValue("equipamento", executed.equipamento?.id);
       setValue("series", executed.series);
     }
   }, [executed]);
@@ -223,7 +223,7 @@ export const FormFields = ({
                   setValue(
                     "series",
                     training?.exerciciosTreino
-                      .find((item) => item.exercicio.id === exercise?.id)
+                      .find((item) => item.exercicio?.id === exercise?.id)
                       ?.seriesTreino.map((serie) => ({
                         cargaInformada: serie.carga,
                         repeticao: serie.repeticao,

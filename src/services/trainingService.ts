@@ -231,7 +231,7 @@ export const getGraphByExercise = async ({
 }: {
   idUser: number | string;
   path: string;
-  idExercise: number | string;
+  idExercise?: number | string;
   dataIni?: string;
   dataEnd?: string;
 }) => {

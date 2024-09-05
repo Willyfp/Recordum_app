@@ -35,7 +35,7 @@ export const GoalCard = () => {
         labels: weightGoal?.map((item) => dayjs(item.data).format("DD/MM")),
         datasets: [
           {
-            label: "Média de carga",
+            label: "Peso",
             data: weightGoal?.map((item) => item.pesoAtual),
           },
         ],

@@ -22,13 +22,17 @@ import { loginRequest } from "@/services/authService";
 import { setSuccessBottomSheet } from "@/store/slices/globalSlice";
 import { useCookies } from "next-client-cookies";
 import { selectUser } from "@/store/slices/authSlice";
-import DatePickerComponent from "@/components/DatePicker";
 import dayjs from "dayjs";
 import { schemaValidation } from "./schemaValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { editMeasures } from "@/services/userService";
 
 const Form = () => {
+  const cookies = useCookies();
+
   const router = useRouter();
+
+  const userId = cookies.get("user_id");
 
   const [loading, setLoading] = React.useState(false);
 
@@ -45,35 +49,24 @@ const Form = () => {
     resolver: yupResolver(schemaValidation),
     defaultValues: { data: dayjs().format("DD/MM/YYYY") },
   });
-
-  const onSubmit = async (data) => {
-    try {
-      setLoading(true);
-
-      if (
-        weightGoal &&
-        !Object.values(weightGoal).every((value) => value === "")
-      ) {
-        await registerWeightGoalRequest({ ...weightGoal, idUsuario: user.id });
-      }
-      if (measures && !Object.values(measures).every((value) => value === "")) {
-        await registerMeasuresRequest({ measures, idUsuario: user.id });
-      }
-
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+    await editMeasures({
+      idUsuario: userId   ,
+      data: { ...data, data: dayjs(data.data, "DD/MM/YYYY").toISOString() },
+    }).then((res) => {
       store.dispatch(
         setSuccessBottomSheet({
           open: true,
           title: "Dados salvos",
           description: "Realize a atualização dos dados quando quiser!",
-          buttonText: "OK",
+          buttonText: "Ok",
           buttonAction: () => router.push("/historico/medidas"),
           closeAction: () => router.push("/historico/medidas"),
         })
       );
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
+    });
+    setLoading(false);
   };
 
   return (
