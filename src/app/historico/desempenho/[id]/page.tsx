@@ -1,7 +1,8 @@
 "use client";
 import DefaultContainer from "@/components/DefaultContainer";
 import Header from "@/components/Header";
-import Select from "@/components/Select";
+
+import Select from "react-select";
 import {
   getExerciseById,
   getGraphByExercise,
@@ -13,14 +14,22 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 import Image from "next/image";
-import { MdShare } from "react-icons/md";
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdShare } from "react-icons/md";
 import Chart from "chart.js/auto";
 import dayjs, { Dayjs } from "dayjs";
+import makeAnimated from "react-select/animated";
+
+const animatedComponents = makeAnimated();
 
 const Grafico = () => {
   const [exercise, setExercise] = React.useState<Exercise>();
 
-  const [type, setType] = React.useState<string>("mediaCarga");
+  const [type, setType] = React.useState<{ label: string; value: string }[]>([
+    {
+      label: "Carga média",
+      value: "CARGA_MEDIA",
+    },
+  ]);
 
   const [graphData, setGraphData] = useState();
 
@@ -56,42 +65,50 @@ const Grafico = () => {
   }, [type, period]);
 
   useEffect(() => {
-    const canvas = document.getElementById("lineChart");
-    const ctx = canvas.getContext("2d");
+    if (type) {
+      const canvas = document.getElementById("lineChart");
+      const ctx = canvas.getContext("2d");
 
-    // Check if a chart already exists
-    let chart = Chart.getChart(ctx);
+      // Check if a chart already exists
+      let chart = Chart.getChart(ctx);
 
-    // Destroy the existing chart if present
-    if (chart) {
-      chart.destroy();
-    }
+      // Destroy the existing chart if present
+      if (chart) {
+        chart.destroy();
+      }
 
-    new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: graphData?.map((item) => dayjs(item.data).format("DD/MM/YYYY")),
-        datasets: [
-          {
-            label: "Média de carga",
-            data: graphData?.map((item) => item.media),
-          },
-        ],
-      },
-      options: {
-        aspectRatio: 3,
-        animation: false,
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            enabled: false,
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: graphData?.map((item) =>
+            dayjs(item.data).format("DD/MM/YYYY")
+          ),
+          datasets: [
+            {
+              label: "Média de carga",
+              data: graphData?.map((item) => item.media),
+            },
+            {
+              label: "Repetições",
+              data: graphData?.map((item) => item.repeticoes),
+            },
+          ],
+        },
+        options: {
+          aspectRatio: 3,
+          animation: false,
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              enabled: false,
+            },
           },
         },
-      },
-    });
-  }, [graphData]);
+      });
+    }
+  }, [graphData, type]);
 
   return (
     <DefaultContainer>
@@ -108,41 +125,79 @@ const Grafico = () => {
         </div>
 
         <Select
-          onChange={(e) => setType(e.target.value)}
+          isClearable={false}
+          components={{
+            Option: ({ children, ...props }) => {
+              return (
+                <div
+                  {...props}
+                  onClick={
+                    props.isSelected
+                      ? () =>
+                          setType((old) =>
+                            old.filter(
+                              (item) => item.value !== props.data.value
+                            )
+                          )
+                      : () => setType((old) => [...old, props.data])
+                  }
+                >
+                  <div className="flex flex-row items-center gap-2 p-2">
+                    {props.isSelected ? (
+                      <MdCheckBox size={24} color="#93F009" />
+                    ) : (
+                      <MdCheckBoxOutlineBlank size={24} color="#666666" />
+                    )}
+                    {children}
+                  </div>
+                </div>
+              );
+            },
+          }}
           value={type}
-          label="Selecione o gráfico desejado"
-          options={[{ label: "Carga média", value: "mediaCarga" }]}
+          placeholder="Selecione o tipo de gráfico"
+          className="border border-[#242424] rounded-md text-black"
+          closeMenuOnSelect={false}
+          noOptionsMessage={() => "Nenhuma opção encontrada"}
+          hideSelectedOptions={false}
+          isMulti
+          options={[
+            { value: "CARGA_MEDIA", label: "Carga média" },
+            { value: "REPETICAO", label: "Repetições" },
+          ]}
         />
 
-        <div className="flex flex-col shadow-md rounded-md bg-white">
-          <div className="flex flex-row items-center justify-between p-6 border-b border-opacity-50 border-b-disabled">
-            <div className="flex flex-row items-center gap-2">
-              <Image
-                src={"/images/exercise_default.png"}
-                width={50}
-                height={50}
-                alt="Exercício"
-              />
+        {type && (
+          <div className="flex flex-col shadow-md rounded-md bg-white">
+            <div className="flex flex-row items-center justify-between p-6 border-b border-opacity-50 border-b-disabled">
+              <div className="flex flex-row items-center gap-2">
+                <Image
+                  src={"/images/exercise_default.png"}
+                  width={50}
+                  height={50}
+                  alt="Exercício"
+                />
 
-              <div className="flex flex-col">
-                <span className="text-[18px] text-black font-semibold">
-                  {exercise?.grupoMuscular?.descricao}
-                </span>
-                <span className="text-[14px] text-black">
-                  {exercise?.descricao}
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-[18px] text-black font-semibold">
+                    {exercise?.grupoMuscular?.descricao}
+                  </span>
+                  <span className="text-[14px] text-black">
+                    {exercise?.descricao}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center h-6 w-6 rounded-full bg-[#C2C2C2]">
+                <MdShare size={16} color="#F5EFF7" />
               </div>
             </div>
 
-            <div className="flex items-center justify-center h-6 w-6 rounded-full bg-[#C2C2C2]">
-              <MdShare size={16} color="#F5EFF7" />
+            <div className="flex flex-col p-6 gap-8">
+              <canvas id="lineChart" width="100%" height="100px"></canvas>
             </div>
           </div>
-
-          <div className="flex flex-col p-6 gap-8">
-            <canvas id="lineChart" width="100%" height="100px"></canvas>
-          </div>
-        </div>
+        )}
 
         <p className="text-black font-semibold text-description">Período</p>
 
@@ -171,7 +226,7 @@ const Grafico = () => {
 
           <input
             type="date"
-            className="input input-bordered p-3"
+            className="input input-bordered p-3 max-w-[44%] text-black"
             onChange={(e) =>
               setPeriod({ ...period, start: dayjs(e.target.value) })
             }
@@ -182,7 +237,7 @@ const Grafico = () => {
           <span className="text-black text-button_ghost">Até</span>
           <input
             type="date"
-            className="input input-bordered p-3"
+            className="input input-bordered p-3 max-w-[44%] text-black"
             placeholder="Search"
             onChange={(e) =>
               setPeriod({ ...period, end: dayjs(e.target.value) })
