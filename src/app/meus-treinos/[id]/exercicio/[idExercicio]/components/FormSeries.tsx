@@ -15,7 +15,7 @@ export const FormSeries = ({
   disabled?: boolean;
   serie: {
     carga: number;
-    repeticao: number;
+    numeroRepeticoes: number;
   };
   exercise: Exercise;
   arr: any[];
@@ -73,7 +73,7 @@ export const FormSeries = ({
             className={
               "input-bordered border-color-background max-w-[5.5rem] h-[2rem] "
             }
-            value={watch("series")[index]?.repeticao}
+            value={watch("series")[index]?.numeroRepeticoes}
             labelStyle="text-black"
             placeholder="Nº"
             inputMode="numeric"
@@ -81,11 +81,11 @@ export const FormSeries = ({
               setValue(
                 "series",
                 watch("series").map((s, i) =>
-                  i === index ? { ...s, repeticao: e.target.value } : s
+                  i === index ? { ...s, numeroRepeticoes: e.target.value } : s
                 )
               );
             }}
-            errorMessage={errors?.series?.[index]?.repeticao?.message}
+            errorMessage={errors?.series?.[index]?.numeroRepeticoes?.message}
             type="number"
             showErrorMessage={false}
             disableFullWidth
