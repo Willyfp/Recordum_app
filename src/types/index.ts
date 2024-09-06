@@ -56,7 +56,7 @@ export type Exercise = {
   exercicio: Exercise;
   seriesTreino: {
     id?: number;
-    repeticao: number;
+    numeroRepeticoes: number;
     carga: number;
     numero?: number;
     execucao?: string;
