@@ -75,7 +75,7 @@ export const registerTraining = async (training: {
     };
     seriesTreino: [
       {
-        repeticao: number;
+        numeroRepeticoes: number;
         carga: number;
       }
     ];
