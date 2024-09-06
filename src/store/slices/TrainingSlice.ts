@@ -15,7 +15,7 @@ export interface TrainingState {
       exercicio: { id: number };
       series: number;
       seriesTreino: {
-        repeticao: number;
+        numeroRepeticoes: number;
         carga: number;
       }[];
     };
