@@ -85,7 +85,7 @@ export const selectTrainingInfo = (state: AppStore) =>
       exercicio: { id: number };
       series: number;
       seriesTreino: {
-        repeticao: number;
+        numeroRepeticoes: number;
         carga: number;
       }[];
     };
