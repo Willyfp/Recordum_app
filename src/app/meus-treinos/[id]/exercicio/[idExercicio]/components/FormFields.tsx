@@ -58,7 +58,7 @@ export const FormFields = ({
       series: [
         {
           carga: 0,
-          repeticao: 0,
+          numeroRepeticoes: 0,
         },
       ],
       data: dayjs().format("DD/MM/YYYY"),
