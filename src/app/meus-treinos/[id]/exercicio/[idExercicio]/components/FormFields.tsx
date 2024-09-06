@@ -203,7 +203,7 @@ export const FormFields = ({
                   </li>
 
                   <ul className="list-disc pl-4">
-                    <li>Repetições: {serie.repeticao}</li>
+                    <li>Repetições: {serie.numeroRepeticoes}</li>
                     <li>Carga: {serie.carga}</li>
                   </ul>
                 </ul>
@@ -226,7 +226,7 @@ export const FormFields = ({
                       .find((item) => item.exercicio?.id === exercise?.id)
                       ?.seriesTreino.map((serie) => ({
                         cargaInformada: serie.carga,
-                        repeticao: serie.repeticao,
+                        numeroRepeticoes: serie.numeroRepeticoes,
                       }))
                   );
                   setDisabledSeries(true);
@@ -234,7 +234,7 @@ export const FormFields = ({
                   setValue("series", [
                     {
                       cargaInformada: 0,
-                      repeticao: 0,
+                      numeroRepeticoes: 0,
                     },
                   ]);
 
