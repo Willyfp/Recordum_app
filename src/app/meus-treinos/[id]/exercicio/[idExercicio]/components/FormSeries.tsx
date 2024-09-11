@@ -118,7 +118,7 @@ export const FormSeries = ({
                 index !== arr.length - 1 && "hidden"
               }`}
               onClick={() => {
-                setValue("series", [...arr, { carga: 0, repeticao: 0 }]);
+                setValue("series", [...arr, { carga: 0, numeroRepeticoes: 0 }]);
               }}
             >
               <FaPlus size={18} color={"#fff"} />
