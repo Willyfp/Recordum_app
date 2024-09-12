@@ -120,7 +120,7 @@ const FormFields = ({
           }}
           value={watch("dataNascimento")}
           labelStyle="text-black"
-          inputMode="numeric"
+          inputMode="decimal"
           errorMessage={errors?.dataNascimento?.message}
         />
 
@@ -131,7 +131,7 @@ const FormFields = ({
           label="Altura"
           placeholder="Cm"
           type="number"
-          inputMode="numeric"
+          inputMode="decimal"
         />
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
@@ -142,7 +142,7 @@ const FormFields = ({
             label="Peso atual"
             placeholder="Kg"
             type="number"
-            inputMode="numeric"
+            inputMode="decimal"
           />
 
           <TextField
@@ -153,7 +153,7 @@ const FormFields = ({
             placeholder="Kg"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
-            inputMode="numeric"
+            inputMode="decimal"
           />
         </div>
       </div>

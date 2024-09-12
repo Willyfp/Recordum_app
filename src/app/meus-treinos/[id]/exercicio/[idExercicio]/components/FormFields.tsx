@@ -133,6 +133,7 @@ export const FormFields = ({
       setValue("data", dayjs(executed.dataInicio).format("DD/MM/YYYY"));
       setValue("equipamento", executed.equipamento?.id);
       setValue("series", executed.series);
+      setValue("tipo", executed.tipo);
     }
   }, [executed]);
 
@@ -184,7 +185,7 @@ export const FormFields = ({
           }}
           value={watch("data")}
           labelStyle="text-black"
-          inputMode="numeric"
+          inputMode="decimal"
           errorMessage={errors?.data?.message}
         />
 

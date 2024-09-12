@@ -67,7 +67,7 @@ export const Form = () => {
           label="Tórax/Peito"
           placeholder="Cm"
           type="number"
-          inputMode="numeric"
+          inputMode="decimal"
         />
 
         <TextField
@@ -76,7 +76,7 @@ export const Form = () => {
           labelStyle="text-black"
           label="Abdômen"
           placeholder="Cm"
-          inputMode="numeric"
+          inputMode="decimal"
           type="number"
         />
 
@@ -87,7 +87,7 @@ export const Form = () => {
             labelStyle="text-black"
             label="Bíceps (E)"
             placeholder="Cm"
-            inputMode="numeric"
+            inputMode="decimal"
             type="number"
           />
 
@@ -97,7 +97,7 @@ export const Form = () => {
             labelStyle="text-black"
             label="Bíceps (D)"
             placeholder="Cm"
-            inputMode="numeric"
+            inputMode="decimal"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
           />
@@ -109,7 +109,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Antebraço (E)"
-            inputMode="numeric"
+            inputMode="decimal"
             placeholder="Cm"
             type="number"
           />
@@ -118,7 +118,7 @@ export const Form = () => {
             {...register("antebracoD")}
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
-            inputMode="numeric"
+            inputMode="decimal"
             label="Antebraço (D)"
             placeholder="Cm"
             type="number"
@@ -130,7 +130,7 @@ export const Form = () => {
           {...register("quadril")}
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
-          inputMode="numeric"
+          inputMode="decimal"
           label="Quadril"
           placeholder="Cm"
           type="number"
@@ -142,7 +142,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Coxa (E)"
-            inputMode="numeric"
+            inputMode="decimal"
             placeholder="Cm"
             type="number"
           />
@@ -152,7 +152,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Coxa (D)"
-            inputMode="numeric"
+            inputMode="decimal"
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
@@ -165,7 +165,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Panturrilha (E)"
-            inputMode="numeric"
+            inputMode="decimal"
             placeholder="Cm"
             type="number"
           />
@@ -175,7 +175,7 @@ export const Form = () => {
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Panturrilha (D)"
-            inputMode="numeric"
+            inputMode="decimal"
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
@@ -193,7 +193,7 @@ export const Form = () => {
           }}
           value={watch("data")}
           labelStyle="text-black"
-          inputMode="numeric"
+          inputMode="decimal"
           errorMessage={errors?.data?.message}
         />
       </div>

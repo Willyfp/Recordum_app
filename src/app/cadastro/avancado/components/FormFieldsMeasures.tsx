@@ -63,7 +63,7 @@ const FormFieldsMeasures = ({
           label="Tórax/Peito"
           placeholder="Cm"
           type="number"
-          inputMode="numeric"
+          inputMode="decimal"
         />
 
         <TextField
@@ -73,7 +73,7 @@ const FormFieldsMeasures = ({
           label="Abdômen"
           placeholder="Cm"
           type="number"
-          inputMode="numeric"
+          inputMode="decimal"
         />
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
@@ -84,7 +84,7 @@ const FormFieldsMeasures = ({
             label="Bíceps (E)"
             placeholder="Cm"
             type="number"
-            inputMode="numeric"
+            inputMode="decimal"
           />
 
           <TextField
@@ -95,7 +95,7 @@ const FormFieldsMeasures = ({
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
-            inputMode="numeric"
+            inputMode="decimal"
           />
         </div>
 
@@ -107,7 +107,7 @@ const FormFieldsMeasures = ({
             label="Antebraço (E)"
             placeholder="Cm"
             type="number"
-            inputMode="numeric"
+            inputMode="decimal"
           />
 
           <TextField
@@ -118,7 +118,7 @@ const FormFieldsMeasures = ({
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
-            inputMode="numeric"
+            inputMode="decimal"
           />
         </div>
 
@@ -129,7 +129,7 @@ const FormFieldsMeasures = ({
           label="Quadril"
           placeholder="Cm"
           type="number"
-          inputMode="numeric"
+          inputMode="decimal"
         />
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
@@ -140,7 +140,7 @@ const FormFieldsMeasures = ({
             label="Coxa (E)"
             placeholder="Cm"
             type="number"
-            inputMode="numeric"
+            inputMode="decimal"
           />
 
           <TextField
@@ -151,7 +151,7 @@ const FormFieldsMeasures = ({
             placeholder="Cm"
             type="number"
             errorMessage={errors?.pesoMeta?.message}
-            inputMode="numeric"
+            inputMode="decimal"
           />
         </div>
 
@@ -163,7 +163,7 @@ const FormFieldsMeasures = ({
             label="Panturrilha (E)"
             placeholder="Cm"
             type="number"
-            inputMode="numeric"
+            inputMode="decimal"
           />
 
           <TextField
@@ -173,7 +173,7 @@ const FormFieldsMeasures = ({
             label="Panturrilha (D)"
             placeholder="Cm"
             type="number"
-            inputMode="numeric"
+            inputMode="decimal"
             errorMessage={errors?.pesoMeta?.message}
           />
         </div>

@@ -52,7 +52,7 @@ const Form = () => {
   const onSubmit = async (data: any) => {
     setLoading(true);
     await editMeasures({
-      idUsuario: userId   ,
+      idUsuario: userId,
       data: { ...data, data: dayjs(data.data, "DD/MM/YYYY").toISOString() },
     }).then((res) => {
       store.dispatch(
@@ -73,7 +73,7 @@ const Form = () => {
     <div className="flex flex-1 w-full gap-[2rem] flex-col py-[1rem]">
       <div className="flex flex-1 flex-col ">
         <TextField
-          inputMode="numeric"
+          inputMode="decimal"
           {...register("subescapular")}
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
@@ -84,7 +84,7 @@ const Form = () => {
 
         <div className="flex flex-row items-start gap-[1rem] justify-between">
           <TextField
-            inputMode="numeric"
+            inputMode="decimal"
             {...register("bicepsBI")}
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
@@ -94,7 +94,7 @@ const Form = () => {
           />
 
           <TextField
-            inputMode="numeric"
+            inputMode="decimal"
             {...register("tricepsTR")}
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
@@ -106,7 +106,7 @@ const Form = () => {
         </div>
 
         <TextField
-          inputMode="numeric"
+          inputMode="decimal"
           {...register("axilarMedia")}
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
@@ -116,7 +116,7 @@ const Form = () => {
         />
 
         <TextField
-          inputMode="numeric"
+          inputMode="decimal"
           {...register("toraxica")}
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
@@ -128,7 +128,7 @@ const Form = () => {
         <div className="flex flex-row items-start gap-[1rem] justify-between">
           <TextField
             {...register("suprailiaca")}
-            inputMode="numeric"
+            inputMode="decimal"
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Supra-ilíaca (SI)"
@@ -138,7 +138,7 @@ const Form = () => {
 
           <TextField
             {...register("supraespinal")}
-            inputMode="numeric"
+            inputMode="decimal"
             className={"input-bordered border-color-background w-[100%]"}
             labelStyle="text-black"
             label="Supra-espinal (SE)"
@@ -149,7 +149,7 @@ const Form = () => {
 
         <TextField
           {...register("coxa")}
-          inputMode="numeric"
+          inputMode="decimal"
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
           label="Coxa (CX)"
@@ -159,7 +159,7 @@ const Form = () => {
 
         <TextField
           {...register("panturrilhaMedial")}
-          inputMode="numeric"
+          inputMode="decimal"
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
           label="Panturrilha medial (PM)"
@@ -169,7 +169,7 @@ const Form = () => {
 
         <TextField
           {...register("metaGordura")}
-          inputMode="numeric"
+          inputMode="decimal"
           className={"input-bordered border-color-background"}
           labelStyle="text-black"
           label="Meta de % de gordura"
@@ -188,7 +188,7 @@ const Form = () => {
           }}
           value={watch("data")}
           labelStyle="text-black"
-          inputMode="numeric"
+          inputMode="decimal"
           errorMessage={errors?.data?.message}
         />
       </div>

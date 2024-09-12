@@ -76,7 +76,7 @@ export const FormSeries = ({
             value={watch("series")[index]?.numeroRepeticoes}
             labelStyle="text-black"
             placeholder="Nº"
-            inputMode="numeric"
+            inputMode="decimal"
             onChange={(e) => {
               setValue(
                 "series",
@@ -94,7 +94,7 @@ export const FormSeries = ({
           <TextField
             disabled={disabled}
             className={`input-bordered border-color-background max-w-[5.5rem] h-[2rem]`}
-            inputMode="numeric"
+            inputMode="decimal"
             onChange={(e) => {
               setValue(
                 "series",

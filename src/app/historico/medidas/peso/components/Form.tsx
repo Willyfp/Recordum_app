@@ -69,7 +69,7 @@ export const Form = () => {
       <div className="flex flex-col gap-1 flex-1">
         <TextField
           {...register("pesoAtual")}
-          inputMode="numeric"
+          inputMode="decimal"
           className={"input-bordered border-color-background w-[100%]"}
           labelStyle="text-black"
           label="Peso atual"
@@ -80,7 +80,7 @@ export const Form = () => {
 
         <TextField
           {...register("pesoMeta")}
-          inputMode="numeric"
+          inputMode="decimal"
           className={"input-bordered border-color-background w-[100%]"}
           labelStyle="text-black"
           label="Meta de peso"
@@ -101,7 +101,7 @@ export const Form = () => {
           }}
           value={watch("data")}
           labelStyle="text-black"
-          inputMode="numeric"
+          inputMode="decimal"
           errorMessage={errors?.data?.message}
         />
       </div>
