@@ -98,7 +98,6 @@ export const FormFields = ({
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-
       const newData = formatDataTraining({
         ...data,
         usuario: idUser ?? userID,
@@ -136,6 +135,8 @@ export const FormFields = ({
       setValue("tipo", executed.tipo);
     }
   }, [executed]);
+
+  console.log("data: ", watch("data"));
 
   return (
     <FormProvider {...form}>
@@ -175,14 +176,14 @@ export const FormFields = ({
         )}
 
         <TextField
+          onAccept={(value) => {
+            setValue("data", value);
+            clearErrors("data");
+          }}
           className={"input-bordered border-color-background"}
           label="Data"
           mask="00/00/0000"
           placeholder="00/00/0000"
-          onChange={(e) => {
-            setValue("data", e.target.value);
-            clearErrors("data");
-          }}
           value={watch("data")}
           labelStyle="text-black"
           inputMode="decimal"
