@@ -2,7 +2,6 @@
 import React, { InputHTMLAttributes } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { IMaskInput } from "react-imask";
-import InputMask from "react-input-mask";
 
 const TextField = React.forwardRef<
   HTMLInputElement,

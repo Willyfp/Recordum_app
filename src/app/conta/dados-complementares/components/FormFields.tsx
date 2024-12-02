@@ -84,8 +84,8 @@ const FormFields = () => {
         label="Data de nascimento"
         mask="00/00/0000"
         placeholder="00/00/0000"
-        onChange={(e) => {
-          setValue("dataNascimento", e.target.value);
+        onAccept={(value) => {
+          setValue("dataNascimento", value);
           clearErrors("dataNascimento");
         }}
         value={watch("dataNascimento")}
