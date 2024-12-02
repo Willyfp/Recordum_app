@@ -84,8 +84,6 @@ const FormFields = ({
     setLoading(false);
   };
 
-  console.log(watch("dataNascimento"));
-
   return (
     <div className="flex flex-1 w-full gap-[2rem] flex-col py-[1rem]">
       <div className="flex flex-1 flex-col ">

@@ -13,8 +13,6 @@ const Usuario = () => {
 
   const params = useParams();
 
-  console.log(params);
-
   useEffect(() => {
     if (params?.id)
       getUserRequest(params).then((res) => {

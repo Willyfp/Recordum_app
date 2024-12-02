@@ -6,6 +6,7 @@ import Select from "react-select";
 import {
   getExerciseById,
   getGraphByExercise,
+  getGraphN2,
 } from "@/services/trainingService";
 import { Exercise } from "@/types";
 
@@ -23,6 +24,8 @@ const animatedComponents = makeAnimated();
 
 const Grafico = () => {
   const [exercise, setExercise] = React.useState<Exercise>();
+
+  const [level, setLevel] = useState(1);
 
   const [type, setType] = React.useState<{ label: string; value: string }[]>([
     {
@@ -54,59 +57,109 @@ const Grafico = () => {
 
   useEffect(() => {
     if (type) {
-      getGraphByExercise({
-        idExercise: params.id,
-        path: type,
-        idUser: userId,
-        dataIni: period.start.toISOString(),
-        dataEnd: period.end.toISOString(),
-      }).then((res) => setGraphData(res));
+      if (level === 1) {
+        getGraphByExercise({
+          idExercise: params.id,
+          path: type,
+          idUser: userId,
+          dataIni: period.start.toISOString(),
+          dataEnd: period.end.toISOString(),
+        }).then((res) => setGraphData(res));
+      } else if (level === 2) {
+        getGraphN2({
+          idExercise: params.id,
+          date: period.start.toISOString(),
+          idUser: userId,
+        }).then((res) => setGraphData(res));
+      }
     }
-  }, [type, period]);
+  }, [type, period, level]);
 
   useEffect(() => {
     if (type) {
-      const canvas = document.getElementById("lineChart");
-      const ctx = canvas.getContext("2d");
+      if (level === 1) {
+        const canvas = document.getElementById("lineChart");
+        const ctx = canvas.getContext("2d");
 
-      // Check if a chart already exists
-      let chart = Chart.getChart(ctx);
+        // Check if a chart already exists
+        let chart = Chart.getChart(ctx);
 
-      // Destroy the existing chart if present
-      if (chart) {
-        chart.destroy();
-      }
+        // Destroy the existing chart if present
+        if (chart) {
+          chart.destroy();
+        }
 
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: graphData?.map((item) =>
-            dayjs(item.data).format("DD/MM/YYYY")
-          ),
-          datasets: [
-            {
-              label: "Média de carga",
-              data: graphData?.map((item) => item.media),
-            },
-            {
-              label: "Repetições",
-              data: graphData?.map((item) => item.repeticoes),
-            },
-          ],
-        },
-        options: {
-          aspectRatio: 3,
-          animation: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              enabled: false,
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: graphData?.map((item) =>
+              dayjs(item.data).format("DD/MM/YYYY")
+            ),
+            datasets: [
+              {
+                label: "Média de carga",
+                data: graphData?.map((item) => item.media),
+              },
+              {
+                label: "Repetições",
+                data: graphData?.map((item) => item.repeticoes),
+              },
+            ],
+          },
+          options: {
+            aspectRatio: 3,
+            animation: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
             },
           },
-        },
-      });
+        });
+      } else if (level === 2) {
+        const canvas = document.getElementById("lineChart");
+        const ctx = canvas.getContext("2d");
+
+        // Check if a chart already exists
+        let chart = Chart.getChart(ctx);
+
+        // Destroy the existing chart if present
+        if (chart) {
+          chart.destroy();
+        }
+
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: graphData?.map((item) => item.mediaRepeticoes),
+            datasets: [
+              {
+                label: "Média de carga",
+                data: graphData?.map((item) => item.mediaCarga),
+              },
+              {
+                label: "Média repetições",
+                data: graphData?.map((item) => item.mediaRepeticoes),
+              },
+            ],
+          },
+          options: {
+            aspectRatio: 3,
+            animation: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          },
+        });
+      }
     }
   }, [graphData, type]);
 
@@ -124,49 +177,50 @@ const Grafico = () => {
           </p>
         </div>
 
-        <Select
-          isClearable={false}
-          components={{
-            Option: ({ children, ...props }) => {
-              return (
-                <div
-                  {...props}
-                  onClick={
-                    props.isSelected
-                      ? () =>
-                          setType((old) =>
-                            old.filter(
-                              (item) => item.value !== props.data.value
+        {level === 1 && (
+          <Select
+            isClearable={false}
+            components={{
+              Option: ({ children, ...props }) => {
+                return (
+                  <div
+                    {...props}
+                    onClick={
+                      props.isSelected
+                        ? () =>
+                            setType((old) =>
+                              old.filter(
+                                (item) => item.value !== props.data.value
+                              )
                             )
-                          )
-                      : () => setType((old) => [...old, props.data])
-                  }
-                >
-                  <div className="flex flex-row items-center gap-2 p-2">
-                    {props.isSelected ? (
-                      <MdCheckBox size={24} color="#93F009" />
-                    ) : (
-                      <MdCheckBoxOutlineBlank size={24} color="#666666" />
-                    )}
-                    {children}
+                        : () => setType((old) => [...old, props.data])
+                    }
+                  >
+                    <div className="flex flex-row items-center gap-2 p-2">
+                      {props.isSelected ? (
+                        <MdCheckBox size={24} color="#93F009" />
+                      ) : (
+                        <MdCheckBoxOutlineBlank size={24} color="#666666" />
+                      )}
+                      {children}
+                    </div>
                   </div>
-                </div>
-              );
-            },
-          }}
-          value={type}
-          placeholder="Selecione o tipo de gráfico"
-          className="border border-[#242424] rounded-md text-black"
-          closeMenuOnSelect={false}
-          noOptionsMessage={() => "Nenhuma opção encontrada"}
-          hideSelectedOptions={false}
-          isMulti
-          options={[
-            { value: "CARGA_MEDIA", label: "Carga média" },
-            { value: "REPETICAO", label: "Repetições" },
-          ]}
-        />
-
+                );
+              },
+            }}
+            value={type}
+            placeholder="Selecione o tipo de gráfico"
+            className="border border-[#242424] rounded-md text-black"
+            closeMenuOnSelect={false}
+            noOptionsMessage={() => "Nenhuma opção encontrada"}
+            hideSelectedOptions={false}
+            isMulti
+            options={[
+              { value: "CARGA_MEDIA", label: "Carga média" },
+              { value: "REPETICAO", label: "Repetições" },
+            ]}
+          />
+        )}
         {type && (
           <div className="flex flex-col shadow-md rounded-md bg-white">
             <div className="flex flex-row items-center justify-between p-6 border-b border-opacity-50 border-b-disabled">
@@ -194,7 +248,18 @@ const Grafico = () => {
             </div>
 
             <div className="flex flex-col p-6 gap-8">
-              <canvas id="lineChart" width="100%" height="100px"></canvas>
+              <canvas
+                id="lineChart"
+                width="100%"
+                height="100px"
+                onClick={() => {
+                  if (level === 1) {
+                    setLevel(2);
+                  } else {
+                    setLevel(1);
+                  }
+                }}
+              ></canvas>
             </div>
           </div>
         )}
@@ -234,16 +299,20 @@ const Grafico = () => {
             placeholder="Search"
           />
 
-          <span className="text-black text-button_ghost">Até</span>
-          <input
-            type="date"
-            className="input input-bordered p-3 max-w-[44%] text-black"
-            placeholder="Search"
-            onChange={(e) =>
-              setPeriod({ ...period, end: dayjs(e.target.value) })
-            }
-            value={dayjs(period.end).format("YYYY-MM-DD")}
-          />
+          {!(level === 2) && (
+            <>
+              <span className="text-black text-button_ghost">Até</span>
+              <input
+                type="date"
+                className="input input-bordered p-3 max-w-[44%] text-black"
+                placeholder="Search"
+                onChange={(e) =>
+                  setPeriod({ ...period, end: dayjs(e.target.value) })
+                }
+                value={dayjs(period.end).format("YYYY-MM-DD")}
+              />
+            </>
+          )}
 
           {/* <Datepicker
             classNames="relative"

@@ -9,6 +9,9 @@ import {
   createTrainingLog,
   editTrainingLog,
   getEquipmentsByGym,
+  getExercisesByMuscle,
+  getMuscleGroupById,
+  getMuscleGroups,
   getTrainingById,
 } from "@/services/trainingService";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -66,6 +69,13 @@ export const FormFields = ({
     resolver: yupResolver(schemaValidation),
   });
 
+  useEffect(() => {
+    if (executed) {
+      form.setValue("grupoMuscular", executed?.exercicio?.grupoMuscular.id);
+      form.setValue("exercicio", executed?.exercicio?.id);
+    }
+  }, [executed]);
+
   const cookies = useCookies();
 
   const gymId = cookies.get("GYM_ID");
@@ -102,7 +112,9 @@ export const FormFields = ({
       const newData = formatDataTraining({
         ...data,
         usuario: idUser ?? userID,
-        exercicioTreino: ["number", "string"].includes(typeof exercise)
+        exercicioTreino: data.exercicio
+          ? Number(data.exercicio)
+          : ["number", "string"].includes(typeof exercise)
           ? exercise
           : exercise?.id,
         treino: trainingId,
@@ -122,7 +134,6 @@ export const FormFields = ({
         })
       );
     } catch (err) {
-      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -137,10 +148,51 @@ export const FormFields = ({
     }
   }, [executed]);
 
+  const [muscleGroups, setMuscleGroups] = useState<MuscleGroup[]>([]);
+  const [selectedMuscleGroup, setSelectedMuscleGroup] = useState();
+
+  useEffect(() => {
+    getMuscleGroups().then((res) => setMuscleGroups(res));
+  }, []);
+
+  const [exercises, setExercises] = useState([]);
+
+  useEffect(() => {
+    if (form.watch("grupoMuscular")) {
+      getExercisesByMuscle(form.watch("grupoMuscular")).then((response) => {
+        setExercises(response);
+      });
+    }
+  }, [form.watch("grupoMuscular")]);
+
   return (
     <FormProvider {...form}>
       <div className="flex flex-col gap-1">
-        {!disableExercise && (
+        {executed && (
+          <>
+            <Select
+              options={
+                muscleGroups?.map((muscleGroup: MuscleGroup) => ({
+                  label: muscleGroup.descricao,
+                  value: muscleGroup.id,
+                })) ?? []
+              }
+              {...register("grupoMuscular")}
+              label="Grupo muscular"
+            />
+            <Select
+              options={
+                exercises?.map((exercise: Exercise) => ({
+                  label: exercise.descricao,
+                  value: exercise.id,
+                })) ?? []
+              }
+              {...register("exercicio")}
+              label="Exercício"
+            />
+          </>
+        )}
+        {!disableExercise && !executed && (
           <>
             <TextField
               value={exercise?.grupoMuscular.descricao}

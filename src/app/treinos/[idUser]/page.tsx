@@ -15,8 +15,6 @@ const Treinar = ({ params }) => {
 
   const [user, setUser] = useState<User>();
 
-  console.log(params, "params");
-
   useEffect(() => {
     if (params.idUser)
       getUserRequest({ id: params.idUser }).then((response) => {

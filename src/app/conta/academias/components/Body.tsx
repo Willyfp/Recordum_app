@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import Avatar from '@/components/Avatar';
-import { listVinculatedGyms } from '@/services/userService';
-import { selectUser } from '@/store/slices/authSlice';
-import { GymType } from '@/types';
-import { useEffect, useState } from 'react';
-import { MdOutlineStore } from 'react-icons/md';
-import { useSelector } from 'react-redux';
+import Avatar from "@/components/Avatar";
+import { listVinculatedGyms } from "@/services/userService";
+import { selectUser } from "@/store/slices/authSlice";
+import { GymType } from "@/types";
+import { useEffect, useState } from "react";
+import { MdOutlineStore } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const Body = () => {
   const user = useSelector(selectUser);
@@ -21,14 +21,12 @@ const Body = () => {
     }
   }, [user]);
 
-  console.log(gyms);
-
   return (
-    <div className='flex flex-col w-full gap-2'>
+    <div className="flex flex-col w-full gap-2">
       {gyms.map((gym) => (
         <div
           key={gym.id}
-          className='flex flex-row items-center gap-4 shadow-md p-4 rounded-lg'
+          className="flex flex-row items-center gap-4 shadow-md p-4 rounded-lg"
         >
           <Avatar
             size={3.5}
@@ -36,18 +34,18 @@ const Body = () => {
             iconFallback={
               <MdOutlineStore
                 style={{
-                  height: 3.5 / 1.46 + 'rem',
-                  width: 3.5 / 1.46 + 'rem',
+                  height: 3.5 / 1.46 + "rem",
+                  width: 3.5 / 1.46 + "rem",
                 }}
               />
             }
           />
 
-          <div className='flex flex-col gap-1'>
-            <span className='text-color_name text-initial_title'>
+          <div className="flex flex-col gap-1">
+            <span className="text-color_name text-initial_title">
               {gym.fantasia}
             </span>
-            <span className='text-icon_info text-button_primary'>
+            <span className="text-icon_info text-button_primary">
               {gym.cidade.nome} - {gym.cidade.uf.nome}
             </span>
           </div>

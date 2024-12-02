@@ -253,3 +253,29 @@ export const getGraphByExercise = async ({
     throw error;
   }
 };
+
+export const getGraphN2 = async ({
+  idExercise,
+  date,
+  idUser,
+}: {
+  date: string;
+  idExercise: number | string;
+  idUser: number | string;
+}) => {
+  try {
+    const response = await api.get(`/grafico/cargaRepeticaoN2`, {
+      params: {
+        exercicioId: idExercise,
+        data: date.replace("Z", ""),
+        usuarioId: idUser,
+      },
+    });
+
+    if (!response) throw "erro";
+
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+};

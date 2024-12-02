@@ -275,8 +275,6 @@ export const editMeasures = async ({
   data: any;
 }) => {
   try {
-    console.log(data);
-
     const response = await api
       .post(`/usuarioMedidas`, {
         ...converterParaNumero(data),
