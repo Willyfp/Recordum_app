@@ -1,31 +1,31 @@
-"use client";
-import { Exercise, MuscleGroup, Training, User } from "@/types";
-import api from "./api";
-import { store } from "@/store/store";
+"use client"
+import { Exercise, MuscleGroup, Training, User } from "@/types"
+import api from "./api"
+import { store } from "@/store/store"
 
 export const getMuscleGroups = async (): Promise<MuscleGroup[]> => {
   try {
-    const response = await api.get(`/gruposMusculares`);
+    const response = await api.get(`/gruposMusculares`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data?._embedded.grupoMuscularModelList;
+    return response?.data?._embedded.grupoMuscularModelList
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getMuscleGroupById = async (id: number): Promise<MuscleGroup> => {
   try {
-    const response = await api.get(`/gruposMusculares/${id}`);
+    const response = await api.get(`/gruposMusculares/${id}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const connectToEquipment = async (
   equipmentId: number,
@@ -34,52 +34,52 @@ export const connectToEquipment = async (
   try {
     const response = await api.post(
       `/equipamentos/usar/${equipmentId}/${userId}`
-    );
+    )
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getExercisesByMuscle = async (muscleId: number) => {
   try {
-    const response = await api.get(`/exercicios/grupoMuscular/${muscleId}`);
+    const response = await api.get(`/exercicios/grupoMuscular/${muscleId}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data?._embedded?.exercicioModelList;
+    return response?.data?._embedded?.exercicioModelList
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const registerTraining = async (training: {
-  id?: number | string;
-  descricao: string;
+  id?: number | string
+  descricao: string
   usuario: {
-    id: number;
-  };
+    id: number
+  }
   gruposMusculares: {
-    id: number;
-  }[];
+    id: number
+  }[]
   exercicios: {
-    series: number;
+    series: number
     treino: {
-      id: number;
-    };
+      id: number
+    }
     exercicio: {
-      id: number;
-    };
+      id: number
+    }
     seriesTreino: [
       {
-        numeroRepeticoes: number;
-        carga: number;
+        numeroRepeticoes: number
+        carga: number
       }
-    ];
-  }[];
+    ]
+  }[]
 }) => {
   try {
     const response = !training.id
@@ -87,75 +87,75 @@ export const registerTraining = async (training: {
       : await api.put(`/treinos/${training.id}`, {
           ...training,
           id: undefined,
-        });
+        })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getTrainingById = async (id: number) => {
   try {
-    const response = await api.get(`/treinos/${id}`);
+    const response = await api.get(`/treinos/${id}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data as Training;
+    return response?.data as Training
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getTrainingsByUser = async (userId: number) => {
   try {
-    const response = await api.get(`/treinos/usuario/${userId}`);
+    const response = await api.get(`/treinos/usuario/${userId}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data?._embedded?.treinoModelList as Training[];
+    return response?.data?._embedded?.treinoModelList as Training[]
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getExerciseById = async (id: number) => {
   try {
-    const response = await api.get(`/exercicios/${id}`);
+    const response = await api.get(`/exercicios/${id}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data as Exercise;
+    return response?.data as Exercise
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getExecutedExercises = async (id: number | string) => {
   try {
-    const response = await api.get(`/exercicioLivreLogs/usuario/todos/${id}`);
+    const response = await api.get(`/exercicioLivreLogs/usuario/todos/${id}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data?._embedded?.exercicioLivreLogModelList as Exercise[];
+    return response?.data?._embedded?.exercicioLivreLogModelList as Exercise[]
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getExecutedById = async (id: number | string) => {
   try {
-    const response = await api.get(`/exercicioLivreLogs/${id}`);
+    const response = await api.get(`/exercicioLivreLogs/${id}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getEquipmentsByGym = async (gymId: number) => {
   try {
@@ -163,15 +163,15 @@ export const getEquipmentsByGym = async (gymId: number) => {
       params: {
         size: 999,
       },
-    });
+    })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data?._embedded?.equipamentoModelList;
+    return response?.data?._embedded?.equipamentoModelList
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const editTrainingLog = async (data, executedId) => {
   try {
@@ -179,48 +179,48 @@ export const editTrainingLog = async (data, executedId) => {
       ...data,
       exercicio: { id: data.exercicioTreino.id },
       exercicioTreino: undefined,
-    });
-    if (!response) throw "erro";
+    })
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const createTrainingLog = async (data) => {
   try {
     if (data.treino?.id) {
-      const response = await api.post("/treinoLogs", data);
-      if (!response) throw "erro";
+      const response = await api.post("/treinoLogs", data)
+      if (!response) throw "erro"
 
-      return response?.data;
+      return response?.data
     } else {
       const response = await api.post("/exercicioLivreLogs", {
         ...data,
         exercicio: { id: data.exercicioTreino.id },
         exercicioTreino: undefined,
-      });
-      if (!response) throw "erro";
+      })
+      if (!response) throw "erro"
 
-      return response?.data;
+      return response?.data
     }
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const deleteTrainingRequest = async (id: number) => {
   try {
-    const response = await api.delete(`/treinos/${id}`);
+    const response = await api.delete(`/treinos/${id}`)
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getGraphByExercise = async ({
   idUser,
@@ -229,11 +229,11 @@ export const getGraphByExercise = async ({
   dataIni,
   dataEnd,
 }: {
-  idUser: number | string;
-  path: { value: string; label: string }[];
-  idExercise: number | string;
-  dataIni?: string;
-  dataEnd?: string;
+  idUser: number | string
+  path: { value: string; label: string }[]
+  idExercise: number | string
+  dataIni?: string
+  dataEnd?: string
 }) => {
   try {
     const response = await api.get(`/grafico/geraGrafico`, {
@@ -244,24 +244,24 @@ export const getGraphByExercise = async ({
         dataEnd,
         tipos: path.map((item) => item.value).join(","),
       },
-    });
+    })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getGraphN2 = async ({
   idExercise,
   date,
   idUser,
 }: {
-  date: string;
-  idExercise: number | string;
-  idUser: number | string;
+  date: string
+  idExercise: number | string
+  idUser: number | string
 }) => {
   try {
     const response = await api.get(`/grafico/cargaRepeticaoN2`, {
@@ -270,12 +270,61 @@ export const getGraphN2 = async ({
         data: date.replace("Z", ""),
         usuarioId: idUser,
       },
-    });
+    })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
+
+export const getGraphN3 = async ({
+  idExercise,
+  date,
+  idUser,
+}: {
+  date: string
+  idExercise: number | string
+  idUser: number | string
+}) => {
+  try {
+    const response = await api.get(`/grafico/cargaRepeticaoN3`, {
+      params: {
+        exercicioId: idExercise,
+        data: date.replace("Z", ""),
+        usuarioId: idUser,
+      },
+    })
+
+    if (!response) throw "erro"
+
+    return response?.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getLastExecutions = async ({
+  idExercise,
+  idUser,
+}: {
+  idExercise: number | string
+  idUser: number | string
+}) => {
+  try {
+    const response = await api.get(`/grafico/ultimasExecucoes`, {
+      params: {
+        exercicioId: idExercise,
+        usuarioId: idUser,
+      },
+    })
+
+    if (!response) throw "erro"
+
+    return response?.data
+  } catch (error) {
+    throw error
+  }
+}

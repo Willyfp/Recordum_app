@@ -1,59 +1,59 @@
-"use client";
-import DefaultContainer from "@/components/DefaultContainer";
-import Header from "@/components/Header";
+"use client"
+import DefaultContainer from "@/components/DefaultContainer"
+import Header from "@/components/Header"
 
-import Select from "react-select";
+import Select from "react-select"
 import {
   getExerciseById,
   getGraphByExercise,
   getGraphN2,
-} from "@/services/trainingService";
-import { Exercise } from "@/types";
+  getGraphN3,
+  getLastExecutions,
+} from "@/services/trainingService"
+import { Exercise } from "@/types"
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 
-import { useParams } from "next/navigation";
-import { useCookies } from "next-client-cookies";
-import Image from "next/image";
-import { MdCheckBox, MdCheckBoxOutlineBlank, MdShare } from "react-icons/md";
-import Chart from "chart.js/auto";
-import dayjs, { Dayjs } from "dayjs";
-import makeAnimated from "react-select/animated";
-
-const animatedComponents = makeAnimated();
+import { useParams } from "next/navigation"
+import { useCookies } from "next-client-cookies"
+import Image from "next/image"
+import { MdCheckBox, MdCheckBoxOutlineBlank, MdShare } from "react-icons/md"
+import Chart from "chart.js/auto"
+import dayjs, { Dayjs } from "dayjs"
+import makeAnimated from "react-select/animated"
 
 const Grafico = () => {
-  const [exercise, setExercise] = React.useState<Exercise>();
+  const [exercise, setExercise] = React.useState<Exercise>()
 
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(1)
 
   const [type, setType] = React.useState<{ label: string; value: string }[]>([
     {
       label: "Carga média",
       value: "CARGA_MEDIA",
     },
-  ]);
+  ])
 
-  const [graphData, setGraphData] = useState();
+  const [graphData, setGraphData] = useState()
 
   const [period, setPeriod] = useState<{ start: Dayjs; end: Dayjs }>({
     start: dayjs().subtract(3, "month"),
     end: dayjs(),
-  });
+  })
 
-  const Cookies = useCookies();
+  const Cookies = useCookies()
 
-  const userId = Cookies.get("user_id");
+  const userId = Cookies.get("user_id")
 
-  const params = useParams<{ id: string }>();
+  const params = useParams<{ id: string }>()
 
   useEffect(() => {
     if (params?.id) {
       getExerciseById(params.id).then((response) => {
-        setExercise(response);
-      });
+        setExercise(response)
+      })
     }
-  }, [params?.id]);
+  }, [params?.id])
 
   useEffect(() => {
     if (type) {
@@ -64,29 +64,48 @@ const Grafico = () => {
           idUser: userId,
           dataIni: period.start.toISOString(),
           dataEnd: period.end.toISOString(),
-        }).then((res) => setGraphData(res));
+        }).then((res) => setGraphData(res))
       } else if (level === 2) {
         getGraphN2({
           idExercise: params.id,
-          date: period.start.toISOString(),
+          date: period.end.toISOString(),
           idUser: userId,
-        }).then((res) => setGraphData(res));
+        }).then((res) => setGraphData(res))
+      } else if (level === 3) {
+        getGraphN3({
+          idExercise: params.id,
+          date: period.end.toISOString(),
+          idUser: userId,
+        }).then((res) => setGraphData(res))
       }
     }
-  }, [type, period, level]);
+  }, [type, period, level])
+
+  useEffect(() => {
+    getLastExecutions({
+      idExercise: params.id,
+      idUser: userId,
+    }).then((res) => {
+      if (res)
+        setPeriod({
+          end: dayjs(res[0].data),
+          start: dayjs(res[0].data).subtract(3, "month"),
+        })
+    })
+  }, [])
 
   useEffect(() => {
     if (type) {
       if (level === 1) {
-        const canvas = document.getElementById("lineChart");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById("lineChart")
+        const ctx = canvas.getContext("2d")
 
         // Check if a chart already exists
-        let chart = Chart.getChart(ctx);
+        let chart = Chart.getChart(ctx)
 
         // Destroy the existing chart if present
         if (chart) {
-          chart.destroy();
+          chart.destroy()
         }
 
         new Chart(ctx, {
@@ -118,17 +137,17 @@ const Grafico = () => {
               },
             },
           },
-        });
+        })
       } else if (level === 2) {
-        const canvas = document.getElementById("lineChart");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById("lineChart")
+        const ctx = canvas.getContext("2d")
 
         // Check if a chart already exists
-        let chart = Chart.getChart(ctx);
+        let chart = Chart.getChart(ctx)
 
         // Destroy the existing chart if present
         if (chart) {
-          chart.destroy();
+          chart.destroy()
         }
 
         new Chart(ctx, {
@@ -158,10 +177,52 @@ const Grafico = () => {
               },
             },
           },
-        });
+        })
+      } else if (level === 3) {
+        const canvas = document.getElementById("lineChart")
+        const ctx = canvas.getContext("2d")
+
+        // Check if a chart already exists
+        let chart = Chart.getChart(ctx)
+
+        // Destroy the existing chart if present
+        if (chart) {
+          chart.destroy()
+        }
+
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: graphData?.map((item) => dayjs(item.data).format("HH:mm")),
+            datasets: [
+              {
+                label: "Média de carga",
+                data: graphData?.map((item) => item.carga),
+              },
+              {
+                label: "Média repetições",
+                data: graphData?.map((item) => item.repeticoes),
+              },
+            ],
+          },
+          options: {
+            aspectRatio: 3,
+            animation: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          },
+        })
       }
     }
-  }, [graphData, type]);
+  }, [graphData, type])
+
+  console.log(level)
 
   return (
     <DefaultContainer>
@@ -205,7 +266,7 @@ const Grafico = () => {
                       {children}
                     </div>
                   </div>
-                );
+                )
               },
             }}
             value={type}
@@ -222,7 +283,25 @@ const Grafico = () => {
           />
         )}
         {type && (
-          <div className="flex flex-col shadow-md rounded-md bg-white">
+          <div className="flex flex-col shadow-md rounded-md bg-white relative">
+            <div
+              className="absolute top-0 h-full w-1/2"
+              onClick={() => {
+                if (level > 1) {
+                  setLevel(level - 1)
+                }
+              }}
+            />
+
+            <div
+              className="absolute top-0 right-0 h-full w-1/2"
+              onClick={() => {
+                if (level < 3) {
+                  setLevel(level + 1)
+                }
+              }}
+            />
+
             <div className="flex flex-row items-center justify-between p-6 border-b border-opacity-50 border-b-disabled">
               <div className="flex flex-row items-center gap-2">
                 <Image
@@ -248,18 +327,7 @@ const Grafico = () => {
             </div>
 
             <div className="flex flex-col p-6 gap-8">
-              <canvas
-                id="lineChart"
-                width="100%"
-                height="100px"
-                onClick={() => {
-                  if (level === 1) {
-                    setLevel(2);
-                  } else {
-                    setLevel(1);
-                  }
-                }}
-              ></canvas>
+              <canvas id="lineChart" width="100%" height="100px"></canvas>
             </div>
           </div>
         )}
@@ -289,30 +357,30 @@ const Grafico = () => {
             // setShow={handleClose}
           /> */}
 
-          <input
-            type="date"
-            className="input input-bordered p-3 max-w-[44%] text-black"
-            onChange={(e) =>
-              setPeriod({ ...period, start: dayjs(e.target.value) })
-            }
-            value={dayjs(period.start).format("YYYY-MM-DD")}
-            placeholder="Search"
-          />
-
-          {!(level === 2) && (
+          {!(level === 2 || level === 3) && (
             <>
-              <span className="text-black text-button_ghost">Até</span>
               <input
                 type="date"
                 className="input input-bordered p-3 max-w-[44%] text-black"
-                placeholder="Search"
                 onChange={(e) =>
-                  setPeriod({ ...period, end: dayjs(e.target.value) })
+                  setPeriod({ ...period, start: dayjs(e.target.value) })
                 }
-                value={dayjs(period.end).format("YYYY-MM-DD")}
+                value={dayjs(period.start).format("YYYY-MM-DD")}
+                placeholder="Search"
               />
+              <span className="text-black text-button_ghost">Até</span>
             </>
           )}
+
+          <input
+            type="date"
+            className="input input-bordered p-3 max-w-[44%] text-black"
+            placeholder="Search"
+            onChange={(e) =>
+              setPeriod({ ...period, end: dayjs(e.target.value) })
+            }
+            value={dayjs(period.end).format("YYYY-MM-DD")}
+          />
 
           {/* <Datepicker
             classNames="relative"
@@ -338,7 +406,7 @@ const Grafico = () => {
         </div>
       </div>
     </DefaultContainer>
-  );
-};
+  )
+}
 
-export default Grafico;
+export default Grafico
