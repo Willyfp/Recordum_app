@@ -1,47 +1,47 @@
-import { setGymList } from "@/store/slices/gymSlice";
-import { store } from "@/store/store";
-import { User } from "@/types";
-import { removeEmpty } from "@/utils";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Cookies } from "next-client-cookies";
-import api from "./api";
-import { getUserRequest } from "./authService";
-dayjs.extend(customParseFormat);
+import { setGymList } from "@/store/slices/gymSlice"
+import { store } from "@/store/store"
+import { User } from "@/types"
+import { removeEmpty } from "@/utils"
+import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
+import { Cookies } from "next-client-cookies"
+import api from "./api"
+import { getUserRequest } from "./authService"
+dayjs.extend(customParseFormat)
 
 export const changePhotoRequest = async ({
   file,
   id,
 }: {
-  file: { arquivo: string; descricao: string };
-  id: number;
+  file: { arquivo: string; descricao: string }
+  id: number
 }) => {
   try {
-    const formData = new FormData();
+    const formData = new FormData()
 
-    formData.append("arquivo", file.arquivo);
-    formData.append("descricao", file.descricao);
+    formData.append("arquivo", file.arquivo)
+    formData.append("descricao", file.descricao)
 
     const response = await api.put(`/usuarios/${id}/foto`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    });
+    })
 
-    if (!response) throw "erro";
-    await getUserRequest({ id: String(id) });
+    if (!response) throw "erro"
+    await getUserRequest({ id: String(id) })
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const editUserRequest = async ({ user }: { user: User }) => {
   try {
-    delete user.dataAlteracao;
-    delete user.dataCadastro;
-    delete user.usuarioTipo;
+    delete user.dataAlteracao
+    delete user.dataCadastro
+    delete user.usuarioTipo
 
     const response = await api.put(
       `/usuarios/${user.id}`,
@@ -53,26 +53,26 @@ export const editUserRequest = async ({ user }: { user: User }) => {
           ? dayjs(user.dataNascimento, "DD/MM/YYYY").toISOString()
           : null,
       })
-    );
+    )
 
-    await getUserRequest({ id: String(user.id) });
+    await getUserRequest({ id: String(user.id) })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const changePasswordRequest = async ({
   id,
   senhaAtual,
   novaSenha,
 }: {
-  id: number;
-  senhaAtual: string;
-  novaSenha: string;
+  id: number
+  senhaAtual: string
+  novaSenha: string
 }) => {
   try {
     const response = await api
@@ -81,132 +81,132 @@ export const changePasswordRequest = async ({
         novaSenha,
       })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getGymList = async ({
   id,
   cookies,
 }: {
-  id: number;
-  cookies: Cookies;
+  id: number
+  cookies: Cookies
 }) => {
   try {
     const response = await api
       .get(`/academias/usuario/${id}`)
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    if (response.data.length === 0) cookies.set("GYM_ID", "NO_GYM");
+    if (response.data.length === 0) cookies.set("GYM_ID", "NO_GYM")
 
     if (response.data.length === 1) {
-      cookies.set("GYM_ID", response?.data[0].id);
+      cookies.set("GYM_ID", response?.data[0].id)
     } else if (response.data.length > 1) {
-      store.dispatch(setGymList(response?.data));
+      store.dispatch(setGymList(response?.data))
     }
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const listVinculatedGyms = async ({ id }: { id: number }) => {
   try {
     const response = await api
       .get(`/academias/usuario/${id}`)
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const removeVinculed = async ({
   id,
   alunoProfessorId,
 }: {
-  id: number;
-  alunoProfessorId: number;
+  id: number
+  alunoProfessorId: number
 }) => {
   try {
     const response = await api
       .post(`/usuarios/desvincular/${id}?alunoProfessorId=${alunoProfessorId}`)
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getWeightGoal = async () => {
   try {
     const response = await api
       .get(`/metasPeso`, { params: { sort: "id" } })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data._embedded.pesoLogModelList[0];
+    return response?.data._embedded.pesoLogModelList[0]
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getWeightGoalList = async () => {
   try {
     const response = await api
       .get(`/metasPeso`, { params: { sort: "id" } })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data._embedded.pesoLogModelList;
+    return response?.data?._embedded?.pesoLogModelList?.slice(0, 15)
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const getUserMeasures = async () => {
   try {
     const response = await api
       .get(`/usuarioMedidas`, { params: { sort: "id,desc" } })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data._embedded.usuarioMedidaModelList[0];
+    return response?.data._embedded.usuarioMedidaModelList[0]
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const editWeightGoal = async ({
   idUsuario,
@@ -214,10 +214,10 @@ export const editWeightGoal = async ({
   pesoAtual,
   data,
 }: {
-  idUsuario: number;
-  pesoMeta: number;
-  pesoAtual: number;
-  data: string;
+  idUsuario: number
+  pesoMeta: number
+  pesoAtual: number
+  data: string
 }) => {
   try {
     const response = await api
@@ -230,22 +230,22 @@ export const editWeightGoal = async ({
         },
       })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 function converterParaNumero(dados) {
   // Verifica se os dados são uma string e tenta parsear como JSON
   if (typeof dados === "string") {
     try {
-      dados = JSON.parse(dados);
+      dados = JSON.parse(dados)
     } catch (error) {
       // Não é um JSON válido, continua como objeto
     }
@@ -253,17 +253,17 @@ function converterParaNumero(dados) {
 
   // Itera sobre o objeto e converte valores para números
   if (typeof dados === "object") {
-    const novoObjeto = {};
+    const novoObjeto = {}
     for (const chave in dados) {
       if (dados.hasOwnProperty(chave)) {
-        const valor = dados[chave];
-        novoObjeto[chave] = isNaN(valor) ? valor : Number(valor);
+        const valor = dados[chave]
+        novoObjeto[chave] = isNaN(valor) ? valor : Number(valor)
       }
     }
-    return novoObjeto;
+    return novoObjeto
   } else {
     // Dados não são um objeto, retorna como está
-    return dados;
+    return dados
   }
 }
 
@@ -271,8 +271,8 @@ export const editMeasures = async ({
   idUsuario,
   data,
 }: {
-  idUsuario: number;
-  data: any;
+  idUsuario: number
+  data: any
 }) => {
   try {
     const response = await api
@@ -283,25 +283,25 @@ export const editMeasures = async ({
         },
       })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const linkProfessional = async ({
   idUsuarioLogado,
   codigoVinculo,
   usuarioSolicitanteTipo,
 }: {
-  idUsuarioLogado: number;
-  codigoVinculo: string;
-  usuarioSolicitanteTipo: string;
+  idUsuarioLogado: number
+  codigoVinculo: string
+  usuarioSolicitanteTipo: string
 }) => {
   try {
     const response = await api
@@ -311,27 +311,27 @@ export const linkProfessional = async ({
         idUsuarioLogado,
       })
       .catch((error) => {
-        throw error;
-      });
+        throw error
+      })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data;
+    return response?.data
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const listLinkedProfessionals = async () => {
   try {
     const response = await api.get(`/usuarios/buscarVinculo`).catch((error) => {
-      throw error;
-    });
+      throw error
+    })
 
-    if (!response) throw "erro";
+    if (!response) throw "erro"
 
-    return response?.data?._embedded?.alunoProfessorModelList;
+    return response?.data?._embedded?.alunoProfessorModelList
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}

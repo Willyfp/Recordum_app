@@ -1,32 +1,32 @@
-import ButtonComponent from "@/components/Button";
-import { getWeightGoalList } from "@/services/userService";
+import ButtonComponent from "@/components/Button"
+import { getWeightGoalList } from "@/services/userService"
 
-import Chart from "chart.js/auto";
-import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { BiSolidInfoCircle } from "react-icons/bi";
+import Chart from "chart.js/auto"
+import dayjs from "dayjs"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { BiSolidInfoCircle } from "react-icons/bi"
 
 export const GoalCard = () => {
-  const route = useRouter();
-  const [weightGoal, setWeightGoal] = useState<any>(null);
+  const route = useRouter()
+  const [weightGoal, setWeightGoal] = useState<any>(null)
 
   useEffect(() => {
     getWeightGoalList().then((res) => {
-      setWeightGoal(res);
-    });
-  }, []);
+      setWeightGoal(res)
+    })
+  }, [])
 
   useEffect(() => {
-    const canvas = document.getElementById("lineChart");
-    const ctx = canvas?.getContext("2d");
+    const canvas = document.getElementById("lineChart")
+    const ctx = canvas?.getContext("2d")
 
     // Check if a chart already exists
-    let chart = Chart.getChart(ctx);
+    let chart = Chart.getChart(ctx)
 
     // Destroy the existing chart if present
     if (chart) {
-      chart.destroy();
+      chart.destroy()
     }
 
     new Chart(ctx, {
@@ -52,8 +52,8 @@ export const GoalCard = () => {
           },
         },
       },
-    });
-  }, [weightGoal]);
+    })
+  }, [weightGoal])
 
   return (
     <div className="flex flex-col w-full rounded-[1.25rem] shadow-card_goal overflow-hidden">
@@ -94,5 +94,5 @@ export const GoalCard = () => {
         </ButtonComponent>
       </div>
     </div>
-  );
-};
+  )
+}
