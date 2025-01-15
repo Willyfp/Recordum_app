@@ -170,7 +170,7 @@ export const getWeightGoal = async () => {
 
     if (!response) throw "erro"
 
-    return response?.data._embedded.pesoLogModelList[0]
+    return response?.data._embedded.pesoLogModelList[0].reverse()
   } catch (error) {
     throw error
   }
@@ -186,7 +186,7 @@ export const getWeightGoalList = async () => {
 
     if (!response) throw "erro"
 
-    return response?.data?._embedded?.pesoLogModelList?.slice(0, 15)
+    return response?.data?._embedded?.pesoLogModelList?.slice(0, 15).reverse()
   } catch (error) {
     throw error
   }
