@@ -163,7 +163,7 @@ export const removeVinculed = async ({
 export const getWeightGoal = async () => {
   try {
     const response = await api
-      .get(`/metasPeso`, { params: { sort: "id" } })
+      .get(`/metasPeso`, { params: { sort: "id,desc" } })
       .catch((error) => {
         throw error
       })
@@ -179,7 +179,7 @@ export const getWeightGoal = async () => {
 export const getWeightGoalList = async () => {
   try {
     const response = await api
-      .get(`/metasPeso`, { params: { sort: "id" } })
+      .get(`/metasPeso`, { params: { sort: "id,desc" } })
       .catch((error) => {
         throw error
       })
